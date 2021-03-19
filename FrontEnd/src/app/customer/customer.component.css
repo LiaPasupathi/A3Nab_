@@ -1,0 +1,11 @@
+.container-switch-table{
+    position: absolute;
+}
+.customer_modal .modal.right .modal-content{
+    height: 650px ! important;
+}
+@media only screen and (max-width: 1399px) and (min-width: 1000px){
+    .customer_modal .modal.right .modal-content{
+        height: 530px ! important;
+    }
+  }

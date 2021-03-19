@@ -1,0 +1,29 @@
+agm-map {
+    height: 300px;
+  }
+  /* .order_list{
+    height: 350px;
+    overflow: scroll;
+  }
+  .order_list::-webkit-scrollbar {
+    display: none;
+    } */
+    .dri_li{
+      margin-bottom: 5px;
+    }
+.dri_li h5{
+  font-size: 14px;
+  color: #C1003A;
+  font-weight: 700;
+  margin: 0;
+}
+.dri_li p{
+  font-size: 14px;
+  color: #C4CBCE;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+.dri_li img{
+  width: 80px;
+  height: 60px;
+}

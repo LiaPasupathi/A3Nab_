@@ -1,0 +1,48 @@
+<div class="card">
+    <section class="faq_sec">
+    <div id="exTab1">
+    <ul class="nav nav-pills">
+    <li class="active"><a href="#pp_policy" data-toggle="tab">Privacy Policy</a></li>
+    <li><a href="#term" data-toggle="tab">Terms & Condition</a></li>
+    </ul>
+    <div class="tab-content clearfix">
+    
+    <div class="tab-pane active" id="pp_policy">
+    <button class="edit_btn" data-toggle="modal" data-target="#private"><img src="assets/img/edit_icon.svg" onmouseover="this.src='assets/img/edit_hover_icon.svg'" onmouseout="this.src='assets/img/edit_icon.svg'"></button>
+        
+    <div class="modal right fade" id="private" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <form [formGroup] = "privacys" (ngSubmit) = "pri_sub();" >
+            <textarea class="form-control" rows="25" formControlName="text"  > </textarea>
+            <br><button class="prod_add_btn" >Update</button>
+        </form>
+        </div>
+        </div>
+    </div>
+    </div>
+    
+    <div class="tab-pane" id="term">
+    <button class="edit_btn" data-toggle="modal" data-target="#Terms"><img src="assets/img/edit_icon.svg" onmouseover="this.src='assets/img/edit_hover_icon.svg'" onmouseout="this.src='assets/img/edit_icon.svg'"></button>
+    <div class="modal right fade" id="Terms" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <form [formGroup] = "termsN" (ngSubmit) = "termsand();" >
+            <textarea class="form-control" rows="25" formControlName="text" > </textarea>
+            <br><button class="prod_add_btn" >Update</button>
+        </form>
+        </div>
+        </div>
+        </div>
+</div>
+    
+</div>
+    </div>
+    </section>
+    </div>
+
+
+
+
+    
+

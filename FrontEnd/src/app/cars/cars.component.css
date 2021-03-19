@@ -1,0 +1,19 @@
+.modal-content{
+    max-height: 600px;
+    overflow-y: scroll;
+}
+.car_modal .modal.right .modal-dialog{
+    width: 50%;
+}
+.upload-img{
+    width: 250px;
+    height: auto;
+    cursor: pointer;
+}
+.image-upload > input{
+    display: none;
+}
+.driv_img img {
+    width: 60px !important;
+    height:60px ! important;
+  }
