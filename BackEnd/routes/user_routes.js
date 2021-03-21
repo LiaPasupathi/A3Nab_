@@ -581,6 +581,7 @@ module.exports = function (app, validator) {
 
   app.post(userPath + '/addFavouriteProduct', app.auth, [
     validator.check('productId').trim().exists().isLength({ min: 1, max: 11 }).withMessage('INVALID: $[1], productId ID'),
+    validator.check('storeId').trim().exists().isLength({ min: 1, max: 11 }).withMessage('INVALID: $[1], storeId ID'),
     validator.check('isFavourite').trim().exists().isLength({ min: 1, max: 11 }).withMessage('INVALID: $[1], isFavourite')
   ], function (request, response) {
     var lang = request.headers.lang

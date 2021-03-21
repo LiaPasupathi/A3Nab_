@@ -312,7 +312,7 @@ module.exports = function () {
         await this.saveImageProductImages(images, productId)
         await this.relatedProductService(request, productId)
 
-        await this.storeProductService(request, productId)
+        //await this.storeProductService(request, productId)
 
         response.error = 'false'
         response.message = 'Success'

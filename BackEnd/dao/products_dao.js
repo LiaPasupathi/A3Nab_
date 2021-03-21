@@ -6,7 +6,7 @@ module.exports = function () {
     return new Promise(async function (resolve) {
       var response = {}
       db('favourite_products')
-        .insert({ productId: data.productId, userId: data.id })
+        .insert({ productId: data.productId, userId: data.id, storeId: data.storeId })
         .then((result) => {
           response.error = false
           response.data = result
