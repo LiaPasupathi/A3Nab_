@@ -11,6 +11,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class AssignmentComponent implements OnInit {
   assignmentList: any;
   status = '0';
+  pages: any;
+  page : Number =1;
   
   constructor(
     private apiCall: ApiCallService,
@@ -40,7 +42,7 @@ export class AssignmentComponent implements OnInit {
         if (response.body.error == 'false') {
           // Success
      
-          // this.pages = response.body.pages * 10;
+          this.pages = response.body.data.page * 10;
           this.assignmentList = response.body.data.assign
           // this.markers = response.body.data.orders
           // this.supportForm.reset();
@@ -57,4 +59,13 @@ export class AssignmentComponent implements OnInit {
     )
   }
 
+  nextPage(page){
+    const object = { pageNumber: page,status: 0 }
+    this.getAssignment(object)
+  }
+
+  pageReload() {
+    this.ngOnInit();
+    window.location.reload();
+  }
 }

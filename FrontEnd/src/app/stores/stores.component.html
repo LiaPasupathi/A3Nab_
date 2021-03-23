@@ -23,7 +23,7 @@ Map View &nbsp;&nbsp;
 <i class="fa fa-refresh"></i>
 </li>
 <li>
-<a href="" class="export_btn">Export XLS</a>
+  <button class="float_cash_btn"  (click) = "exportList($event);">Export XLS</button>
 </li>
 <li>
 <button type="button" class="float_cash_btn" data-toggle="modal" (click)="openAddStore()" data-target="#add_store_btn">Add Store</button>
@@ -111,9 +111,9 @@ Map View &nbsp;&nbsp;
 <td><button (click)="deleteStore(item.id)" class="save_btn">Delete</button></td>
 </tr>
 </tbody>
-<ngb-pagination  [collectionSize]="pages" (pageChange)="nextPage($event)" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true">
-</ngb-pagination>
 </table>
+<p class="text-center"><ngb-pagination  [collectionSize]="pages" (pageChange)="nextPage($event)" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true">
+</ngb-pagination></p>
 </div>
 </div>
 </div>

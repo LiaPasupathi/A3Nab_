@@ -3,6 +3,13 @@
 .ass_sss ul li{
     display: block !important;
 }
+.ass_sss{
+    margin: 0px 20px;
+    width: 200px ! important;
+}
+/* .sortable-container{
+    width: 100% ! important;
+} */
 
 /* .topSearch{
     top: -40px !important;

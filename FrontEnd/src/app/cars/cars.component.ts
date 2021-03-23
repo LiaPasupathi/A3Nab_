@@ -60,7 +60,8 @@ previous;
       countryCode: ['',  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
     })  
 
-    this.getCars();
+    const data = {status: "ALL"}
+    this.getCars(data)
     this.assignDriverList();
   }
 
@@ -103,14 +104,19 @@ previous;
       this.previous = infowindow;
   }
 
-  getCars(){
+  onChangeFilter(status){
+    const data = {status: status}
+    this.getCars(data)
+  }
+
+  getCars(data){
 
     var params = {
-      url: 'admin/getCarList',
-      data: {}
+      url: 'admin/getAllCarList',
+      data: data
     }
 
-    this.apiCall.commonGetService(params).subscribe(
+    this.apiCall.commonPostService(params).subscribe(
       (response: any) => {
         if (response.body.error == 'false') {
           // Success
@@ -193,7 +199,6 @@ previous;
       url: 'admin/addCar',
       data: postData
     }
-
     this.apiCall.commonPostService(params).subscribe(
       (response: any) => {
         if (response.body.error == 'false') {

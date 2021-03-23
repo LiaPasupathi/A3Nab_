@@ -278,6 +278,10 @@ export class MakeassignmentComponent implements OnInit {
       }
     )
   }
+  pageReload() {
+    this.ngOnInit();
+    window.location.reload();
+  }
 
 }
 

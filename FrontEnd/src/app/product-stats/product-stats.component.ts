@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ApiCallService } from '../services/api-call.service';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { DatePipe } from '@angular/common';
+import { AngularCsv } from 'angular7-csv/dist/Angular-csv'
+import { NgxSpinnerService } from 'ngx-spinner';
 declare var $:any;
 
 
@@ -34,11 +36,12 @@ export class ProductStatsComponent implements OnInit {
 
   statusobject = {}
   bsValue: Date = new Date();
-
+  productcsvOption : any;
   
   constructor(
     private apiCall: ApiCallService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private spinner: NgxSpinnerService
   ) { }
 
   ngOnInit(): void {
@@ -182,13 +185,7 @@ export class ProductStatsComponent implements OnInit {
     }
     // console.log(params)
     this.apiCall.commonPostService(params).subscribe(
-      (response: any) => {
-        if (response.body.error == 'false') {
-          this.productList = response.body.data.products
-          // console.log(this.productList)
-        } else {
-          this.apiCall.showToast(response.body.message, 'Error', 'errorToastr')
-        }
+      (response: any) => {event
       },
       (error) => {
         console.log('Error', error)
@@ -220,6 +217,65 @@ export class ProductStatsComponent implements OnInit {
         this.apiCall.showToast('Server Error !!', 'Oops', 'errorToastr')
       }
     )
+  }
+
+  exportList(event : any){
+    var  object = {pageNumber: this.page}
+    var params = {
+      url: 'admin/adminProducts',
+      data: object
+    }
+    this.apiCall.commonPostService(params).subscribe(
+      (response: any) => {
+        if (response.body.error == 'false') {
+          this.pages = response.body.pages * 10;
+          this.productsList = response.body.products
+          // console.log(response.body)
+          if(response.body.products.length > 0){
+            this.exportProductsData(response.body.products)
+          }
+
+        } else {
+          this.apiCall.showToast(response.body.message, 'Error', 'errorToastr')
+        }
+      },
+      (error) => {
+        console.log('Error', error)
+        this.apiCall.showToast('Server Error !!', 'Oops', 'errorToastr')
+      }
+    )
+  }
+
+  exportProductsData(data){
+    if(data.length > 0){
+      var bulkArray = []
+      data.forEach(element => {
+        var obj = {}
+        obj['categoryName'] = element.categoryName
+        obj['productCategoryName'] = element.productCategoryName
+        obj['productSubCategoryName'] = element.productSubCategoryName
+        obj['productName'] = element.productName
+        obj['storeName'] = element.storeName
+        obj['sellCount'] = element.sellCount
+        obj['qty'] = element.qty
+        obj['maxQty'] = element.maxQty
+        obj['productPrice'] = element.productPrice
+        obj['productDiscount'] = element.productDiscount
+        bulkArray.push(obj)
+      })
+      this.productcsvOption = {
+        fieldSeparator: ',',
+        quoteStrings: '"',
+        decimalseparator: '.',
+        showLabels: true,
+        showTitle: true,
+        title: 'Product Report',
+        useBom: true,
+        noDownload: false,
+        headers: ["Category",  "Sub Category", "Sub Sub-Category", "Product Name", "Assigned Store Name", "Sell Count", "Quantity", "Maximum Quantity", "Product Price", "Product Discount"]
+      };
+      new  AngularCsv(bulkArray, "Product Report", this.productcsvOption);
+    }
   }
 
   getProductList(object){

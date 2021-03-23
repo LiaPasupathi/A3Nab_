@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ApiCallService } from '../services/api-call.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AngularCsv } from 'angular7-csv/dist/Angular-csv';
+import { NgxSpinnerService } from 'ngx-spinner';
 declare var $:any;
 
 @Component({
@@ -14,6 +16,7 @@ export class StoresComponent implements OnInit {
   storeForm: FormGroup;
   submitted = false;
   showMap = false;
+  storecsvOptions: any;
 
   imagePreview:any;
   fileUpload: any;
@@ -33,6 +36,7 @@ export class StoresComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
+    private spinner: NgxSpinnerService
   ) { }
 
   
@@ -56,7 +60,7 @@ export class StoresComponent implements OnInit {
       dueDay: ['',  [Validators.required, Validators.pattern(/\b(0?[1-9]|[12][0-9]|3[01])\b/)]],
       storeRadius: ['',  [Validators.required, Validators.pattern("[+-]?([0-9]*[.])?[0-9]+")]]
     });
-
+    
     // To allow value within range between 1 to 31
     // $("#inputTxt").on("change", function() {
     //   // that = this
@@ -74,6 +78,7 @@ export class StoresComponent implements OnInit {
     //   }
     // })
   }
+
 
   funcCall(){
     console.log('ll')
@@ -130,6 +135,37 @@ export class StoresComponent implements OnInit {
           this.storeList = response.body.storeList
           this.markers = response.body.storeList
           // console.log(this.markers)
+        } else {
+          // Query Error
+          this.apiCall.showToast(response.body.message, 'Error', 'errorToastr')
+        }
+      },
+      (error) => {
+        this.apiCall.showToast('Server Error !!', 'Oops', 'errorToastr')
+        console.log('Error', error)
+      }
+    )
+  }
+
+  exportList(event: any){
+    var  object = {pageNumber: this.page}
+    var params = {
+      url: 'admin/storeList',
+      data: object
+    }
+
+    this.apiCall.commonPostService(params).subscribe(
+      (response: any) => {
+        if (response.body.error == false) {
+          // Success
+          // console.log(response.body)
+        this.pages = response.body.pages * 10;
+          this.storeList = response.body.storeList
+          this.markers = response.body.storeList
+          // console.log(this.markers)
+          if(response.body.storeList.length > 0){
+            this.exportStoreData(response.body.storeList)
+          }
         } else {
           // Query Error
           this.apiCall.showToast(response.body.message, 'Error', 'errorToastr')
@@ -271,6 +307,41 @@ export class StoresComponent implements OnInit {
   openAddStore(){
     this.submitted = false;
     this.storeForm.reset();
+  }
+
+  exportStoreData(data){
+
+    if(data.length > 0){
+      var bulkArray = []
+      data.forEach(element => {
+        var obj = {}
+        obj['createdDate'] = element.createdDate
+        obj['time'] = element.time
+        obj['storeID'] = element.storeID
+        obj['storeName'] = element.storeName
+        obj['managerFname'] = element.managerFname
+        obj['mobileNumber'] = element.mobileNumber
+        obj['storeAddress'] = element.storeAddress
+        obj['email'] = element.email
+        obj['status'] = element.status
+
+        bulkArray.push(obj)
+      })
+
+      this.storecsvOptions = {
+        fieldSeparator: ',',
+        quoteStrings: '"',
+        decimalseparator: '.',
+        showLabels: true,
+        showTitle: true,
+        title: 'Store Report',
+        useBom: true,
+        noDownload: false,
+        headers: ["createdDate", "Time", "storeID", "storeName", "Managers", "Mobile Number", "Store Address", "Email", "Store Status"]
+      };
+      new  AngularCsv(bulkArray, "Store Report", this.storecsvOptions);
+
+    }
   }
 
 }

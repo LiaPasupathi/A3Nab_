@@ -37,6 +37,9 @@ export class OrderDetailsComponent implements OnInit {
   totalAmount:any;
   discountAmount:any;
   driverImage:any;
+  fromTime:any;
+  toTime:any;
+  ordertime:any;
 
   showMap = false;
   zoom: number = 5;
@@ -90,6 +93,9 @@ export class OrderDetailsComponent implements OnInit {
           this.totalAmount = response.body.data.orderInfo.totalAmount
           this.discountAmount = response.body.data.orderInfo.discountAmount
           this.driverImage = response.body.data.orderInfo.driverImage
+          this.fromTime = response.body.data.orderInfo.fromTime
+          this.toTime = response.body.data.orderInfo.toTime
+          this.ordertime = response.body.data.orderInfo.ordertime
           
           
           this.payType = response.body.data.orderInfo.paytype

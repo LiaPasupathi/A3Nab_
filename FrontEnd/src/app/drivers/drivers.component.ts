@@ -53,6 +53,7 @@ export class DriversComponent implements OnInit {
       IDNumber: ['',  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
       gender: ['Male',  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
       mobileNumber: ['',  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
+      countryCode: ['',  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
     })
 
     const obj = { }
@@ -124,6 +125,7 @@ export class DriversComponent implements OnInit {
       IDNumber: [data['IDNumber'],  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
       gender: [data['gender'],  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
       mobileNumber: [data['mobileNumber'],  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
+      countryCode: [data['countryCode'],  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
     })
   }
 

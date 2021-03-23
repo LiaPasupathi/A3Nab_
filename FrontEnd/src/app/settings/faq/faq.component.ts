@@ -259,8 +259,6 @@ export class FaqComponent implements OnInit {
         }
       }
      
-     
-      
       this.apiCall.commonPostService(params).subscribe((result: any)=>{
         result = result.body;
         if(result.error =="false")

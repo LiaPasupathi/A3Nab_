@@ -179,6 +179,7 @@ export class OrdersComponent implements OnInit {
 
   pageReload() {
     this.ngOnInit();
+    window.location.reload();
   }
 
   getOrderList(object){

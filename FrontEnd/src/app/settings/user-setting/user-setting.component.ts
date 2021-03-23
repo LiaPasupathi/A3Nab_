@@ -26,6 +26,7 @@ export class UserSettingComponent implements OnInit {
   id : number;
   data : any = {};
   object : number;
+  rolesdd : number = 1;
 
 
   constructor(private apiCall: ApiCallService,
@@ -33,7 +34,6 @@ export class UserSettingComponent implements OnInit {
     private datePipe: DatePipe) 
     { }
 
-    public roleperm: any[] = this.getpermission;
 
   ngOnInit(): void {
     this.addUserSetting   = this.formBuilder.group({
@@ -61,10 +61,6 @@ export class UserSettingComponent implements OnInit {
       if(resu.error == "false")
       {
            this.getroleslist = resu.data.roles;
-          //  for(let role of this.getroleslist){
-          //   this.getpermission.push(role.id);
-          //  }
-           console.log("-----",this.getroleslist)
       }else{
         this.apiCall.showToast(resu.message, 'Error', 'errorToastr')
       }
@@ -72,28 +68,10 @@ export class UserSettingComponent implements OnInit {
        console.error(error);
        
     });
+
+    const data = {roleId: 1}
+    this.rolebypermission(data)
     
-
-    var object = this.getroleslist.id;
-    console.log("wefwe",object)
-
-    let params1 = {
-      url: "admin/roleByPermission",
-      data: {roleId:object}
-    }  
-    this.apiCall.commonPostService(params1).subscribe((result:any)=>{
-      let resu = result.body;
-      if(resu.error == "false")
-      {
-           this.getroleslist = resu.data.roles;
-           console.log("fewwfe",this.getroleslist);
-      }else{
-        this.apiCall.showToast(resu.message, 'Error', 'errorToastr')
-      }
-    },(error)=>{
-       console.error(error);
-    });
-  
   }
 
   async onSubmit(){
@@ -134,19 +112,26 @@ export class UserSettingComponent implements OnInit {
 
   }
 
-  rolebypermission(){
+  onChangeFilter(object){
 
-     var data = this.getroleslist.id;
+  this.rolesdd = object
+    const data = {roleId: object}
+    this.rolebypermission(data)
+  }
+
+  rolebypermission(data){
+
     var params = {
       url: 'admin/roleByPermission',
       data: data 
     }
-    console.log(params)
+    // console.log(",,,,,,,",params)
     this.apiCall.commonPostService(params).subscribe(
       (response: any) => {
         if (response.body.error == 'false') {
-         
+
           this.getpermission = response.body.data.permission;
+
         } else {
           this.apiCall.showToast(response.body.message, 'Error', 'errorToastr')
         }
@@ -157,6 +142,84 @@ export class UserSettingComponent implements OnInit {
       }
     )
   }
+
+  read_update_change(event, id){
+    let stat = event.target.checked ? "true" : "false"; 
+    
+    var data= {}
+    data['id']=id
+    data['roleId']=this.rolesdd
+    data['writeOpt'] = ""
+    data['readOpt'] = stat
+    data['exportOpt'] = ""
+
+    var params = 
+    {
+      url: 'admin/updatePermission',
+      data: data,  
+    }
+ 
+    this.apiCall.commonPostService(params).subscribe((response:any)=>{
+      if(response.body.error=="false")
+      {
+        this.apiCall.showToast(response.body.message, 'Success', 'successToastr')
+       }
+       else{
+        this.apiCall.showToast(response.body.message, 'Error', 'errorToastr')
+       }
+   });
+  }
+
+  write_update_change(event, id){
+    let stat = event.target.checked ? "true" : "false"; 
+    var data= {}
+    data['id']=id
+    data['roleId'] =this.rolesdd
+    data['writeOpt'] = stat
+    data['readOpt'] = ""
+    data['exportOpt'] = ""
+    var params = 
+    {
+      url: 'admin/updatePermission',
+      data: data,  
+    }
+ 
+    this.apiCall.commonPostService(params).subscribe((response:any)=>{
+      if(response.body.error=="false")
+      {
+        this.apiCall.showToast(response.body.message, 'Success', 'successToastr')
+       }
+       else{
+        this.apiCall.showToast(response.body.message, 'Error', 'errorToastr')
+       }
+   });
+  }
+
+  export_update_change(event, id){
+    let stat = event.target.checked ? "true" : "false"; 
+    var data= {}
+    data['id']=id
+    data['roleId'] =this.rolesdd
+    data['writeOpt'] = ""
+    data['readOpt'] = ""
+    data['exportOpt'] = stat
+    var params = 
+    {
+      url: 'admin/updatePermission',
+      data: data,  
+    }
+ 
+    this.apiCall.commonPostService(params).subscribe((response:any)=>{
+      if(response.body.error=="false")
+      {
+        this.apiCall.showToast(response.body.message, 'Success', 'successToastr')
+       }
+       else{
+        this.apiCall.showToast(response.body.message, 'Error', 'errorToastr')
+       }
+   });
+  }
+  
  
 
   del_user_set(id)
