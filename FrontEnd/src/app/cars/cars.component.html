@@ -9,8 +9,10 @@
 <div class="col-md-4">
 <ul>
 <li>
-<select>
-<option>Car Status</option>
+<select (change)="onChangeFilter($event.target.value)">
+        <option value="ALL">ALL</option>
+        <option value="ASSIGN">ASSIGN</option>
+        <option value="UNASSIGN">UNASSIGN</option>
 </select>
 </li>
 </ul>

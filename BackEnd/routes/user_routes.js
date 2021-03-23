@@ -232,6 +232,8 @@ module.exports = function (app, validator) {
   })
 
   app.post(userPath + '/homeSearch', [
+    validator.check('lat').trim().exists().isLength({ min: 1, max: 255 }).withMessage('INVALID: $[1], lat'),
+    validator.check('lng').trim().exists().isLength({ min: 1, max: 255 }).withMessage('INVALID: $[1], lng'),
     validator.check('name').isLength({ min: 1, max: 255 }).withMessage('INVALID: $[1], Name')
   ], function (request, response) {
     var lang = request.headers.lang
@@ -648,6 +650,26 @@ module.exports = function (app, validator) {
     }
   })
 
+  app.post(userPath + '/removeCartItem', app.auth, [
+    // validator.check('cartId').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], cartId')
+  ], function (request, response) {
+    var lang = request.headers.lang
+    var error = validator.validation(request)
+    request.body.id = request.params.auth.id
+    if (error.array().length) {
+      this.requestHandler(error.array(), true, lang, function (message) {
+        response.send(message)
+      })
+    } else {
+      var productServiceObject = new productService()
+      productServiceObject.removeCartItemService(request.body, function (result) {
+        this.ctrlHandler([result], result.error, lang, (message) => {
+          return response.send(message)
+        })
+      })
+    }
+  })
+
   app.get(userPath + '/viewCart', app.auth , function (request, response) {
     var lang = request.headers.lang
     request.body.id = request.params.auth.id
@@ -752,6 +774,26 @@ module.exports = function (app, validator) {
     } else {
       var productServiceObject = new productService()
       productServiceObject.checkUserCouponCodeService(request.body, function (result) {
+        this.ctrlHandler([result], result.error, lang, (message) => {
+          return response.send(message)
+        })
+      })
+    }
+  })
+
+  app.post(userPath + '/userCheckReorder', app.auth, [
+    validator.check('orderId').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], orderId')
+  ], function (request, response) {
+    var lang = request.headers.lang
+    var error = validator.validation(request)
+    request.body.id = request.params.auth.id
+    if (error.array().length) {
+      this.requestHandler(error.array(), true, lang, function (message) {
+        response.send(message)
+      })
+    } else {
+      var productServiceObject = new productService()
+      productServiceObject.userCheckReorderService(request.body, function (result) {
         this.ctrlHandler([result], result.error, lang, (message) => {
           return response.send(message)
         })
@@ -955,7 +997,7 @@ module.exports = function (app, validator) {
 
   app.post(userPath + '/appFeedback', app.auth, [
     validator.check('apps').optional({ checkFalsy: true }).isLength({ min: 1, max: 255 }).withMessage('INVALID: $[1], apps'),
-    validator.check('commemts').trim().exists().isLength({ min: 1, max: 255 }).withMessage('INVALID: $[1], commemts'),
+    validator.check('commemts').optional({ checkFalsy: true }).isLength({ min: 1 }).withMessage('INVALID: $[1], commemts'),
     validator.check('rating').trim().exists().isLength({ min: 1, max: 255 }).withMessage('INVALID: $[1], rating')
   ], function (request, response) {
     var lang = request.headers.lang

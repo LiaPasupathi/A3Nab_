@@ -535,14 +535,18 @@ padding: 20px;
 }
 .noti_sec .card_content button{
 color: #C1003A;
-font-size: 16px;
-font-weight: 600;
+font-size: 14px;
+/* font-weight: 600; */
 border:2px solid #C1003A;
 border-radius: 50px;
 background: #fff;
-padding: 5px 10px;
-position: relative;
-top: -13px;
+padding: 5px 8px;
+margin-top: 15px;
+}
+@media only screen and (max-width: 1024px) and (min-width: 320px){
+    .noti_sec .card_content button{
+        margin-top: 0px;
+    }
 }
 
 .vari_sec{
@@ -866,9 +870,9 @@ font-size: 14px;
 -moz-transition: all 0.3s ease;
 transition: all 0.3s ease;
 }
-.custom_head .right_cont i.fa:hover{
+/* .custom_head .right_cont i.fa:hover{
 transform: rotate(180deg);
-}
+} */
 .custom_head .right_cont i:hover{
 background: #C1003A;
 color: #fff;

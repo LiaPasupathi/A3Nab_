@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiCallService } from '../services/api-call.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AngularCsv } from 'angular7-csv/dist/Angular-csv';
 
 @Component({
   selector: 'app-support',
@@ -17,6 +18,9 @@ export class SupportComponent implements OnInit {
   supportEscalate: number;
   resolved: number;
   supportList: any;
+  pages: number;
+  page =1;
+  supportcsvOption : any;
 
 
   constructor(
@@ -146,5 +150,78 @@ export class SupportComponent implements OnInit {
     )
     // console.log(this.supportForm.value)
   }
+
+  nextPage(page){
+    const object = { pageNumber: page}
+    this.getSupportList(object)
+  }
+
+  exportList(event : any){
+    const object = { pageNumber: this.page}
+
+    var params = {
+      url: 'admin/getSupportList',
+      data: object
+    }
+    this.apiCall.commonPostService(params).subscribe(
+      (response: any) => {
+        if (response.body.error == 'false') {
+          // Success
+
+          this.supportTotal = response.body.data.supportCount.total
+          this.supportPending = response.body.data.supportCount.pending
+          this.supportEscalate = response.body.data.supportCount.escalate
+          this.resolved = response.body.data.supportCount.resolved
+
+          this.supportList = response.body.data.support
+
+          if(response.body.data.support.length > 0){
+            this.exportSupportData(response.body.data.support)
+          }
+          // console.log(response.body)
+          
+        } else {
+          // Query Error
+          this.apiCall.showToast(response.body.message, 'Error', 'errorToastr')
+        }
+      },
+      (error) => {
+        this.apiCall.showToast('Server Error !!', 'Oops', 'errorToastr')
+        console.log('Error', error)
+      }
+    )
+    }
+
+    exportSupportData(data){
+      if(data.length > 0){
+        var bulkArray = []
+        data.forEach(element => {
+          var obj = {}
+          obj['createdDate'] = element.createdDate
+          obj['supportID'] = element.supportID
+          obj['orderIDs'] = element.orderIDs
+          obj['customerID'] = element.customerID
+          obj['firstName'] = element.firstName
+          obj['driverName'] = element.driverName
+          obj['status'] = element.status
+          obj['notes'] = element.notes
+          bulkArray.push(obj)
+        })
+  
+        this.supportcsvOption = {
+          fieldSeparator: ',',
+          quoteStrings: '"',
+          decimalseparator: '.',
+          showLabels: true,
+          showTitle: true,
+          title: 'Support Report',
+          useBom: true,
+          noDownload: false,
+          headers: ["Created Date", "Support ID",  "Order ID", "Customer ID", "Customer Name", "Driver Name", 'status', "Notes"]
+        };
+        new  AngularCsv(bulkArray, "Support Report", this.supportcsvOption);
+  
+      }
+    }
 
 }

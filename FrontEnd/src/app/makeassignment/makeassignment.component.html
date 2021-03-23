@@ -30,7 +30,7 @@ Show Off Duty Drivers &nbsp;&nbsp;
 <div class="col-md-2 right_cont">
 <ul>
 <li>
-<i class="fa fa-refresh"></i>
+    <a (click)="pageReload()" > <i class="fa fa-refresh"></i> </a>
 </li>
 </ul>
 </div>
@@ -132,10 +132,9 @@ Show Off Duty Drivers &nbsp;&nbsp;
 <span class="light_color">Orders : 0</span>
 </td>
 <td style="width:30%;text-align: right;">
-<div class="form-check-inline">
-<label class="form-check-label" for="{{item.id}}">
-<input type="radio" name="optradio" class="form-check-input" id="{{item.id}}" (click)="selectDriver(item)"   value="{{item.id}}">
-</label>
+<div class="mycheckbox">
+<input type="checkbox" name="optradio" class="form-check-input" id="{{item.id}}" (click)="selectDriver(item)"   value="{{item.id}}">
+<label for="{{item.id}}"></label>
 </div>
 </td>
 </tr>
@@ -211,7 +210,9 @@ Show Off Duty Drivers &nbsp;&nbsp;
 <p class="light_color">Meat Shop, Super Market</p>
 <p class="ligi_li_color">Delivery : 02:00PM - 05:00PM</p>
 </div> -->
-<p class="assing_route">Assignment Route</p>
+<p class="assing_route text-center">Assignment Route</p>
+<div class="row">
+    <div class="col-md-12">
 <div class="ass_sss">
 
 <ngx-sortable [items]="distance" (listSorted)="listOrderChanged($event)">
@@ -240,6 +241,8 @@ Show Off Duty Drivers &nbsp;&nbsp;
 
 </tbody>
 </table> -->
+</div>
+</div>
 </div>
 <br>
 </div>

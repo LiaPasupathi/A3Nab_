@@ -4,6 +4,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import { DatePipe } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AngularCsv } from 'angular7-csv/dist/Angular-csv';
 declare var $:any;
 
 @Component({
@@ -45,8 +46,7 @@ export class CustomerComponent implements OnInit {
   limitValue = 0
   singnupdate = null;
   cusID = null;
-
- 
+  usercsvOptions:any;
   zoom: number = 5;
   
   // initial center position for the map
@@ -172,6 +172,75 @@ export class CustomerComponent implements OnInit {
         console.log('Error', error)
       }
     )
+  }
+
+  exportList(event : any){
+    const object = { pageNumber: this.page, limit: this.limitValue, signupDate: this.singnupdate }
+    var params = {
+      url: 'admin/userList',
+      data: object
+    }
+
+    this.apiCall.commonPostService(params).subscribe(
+      (response: any) => {
+        if (response.body.error == 'false') {
+          this.pages = response.body.pages * 10;
+          // Success
+          if(this.cusID == undefined){
+          this.userList = response.body.data.users
+          }
+          // console.log(this.userList)
+          if(response.body.data.users.length > 0){
+            this.exportUserData(response.body.data.users)
+          }
+
+        } else {
+          // Query Error
+          this.apiCall.showToast(response.body.message, 'Error', 'errorToastr')
+        }
+      },
+      (error) => {
+        this.apiCall.showToast('Server Error !!', 'Oops', 'errorToastr')
+        console.log('Error', error)
+      }
+    )
+  }
+
+  exportUserData(data) {
+    if(data.length > 0){
+      var userArray = []
+      data.forEach(element => {
+        var obj = {}
+        obj['customerID'] = element.customerID
+        obj['firstName'] = element.firstName
+        obj['lastName'] = element.lastName
+        obj['email'] = element.email
+        obj['countryCode'] = element.countryCode
+        obj['mobileNumber'] = element.mobileNumber
+        obj['os'] = element.os
+        obj['DOB'] = element.DOB
+        obj['gender'] = element.gender
+        obj['signupDate'] = element.signupDate
+        obj['signupDateTime'] = element.signupDateTime
+        obj['lastOrder'] = element.lastOrder
+        obj['walletAmount'] = element.walletAmount
+        obj['packageValue'] = element.packageValue
+        obj['addressPinDetails'] = element.addressPinDetails
+        userArray.push(obj)
+      })
+      this.usercsvOptions = {
+        fieldSeparator: ',',
+        quoteStrings: '"',
+        decimalseparator: '.',
+        showLabels: true,
+        showTitle: true,
+        title: 'User Report',
+        useBom: true,
+        noDownload: false,
+        headers: ["Customer ID", "First Name", "Last Name", "Email", "Country Code", "Mobile Number", "Os", "DOB", "Gender", "Signup Date", "Signup Time", "Last Order", "Wallet Amount", "Package Amount", "Address pin Details"]
+      };
+      new  AngularCsv(userArray, "Customer Report", this.usercsvOptions);
+    }
   }
 
   onSubmit(){

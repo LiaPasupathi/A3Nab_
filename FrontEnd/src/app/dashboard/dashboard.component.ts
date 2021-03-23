@@ -2,20 +2,22 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ApiCallService } from '../services/api-call.service';
 import { ActivatedRoute } from '@angular/router';
+import { BsDatepickerConfig } from 'ngx-bootstrap/datepicker';
 import {NgbRatingConfig} from '@ng-bootstrap/ng-bootstrap';
 import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 import { Label } from 'ng2-charts';
-
+import { DatePipe } from '@angular/common';
 declare var $:any;
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
-  providers: [NgbRatingConfig],
+  providers: [NgbRatingConfig,DatePipe],
 })
 export class DashboardComponent implements OnInit {
-
-  
+  datePickerConfig:Partial<BsDatepickerConfig>;
+  bsValue: Date = new Date();
   customer: any = [];
   driver: any = [];
   store: any = [];
@@ -54,13 +56,20 @@ export class DashboardComponent implements OnInit {
   totalProducts:any;
   totalOffers:any;
 
+  graphFrom = ''
+  graphTo = ''
+
+  heatFrom = ''
+  heatTo = ''
+
   title = 'My first AGM project';
   lat : any= [];
   lng : any= [];
 
   constructor(private formBuilder:FormBuilder,
     private apiCall: ApiCallService,private route: ActivatedRoute,
-    private config: NgbRatingConfig) {config.max = 5;}
+    private config: NgbRatingConfig,
+    private datePipe: DatePipe) {config.max = 5;}
   
 
   public lineChartData: ChartDataSets[] = [
@@ -114,8 +123,6 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
 
-
-
     const activeMenu = document.getElementById('orders');
     activeMenu.classList.remove('active');
 
@@ -132,49 +139,6 @@ export class DashboardComponent implements OnInit {
           this.store = result.body.data.store;
       }
     });
-
-    var params = {
-      url: 'admin/topSellingItems',
-      data: ""
-    }
-    this.apiCall.commonPostService(params).subscribe((result:any)=>{
-      
-      if(result.body.error == "false")
-      {   
-           this.product = result.body.data.product;
-           for(let abc of this.product )
-           {
-              this.pr_name.push(abc.productName);
-              this.pr_qty.push(abc.qty);
-           }
-      }
-    });
-
-    var params = {
-      url: 'admin/heatMap',
-      data: ""
-    }
-    this.apiCall.commonPostService(params).subscribe((result:any)=>{
-      
-      if(result.body.error == "false")
-      {   
-           this.maps = result.body.data.map;
-          //  console.log("maps", this.maps);
-          //  for(let latlang of this.maps)
-          //  {
-            
-          //    this.lat.push(latlang.latitude); 
-          //    this.lng.push(latlang.longitude); 
-          //  }
-
-        // this.lat = 13.0500;
-        // this.lng = 80.2824;
-          
-      }
-     
-
-    });
-
     
 
     let cu_yr = new Date().getFullYear();
@@ -239,13 +203,87 @@ export class DashboardComponent implements OnInit {
     // this.route.params.subscribe(params => this.page = parseInt(params['total']));
     const object = { pageNumber: this.page}
     this.getOrderList(object)
+
+    this.topselling({fromDate: this.graphFrom, toDate: this.graphTo})
+    this.heatmap({fromDate: this.heatFrom, toDate: this.heatTo})
   
   }
+
+  topselling(object){
+    var params = {
+      url: 'admin/topSellingItems',
+      data: object
+    }
+
+    this.apiCall.commonPostService(params).subscribe((result:any)=>{
+      
+      if(result.body.error == "false")
+      {   
+           this.product = result.body.data.product;
+           for(let abc of this.product )
+           {
+              this.pr_name.push(abc.productName);
+              this.pr_qty.push(abc.qty);
+           }
+      }
+    });
+  }
+
+  heatmap(object){
+    var params = {
+      url: 'admin/heatMap',
+      data: object
+    }
+    this.apiCall.commonPostService(params).subscribe((result:any)=>{
+      
+      if(result.body.error == "false")
+      {   
+           this.maps = result.body.data.map;
+          //  console.log("maps", this.maps);
+          //  for(let latlang of this.maps)
+          //  {
+            
+          //    this.lat.push(latlang.latitude); 
+          //    this.lng.push(latlang.longitude); 
+          //  }
+
+        // this.lat = 13.0500;
+        // this.lng = 80.2824;
+          
+      }
+     
+
+    });
+  }
+
+ 
+  salesvalueFrom(event: any){
+    this.graphFrom= this.datePipe.transform(event, 'yyyy-MM-dd');
+    this.topselling({fromDate: this.graphFrom, toDate: this.graphTo})
+  }
+
+  salesvalueTo(event: any){
+    this.graphTo = this.datePipe.transform(event, 'yyyy-MM-dd');
+    this.topselling({fromDate: this.graphFrom, toDate: this.graphTo})
+  }
+
+  heatvalueFrom(event: any){
+    this.heatFrom= this.datePipe.transform(event, 'yyyy-MM-dd');
+    this.heatmap({fromDate: this.heatFrom, toDate: this.heatTo})
+  }
+
+  heatvalueTo(event: any){
+    this.heatTo = this.datePipe.transform(event, 'yyyy-MM-dd');
+    this.heatmap({fromDate: this.heatFrom, toDate: this.heatTo})
+  }
+
 
   nextPage(page){
     const object = { pageNumber: page}
     this.getOrderList(object)
   }
+
+
   
   getOrderList(object){
     let dashOrders = {

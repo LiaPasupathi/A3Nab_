@@ -42,7 +42,7 @@ Map View &nbsp;&nbsp;
 <a (click)="pageReload()"> <i class="fa fa-refresh"></i> </a>
 </li>
 <li>
-<a href="" class="export_btn">Export XLS</a>
+    <button class="float_cash_btn"  (click) = "exportList($event);">Export XLS</button>
 </li>
 </ul>
 </div>
@@ -129,8 +129,9 @@ Map View &nbsp;&nbsp;
 <td class="text-center">{{item.os}}</td>
 </tr>
 </tbody>
-<ngb-pagination  [collectionSize]="pages" (pageChange)="nextPage($event)" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
 </table>
+<p class="text-center"><ngb-pagination  [collectionSize]="pages" (pageChange)="nextPage($event)" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
+</p>
 </div>
 </div>
 </div>

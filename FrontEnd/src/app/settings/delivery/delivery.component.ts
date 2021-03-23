@@ -33,7 +33,7 @@ export class DeliveryComponent implements OnInit {
      getRatebykm: any = {};
      zoom: number = 5;
      showMap = false;
-  previous;
+     previous;
   
      // initial center position for the map
      lat: number = 10.616698;
@@ -159,7 +159,7 @@ export class DeliveryComponent implements OnInit {
       
         
       })
-      console.log("vev",item);
+      // console.log("vev",item);
       }
 
       deleteTimeSlot(items,item){

@@ -256,6 +256,27 @@ module.exports = function () {
     callback(response)
   }
 
+  this.removeCartItemService = async (request, callback) => {
+    try {
+      var response = {}
+      var productObject = new productDao()
+      var result = await productObject.removeCartItemDao(request)
+      let favlist = await productObject.removeFavItemDao(request)
+
+      if (favlist.error && result.error) {
+        response.error = 'true'
+        response.message = 'failed to retrive store details'
+      } else {
+        response.error = 'false'
+        response.message = 'success'
+      }
+    } catch (e) {
+      response.error = 'true'
+      response.message = 'Oops'
+    }
+    callback(response)
+  }
+
   this.viewFavListService = async (request, callback) => {
     var response = {}
     var resp = {}
@@ -1038,24 +1059,31 @@ module.exports = function () {
           response.message = 'Cart empty'
         }
       }
-      // console.log(cartResult)
-      // var checkCode = await productDaoObject.checkUserCouponCodeDao(request)
-      // if(checkCode.error){
-      //   response.error = 'true'
-      //   response.message = 'failed to retrive store details'
-      // } else {
-      //   if(checkCode.data.length === 0){
-      //     var code = await productDaoObject.checkCouponCodeDao(request)
-      //     // console.log(code)
-      //     resp.discount = code.data[0].discount
-      //     response.error = 'false'
-      //     response.message = 'success'
-      //     response.data = resp
-      //   } else {
-      //     response.error = 'true'
-      //     response.message = 'Invalid offer code'
-      //   }
-      // }
+    } catch (e) {
+      console.log(e)
+      response.error = 'true'
+      response.message = 'OOPS Service Error'
+    }
+    callback(response)
+  }
+
+  this.userCheckReorderService = async (request, callback) => {
+    try {
+      var response = {}
+      var productDaoObject = new productDao()
+      var checkReorder = await productDaoObject.userCheckReorderDao(request)
+      if(checkReorder.error){
+        response.error = 'true'
+        response.message = 'OOPS DAO Exception'
+      } else {
+        if(checkReorder.data.length > 0){
+          response.error = 'false'
+          response.message = 'Success'
+        } else {
+          response.error = 'true'
+          response.message = 'Store not available'
+        }
+      }
     } catch (e) {
       console.log(e)
       response.error = 'true'

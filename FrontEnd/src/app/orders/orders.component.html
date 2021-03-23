@@ -44,8 +44,6 @@ Map View &nbsp;&nbsp;
 
 <input type="text" bsDatepicker  placeholder="Select Date"  (bsValueChange) ="value($event)" [(bsValue)]="bsValue" [bsConfig]="{dateInputFormat: 'DD-MM-YYYY'}" readonly   [outsideClick] = "true"  class="form-control datepicker">
 
-<!-- <input type="text" bsDatepicker  placeholder="Pickup Date"  (ngModelChange)="changeDate($event)" [(bsValue)]="bsValue" [bsConfig]="{dateInputFormat: 'DD-MM-YYYY'}" readonly   [outsideClick] = "true"  class="form-control datepicker"> -->
-
 </li>
 </ul>
 </div>
@@ -108,7 +106,7 @@ Map View &nbsp;&nbsp;
 <td>{{item.orderOn}}</td>
 <td><span class="red_color"><a routerLink="/order-details/{{ item.id }}">{{item.orderIDs}}</a></span></td>
 <td>{{item.deliveryDate}}</td>
-<td><span class="red_color"><a routerLink="/customer/{{ item.userId }}">{{item.customerID}}</a></span><br><span>{{item.firstName}}</span><br><span>{{item.landmark}}, {{item.addressPinDetails}}</span></td>
+<td><span class="red_color"><a routerLink="/customer/{{ item.userId }}">{{item.customerID}}</a></span><br><span>{{item.firstName}}</span> ,<span>{{item.landmark}}</span><br><span> {{item.addressPinDetails}}</span></td>
 <td>SAR {{item.grandTotal}}</td>
 <td>
 <span *ngIf = "item.paytype === 'card'" class="online_btn">Paid Online</span>
@@ -148,9 +146,9 @@ Map View &nbsp;&nbsp;
 <td><span class="pend_btn">{{item.orderStatus}}</span></td>
 </tr>
 </tbody>
-<ngb-pagination  [collectionSize]="pages" (pageChange)="nextPage($event)" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
-
 </table>
+<p class="text-center"><ngb-pagination  [collectionSize]="pages" (pageChange)="nextPage($event)" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
+</p>
 </div>
 </div>
 </div>

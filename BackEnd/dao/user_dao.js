@@ -535,12 +535,14 @@ module.exports = function () {
       db('category')
         .where({ categoryStatus: 'active' })
         .whereRaw('( categoryName LIKE  "%' + data.name + '%" )')
+        .whereIn('id', data.ids)
         .orderBy('id', 'desc')
         .then((result) => {
           response.error = 'false'
           response.result = result
         })
         .catch((error) => {
+          console.log(error)
           response.error = 'true'
         })
         .finally(() => {
@@ -873,6 +875,7 @@ module.exports = function () {
           
         })
         .catch((result) => {
+          console.log(result)
           response.error = true
         })
         .finally(() => {

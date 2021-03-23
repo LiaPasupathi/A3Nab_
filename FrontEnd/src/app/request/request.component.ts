@@ -16,6 +16,8 @@ export class RequestComponent implements OnInit {
   lng: number = 76.936195;
   markers: marker[] = []
   showMap = false;
+  pages: any;
+  page : Number =1;
 
   previous;
 
@@ -41,6 +43,10 @@ export class RequestComponent implements OnInit {
     this.ngOnInit();
   }
 
+  nextPage(page){
+    const object = { pageNumber: page}
+    this.getRequestProductList(object)
+  }
 
   getRequestProductList(object){
     var params = {
@@ -52,6 +58,7 @@ export class RequestComponent implements OnInit {
         if (response.body.error == 'false') {
           // Success
           // console.log(response.body)
+          this.pages = response.body.data.page * 10;
           this.requestProduct = response.body.data.unavailable
           this.markers = response.body.data.unavailable
           

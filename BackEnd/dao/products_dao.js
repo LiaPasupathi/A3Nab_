@@ -217,6 +217,44 @@ module.exports = function () {
     })
   }
 
+  this.removeCartItemDao = (data) => {
+    return new Promise(async function (resolve) {
+      var response = {}
+      db('cart')
+        .where('userId', data.id)
+        .del()
+        .then((result) => {
+          response.error = false
+          response.data = result
+        })
+        .catch((error) => {
+          response.error = true
+        })
+        .finally(() => {
+          resolve(response)
+        })
+    })
+  }
+  
+    this.removeFavItemDao = (data) => {
+    return new Promise(async function (resolve) {
+      var response = {}
+      db('favourite_products')
+        .where('userId', data.id)
+        .del()
+        .then((result) => {
+          response.error = false
+          response.data = result
+        })
+        .catch((error) => {
+          response.error = true
+        })
+        .finally(() => {
+          resolve(response)
+        })
+    })
+  }
+
   this.getMyCardItems = (id) => {
     return new Promise(async function (resolve) {
       var response = {}
@@ -369,25 +407,46 @@ module.exports = function () {
     })
   }
 
-  this.checkMyCartProduct = (data) => {
-    return new Promise(async function (resolve) {
+  this.userCheckReorderDao = (data) => {
+    return new Promise(async function (resolve, reject) {
       var response = {}
-      db('cart')
-        .select('id', 'productId', 'userId', 'quantity')
-        .where({ productId: data.productId, userId: data.id })
+      db('orderItems')
+        .select('orderItems.storeId')
+        .innerJoin('store', 'orderItems.storeId', '=', 'store.id')
+        .where({ orderId: data.orderId, 'store.status': 'active' })
+        .groupBy('orderItems.storeId')
         .then((result) => {
           response.error = false
           response.data = result
+          resolve(response)
         })
         .catch((error) => {
           console.log(error)
           response.error = true
-        })
-        .finally(() => {
-          resolve(response)
+          reject(error)
         })
     })
   }
+
+  // this.checkMyCartProduct = (data) => {
+  //   return new Promise(async function (resolve) {
+  //     var response = {}
+  //     db('cart')
+  //       .select('id', 'productId', 'userId', 'quantity')
+  //       .where({ productId: data.productId, userId: data.id })
+  //       .then((result) => {
+  //         response.error = false
+  //         response.data = result
+  //       })
+  //       .catch((error) => {
+  //         console.log(error)
+  //         response.error = true
+  //       })
+  //       .finally(() => {
+  //         resolve(response)
+  //       })
+  //   })
+  // }
 
   this.userFavProductDao = (data) => {
     return new Promise(async function (resolve) {
@@ -402,7 +461,7 @@ module.exports = function () {
         var pageOffset = parseInt(pageNumber * data.pageCount)
       }
       db('favourite_products')
-        .select('product.id', 'favourite_products.id as favId', 'storeStock', 'product.categoryId', 'product.productCategoryId', 'product.productSubCategoryId', 'product.storeId', 'product.productName', 'product.productStatus', 'qty as productWeight', 'product.productPrice', 'product.productDiscount', 'product.productDiscountStatus', 'product.productDescription', 'product.isBestProduct', 'product.orderVariants', 'product.specialInstructions', 'product.instructionsStatus', 'product.differentPriceVariant', 'product.status', 'product.createdAt', 'product.updatedAt')
+        .select('product.id', 'favourite_products.id as favId', 'storeStock', 'product.categoryId', 'product.productCategoryId', 'product.productSubCategoryId', 'favourite_products.storeId', 'product.productName', 'product.productStatus', 'qty as productWeight', 'product.productPrice', 'product.productDiscount', 'product.productDiscountStatus', 'product.productDescription', 'product.isBestProduct', 'product.orderVariants', 'product.specialInstructions', 'product.instructionsStatus', 'product.differentPriceVariant', 'product.status','product.maxQty', 'product.createdAt', 'product.updatedAt')
         .innerJoin('product', 'favourite_products.productId', '=', 'product.id')
         .innerJoin('storeProducts', 'product.id', '=', 'storeProducts.productId')
         .where({ 'favourite_products.userId': data.id, productStatus: 'active', isDelete: 0 })

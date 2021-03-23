@@ -122,9 +122,9 @@
 <td class="col_chan text-center">{{order.assignment_ID}}</td>
 </tr>
 </tbody>
-<ngb-pagination  [collectionSize]="pages" (pageChange)="nextPage($event)" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true">
-</ngb-pagination>
 </table>
+<p class="text-center"><ngb-pagination  [collectionSize]="pages" (pageChange)="nextPage($event)" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true">
+</ngb-pagination></p>
 </div>
 </div>
 </div>
@@ -137,10 +137,16 @@
 <div class="card-header">
 <h5 class="card-title">Notification</h5>
 </div>
-<div class="card_content" *ngFor="let noti of notification">
-<p class="category">{{noti.type}} Updated By {{noti.firstName}} {{noti.drId}}<br>{{noti.textMessage}}
-<button style="float: right;">Approve</button>
-</p>
+<div class="card_content">
+<div class="row"  *ngFor="let noti of notification">
+<div class="col-md-8">
+	<p class="category">{{noti.type}} Updated By {{noti.firstName}} {{noti.drId}}<br>{{noti.textMessage}}</p>
+</div>
+<div class="col-md-4">
+	<p class="text-center"><button>Approve</button></p>
+</div>
+</div>
+
 </div>
 </div>
 </div>
@@ -498,10 +504,32 @@ chartType="doughnut"
 <div class="col-md-4">
 <div class="card">
 <div class="card-header">
-<div class="two_col">
+	<div class="row">
+		<div class="col-md-8">
+<div class="prod_sale_head">
 <h4>Top Products Sales</h4>
 </div>
 </div>
+<div class="col-md-4">
+	<a routerLink="/product-stats"><button class="prod_stat_btn">Product Stats</button></a>
+</div>
+</div>
+	</div>
+<div class="row">
+	<div class="col-md-2"></div>
+ <div class="col-md-4">
+ <div class="form-group">
+ <input type="text" bsDatepicker  placeholder="From Date"  (bsValueChange) ="salesvalueFrom($event)" [bsConfig]="{dateInputFormat: 'DD-MM-YYYY'}" readonly   [outsideClick] = "true"  class="form-control datepicker">
+ </div>
+ </div>
+ 
+ <div class="col-md-4">
+ <div class="form-group">
+ <input type="text" bsDatepicker  placeholder="To Date"  (bsValueChange) ="salesvalueTo($event)" [bsConfig]="{dateInputFormat: 'DD-MM-YYYY'}" readonly   [outsideClick] = "true"  class="form-control datepicker">
+ </div>
+ </div>
+ <div class="col-md-2"></div>
+ </div>
 <canvas baseChart 
 	[datasets]="barChartData" 
 	[labels]="barChartLabels" 
@@ -525,12 +553,27 @@ chartType="doughnut"
 
 <div class="tab-content clearfix">
 <div class="tab-pane active order_list" id="1c">
+	<div class="row">
+		<div class="col-md-2"></div>
+	 <div class="col-md-4">
+	 <div class="form-group">
+	 <input type="text" bsDatepicker  placeholder="From Date"  (bsValueChange) ="heatvalueFrom($event)" [bsConfig]="{dateInputFormat: 'DD-MM-YYYY'}" readonly   [outsideClick] = "true"  class="form-control datepicker">
+	 </div>
+	 </div>
+	 
+	 <div class="col-md-4">
+	 <div class="form-group">
+	 <input type="text" bsDatepicker  placeholder="To Date"  (bsValueChange) ="heatvalueTo($event)" [bsConfig]="{dateInputFormat: 'DD-MM-YYYY'}" readonly   [outsideClick] = "true"  class="form-control datepicker">
+	 </div>
+	 </div>
+	 <div class="col-md-2"></div>
+	 </div>
 <table>
 	<th>Location</th>
 	<th>Orders</th>
 	<tr *ngFor="let item of maps;">
 		<td><p>{{item.addressPinDetails}}</p></td>
-		<td><p>{{item.orders}}</p></td>
+		<td class="text-center"><p>{{item.orders}}</p></td>
 	</tr>
 </table>
 </div>
@@ -538,7 +581,6 @@ chartType="doughnut"
 
 
 <agm-map [fitBounds]="true" [zoom]="7">
-
 	<agm-marker *ngFor ="let item of maps" [latitude]= "item.latitude"  
 	[longitude]="item.longitude" [agmFitBounds]="true" >
 </agm-marker>

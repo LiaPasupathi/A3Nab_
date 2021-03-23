@@ -238,19 +238,27 @@ module.exports = function () {
         } else {
           var itemsList = orderItems.data
           var length = itemsList.length
-          async.eachOfSeries(itemsList, async function (item, index) {
-            var req = {
-              productId: item.productId
-            }
-            var productImagesDao = await userDaoObject.productImagesDao(req)
-            itemsList[index].productImage = productImagesDao.result[0].productImage
-            if (--length === 0) {
-              response.error = false
-              response.orderItems = itemsList
-              response.orderAmount = orderValue.data[0].totalvalue
-              resolve(response)
-            }
-          })
+          if(length > 0){
+            async.eachOfSeries(itemsList, async function (item, index) {
+              var req = {
+                productId: item.productId
+              }
+              var productImagesDao = await userDaoObject.productImagesDao(req)
+              itemsList[index].productImage = productImagesDao.result[0].productImage
+              if (--length === 0) {
+                response.error = false
+                response.orderItems = itemsList
+                response.orderAmount = orderValue.data[0].totalvalue
+                resolve(response)
+              }
+            })
+          } else {
+            response.error = false
+            response.orderItems = []
+            response.orderAmount = 0
+            resolve(response)
+          }
+          
         }
       }
     })
@@ -266,11 +274,29 @@ module.exports = function () {
         response.message = 'failed to retrive store details'
       } else {
         if(checkOrder.data.length > 0){
+          // console.log(checkOrder)
+          
+          
+          // console.log(orderItems)
+          // return;
           request.price = checkOrder.data[0].supplyPrice
           // request.price = 1
           request.orderId = checkOrder.data[0].orderId
           await orderDaoObject.removeOrderPriceDao(request)  
-          await orderDaoObject.deleteOrderItemsDao(request)  
+          await orderDaoObject.deleteOrderItemsDao(request)
+
+          let obj = {}
+          obj.orderId = checkOrder.data[0].orderId
+          obj.storeId = checkOrder.data[0].storeId
+          
+          var orderItems = await orderDaoObject.getManagerOrderItems(obj)
+          if(orderItems.data.length === 0){
+            let orderObj = {}
+            orderObj.id = checkOrder.data[0].orderId
+            orderObj.storeDelete = 1
+            await orderDaoObject.replaceOrderDao(orderObj)
+            // console.log(orderObj)
+          }
           response.error = 'false'
           response.message = 'Success' 
         } else {

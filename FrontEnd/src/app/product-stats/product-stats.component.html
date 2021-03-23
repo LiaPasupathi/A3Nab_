@@ -44,10 +44,6 @@
 <option [selected]="true" value="">Select Product</option>
 <option *ngFor="let item of productList;let i = index" value="{{item.id}}" >{{item.productName}}</option>
 </select>
-<!-- <div class="form-group"> -->
-<!-- <select>
-<option>Select Product</option>
-</select> -->
 </li>
 <li>
 <input type="text" bsDatepicker  placeholder="Start Date" (bsValueChange) ="valuefrom($event)"  [bsConfig]="{dateInputFormat: 'DD-MM-YYYY'}" readonly   [outsideClick] = "true"  class="form-control datepicker">
@@ -64,7 +60,7 @@
 <a (click)="pageReload()" ><i class="fa fa-refresh"></i></a >
 </li>
 <li>
-<a href="" class="export_btn">Export XLS</a>
+    <button class="float_cash_btn"  (click) = "exportList($event);">Export XLS</button>
 </li>
 </ul>
 </div>
@@ -118,8 +114,9 @@
 <td>{{item.sellCount}} Units</td>
 </tr>
 </tbody>
-<ngb-pagination  [collectionSize]="pages" (pageChange)="nextPage($event)" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
 </table>
+<p class="text-center"><ngb-pagination  [collectionSize]="pages" (pageChange)="nextPage($event)" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
+</p>
 </div>
 </div>
 </div>
