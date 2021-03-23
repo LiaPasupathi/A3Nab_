@@ -239,12 +239,23 @@ module.exports = function () {
         response.error = 'true'
         response.message = 'failed to retrive store details'
       } else {
+
+    
         if(checkOrder.data.length > 0){
           request.price = checkOrder.data[0].supplyPrice
           // request.price = 1
           request.orderId = checkOrder.data[0].orderId
           await orderDaoObject.removeOrderPriceDao(request)  
           await orderObject.admindeleteOrderItemsDao(request)  
+
+          var orderItems = await orderDaoObject.getAdminOrderItems(request)
+          if(orderItems.data.length === 0){
+            let orderObj = {}
+            orderObj.id = checkOrder.data[0].orderId
+            orderObj.storeDelete = 1
+            await orderDaoObject.replaceOrderDao(orderObj)
+          }
+
           response.error = 'false'
           response.message = 'Success' 
         } else {

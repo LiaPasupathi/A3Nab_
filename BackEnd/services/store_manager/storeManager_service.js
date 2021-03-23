@@ -214,14 +214,18 @@ module.exports = function () {
         storemanagerObject.storeManagerProfileDao(request),
         storemanagerObject.getStoreProfileDetails(request),
         orderDaoObject.getOutOfProductDao(request),
+        orderDaoObject.getHomeOrderListDao(request, 'ONGOING')
       ])
         .then(result => {
-          resp.orders = result[0].data
+          resp.orders = result[0].data.concat(result[5].data);
+          // resp.orders = result[0].data
           resp.graph = result[1].data
           resp.profile = result[2].result[0]
           resp.store = result[3].result[0]
           resp.stockProduct = result[4].data[0]
-          // console.log(result)
+          // console.log(result[5])
+
+          
 
           response.error = 'false'
           response.message = 'Success'

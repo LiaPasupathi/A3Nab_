@@ -432,6 +432,8 @@ module.exports = function () {
       var resp = {}
       var userDaoObject = new userDao()
       try {
+        var activeCategory = await userDaoObject.getHomeCategoryProductListtDao(userData)
+        userData.ids = activeCategory.data
         var searchData = await userDaoObject.homeSearchUserDao(userData)
         if (searchData.error === 'false') {
           response.error = 'false'

@@ -5,12 +5,35 @@ module.exports = function () {
     return new Promise(async function (resolve, reject) {
       var response = {}
       db('orderItems')
-        .select('orderIDs', 'orderId', 'storeId', 'orderOn', 'deliveryOn')
+        .select('orderIDs', 'orderId', 'storeId', 'orderOn', 'deliveryOn', db.raw("'PENDING' as orderStatus"))
         .innerJoin('orders', 'orderItems.orderId', '=', 'orders.id')
-        .where({ storeId: data.storeId, isAssign: 0 })
+        .where({ storeId: data.storeId, isAssign: 0, 'adminApprove': 'ACCEPTED', storeDelete: '0' })
         .groupBy('orderId')
         .orderBy('orderId', 'desc')
-        .limit(10)
+        .limit(3)
+        .then((result) => {
+          response.error = false
+          response.data = result
+          resolve(response)
+        })
+        .catch((error) => {
+          response.error = true
+          reject(error)
+        })
+    })
+  }
+
+  this.getHomeOrderListDao = (data, status) => {
+    return new Promise(async function (resolve, reject) {
+      var response = {}
+      db('managerOrders')
+      .select('orderIDs', 'orderId', 'storeId', 'orderOn', 'deliveryOn', 'deleteItems', 'orders.orderStatus')
+      .innerJoin('orders', 'managerOrders.orderId', '=', 'orders.id')
+      // .whereIn('managerOrders.status', data.con)
+      .where({ storeId: data.storeId, 'orders.orderStatus': status, storeDelete: '0'  })
+      .groupBy('orderId')
+      .orderBy('orderId', 'desc')
+      .limit(3)
         .then((result) => {
           response.error = false
           response.data = result
@@ -81,7 +104,7 @@ module.exports = function () {
         .select('orders.id', 'orderItems.orderId', 'orderIDs', 'orderItems.storeId', 'orderOn', 'deliveryOn', 'deleteItems')
         .innerJoin('orderItems', 'orders.id', '=', 'orderItems.orderId')
         .whereIn('isAssign', data.con)
-        .where({ 'storeId': data.storeId, 'adminApprove': 'ACCEPTED' })
+        .where({ 'storeId': data.storeId, 'adminApprove': 'ACCEPTED', storeDelete: '0' })
         .groupBy('orders.id', 'orderItems.orderId')
         .orderBy('orderId', 'desc')
         .modify(function (queryBuilder) {
@@ -119,7 +142,7 @@ module.exports = function () {
         .select('orderIDs', 'orderId', 'storeId', 'orderOn', 'deliveryOn', 'deleteItems', 'orders.orderStatus')
         .innerJoin('orders', 'managerOrders.orderId', '=', 'orders.id')
         .whereIn('managerOrders.status', data.con)
-        .where({ storeId: data.storeId })
+        .where({ storeId: data.storeId, storeDelete: '0' })
         .groupBy('orderId')
         .orderBy('orderId', 'desc')
         .modify(function (queryBuilder) {
@@ -341,7 +364,7 @@ module.exports = function () {
     return new Promise(async function (resolve, reject) {
       var response = {}
       db('orderItems')
-        .select('id', 'orderId', 'productId', 'price', 'supplyPrice')
+        .select('id', 'orderId', 'productId', 'storeId', 'price', 'supplyPrice')
         .where({ id: data.id })
         .then((result) => {
           response.error = false
@@ -382,6 +405,24 @@ module.exports = function () {
       db('orderItems')
         .where('id', data.id)
         .del()
+        .then((result) => {
+          response.error = false
+          response.data = result
+        })
+        .catch((error) => {
+          response.error = true
+        })
+        .finally(() => {
+          resolve(response)
+        })
+    })
+  }
+
+  this.getAdminOrderItems = (data) => {
+    return new Promise(async function (resolve) {
+      var response = {}
+      db('orderItems')
+        .where('orderId', data.orderId)
         .then((result) => {
           response.error = false
           response.data = result
