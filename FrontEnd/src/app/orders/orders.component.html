@@ -99,7 +99,7 @@ Map View &nbsp;&nbsp;
 <th>Price</th>
 <th>Payment</th>
 <th>Order Status</th>
-<!-- <th>Cancellation %</th> -->
+<th>Cancellation %</th>
 <th>Status</th>
 </tr>
 </thead>
@@ -117,16 +117,33 @@ Map View &nbsp;&nbsp;
 </td>
 <!-- <td><span class="online_btn">Paid Online</span></td> -->
 <!-- <td><span class="yellow">Pending</span><br>Not confirmed by #store_ID</td> -->
-<td >
-<div *ngFor="let store of item.storeList">
-<p *ngIf = "store.storeStatus == 'NOT CONFIRM'" > <span  class="red_color"><a routerLink="/view-store/{{ store.storeId }}">{{store.storeID}}</a></span><br><span>{{store.storeStatus}}</span><br><span class="yellow">Not Confirmed</span><br></p>
-<p *ngIf = "store.storeStatus == 'ACCEPTED'" > <span class="red_color"><a routerLink="/view-store/{{ store.storeId }}">{{store.storeID}}</a></span><br><span>{{store.storeStatus}}</span><br><span class="green">Accepted</span><br></p>
-<p *ngIf = "store.storeStatus == 'PICKUP'" > <span class="red_color"><a routerLink="/view-store/{{ store.storeId }}">{{store.storeID}}</a></span><br><span>{{store.storeStatus}}</span><br><span class="green">Accepted</span><br></p>
-<p *ngIf = "store.storeStatus == 'ONGOING'" > <span class="red_color"><a routerLink="/view-store/{{ store.storeId }}">{{store.storeID}}</a></span><br><span>{{store.storeStatus}}</span><br><span class="green">Accepted</span><br></p>
 
-<p *ngIf = "store.storeStatus == 'REJECTED'" ><span class="red_color"><a routerLink="/view-store/{{ store.storeId }}">{{store.storeID}}</a></span><br><span>{{store.storeStatus}}</span><br><span class="red_color">Rejected</span></p>
-<!-- <span class="red_color">{{store.storeID}}</span>&nbsp;&nbsp;<span>{{store.storeName}}</span>&nbsp;&nbsp;<span class="yellow">{{store.storeStatus}}</span><br> -->
-</div>
+<td>
+    <div *ngFor="let store of item.storeList">
+        <div>
+                <span *ngIf = "item.orderStatus == 'PENDING'" class="yellow">Pending</span>
+                <span *ngIf = "item.orderStatus == 'COMPLETED'" class="green">Completed</span>
+                <span *ngIf = "item.orderStatus == 'CANCELLED'" class="red_color">Cancellation</span>
+                <span *ngIf = "item.orderStatus == 'ACCEPTED'" class="green">Accepted</span>
+                <span *ngIf = "item.orderStatus == 'ONGOING'" class="yellow">Ongoing</span>
+            <br>
+                <span>{{item.orderProgress}}</span>
+            <br>
+        </div>
+        <span  class="red_color"><a routerLink="/view-store/{{ store.storeId }}">{{store.storeID}}</a></span>
+    </div>
+</td>
+
+<td >
+    <div *ngFor="let store of item.storeList">
+        <p *ngIf = "store.storeStatus == 'NOT CONFIRM'" > <span  class="red_color"><a routerLink="/view-store/{{ store.storeId }}">  {{store.storeID}}</a></span><span>  {{store.storeName}}</span><span class="yellow"> Not Confirmed</span></p>
+        <p *ngIf = "store.storeStatus == 'ACCEPTED'" > <span class="red_color"><a routerLink="/view-store/{{ store.storeId }}">  {{store.storeID}}</a></span><span>  {{store.storeName}}</span><span class="green"> Accepted</span></p>
+        <p *ngIf = "store.storeStatus == 'PICKUP'" > <span class="red_color"><a routerLink="/view-store/{{ store.storeId }}">  {{store.storeID}}</a></span><span>  {{store.storeName}}</span><span class="green"> Pichup</span></p>
+        <p *ngIf = "store.storeStatus == 'ONGOING'" > <span class="red_color"><a routerLink="/view-store/{{ store.storeId }}">  {{store.storeID}}</a></span><span>  {{store.storeName}}</span><span class="green"> Ongoing</span></p>
+
+        <p *ngIf = "store.storeStatus == 'REJECTED'" ><span class="red_color"><a routerLink="/view-store/{{ store.storeId }}"> {{store.storeID}}</a></span><span> {{store.storeName}}</span><span class="red_color"> Rejected</span></p>
+        <!-- <span class="red_color">{{store.storeID}}</span>&nbsp;&nbsp;<span>{{store.storeName}}</span>&nbsp;&nbsp;<span class="yellow">{{store.storeStatus}}</span> -->
+    </div>
 </td>
 <td><span class="pend_btn">{{item.orderStatus}}</span></td>
 </tr>

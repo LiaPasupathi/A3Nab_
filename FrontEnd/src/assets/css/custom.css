@@ -1541,8 +1541,9 @@ font-size: 16px;
 }
 
 .driver_sec .prof_det{
-width: 70%;
+width: 60%;
 float: left;
+font-size: 12px;
 margin-top: 10px;
 }
 
@@ -1552,7 +1553,7 @@ margin-bottom: 3px;
 }
 
 .driver_sec .prof_det1{
-width: 30%;
+width: 40%;
 float: right;
 margin-top: 10px;
 }

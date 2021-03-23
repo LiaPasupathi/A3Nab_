@@ -49,7 +49,7 @@
 </thead>
 <tbody>
 <tr *ngFor="let item of assignmentList;let i = index">
-<td>{{item.assignDate}}</td>
+<td style="font-size: 13px;">{{item.assignDate}} - {{item.time }}</td>
 <td>
    <a routerLink="/makeassignment/{{item.id }}"> {{item.assignment_ID}} </a>
 </td>

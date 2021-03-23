@@ -181,8 +181,13 @@ export class OrderDetailsComponent implements OnInit {
       }
       this.previous = infowindow;
   }
+
   onchangeMap(values:any){
     this.showMap = values.currentTarget.checked;
+  }
+
+  onSubmit(){
+    
   }
 
 }
