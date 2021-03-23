@@ -207,6 +207,30 @@ module.exports = function () {
     try {
       var driverDaoObject = new driverDao()
       var driverResult = await driverDaoObject.getDriverListDao(request)
+      let driverOrders = await driverDaoObject.getDriverOrderListDao(request)
+
+      //GP
+      if(driverResult.data.length > 0 && driverOrders.data.length > 0){
+        driverResult.data.map((result)=>{
+          let totalOrderDelivered = 0;
+          let onGoingAssingnments = 0;
+          let findedData = driverOrders.data.filter((nextData)=>{
+            if(result.id == nextData.driverId){
+              return nextData
+            }
+            else{
+              return false
+            }
+          })
+
+          findedData.map((finded)=>{
+            finded.isComplete == 0 ? onGoingAssingnments ++ : totalOrderDelivered++
+          })
+
+          result.onGoingAssingnments = onGoingAssingnments;
+          result.totalOrderDelivered = totalOrderDelivered;
+        })
+      }
       if (driverResult.error) {
         response.error = 'true'
         response.message = 'OOPS DAO Exception'

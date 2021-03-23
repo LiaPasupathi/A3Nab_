@@ -24,7 +24,7 @@ module.exports = function () {
     return new Promise(async function (resolve) {
       var response = {}
       db('favourite_products')
-        .where({ productId: data.productId, userId: data.id })
+        .where({ productId: data.productId, userId: data.id, storeId: data.storeId })
         .del()
         .then((result) => {
           response.error = false
