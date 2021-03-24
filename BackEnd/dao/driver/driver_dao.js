@@ -296,7 +296,7 @@ module.exports = function () {
     return new Promise(async function (resolve) {
       var response = {}
       db('driverrRoute')
-        .select('driverrRoute.id', 'driverrRoute.storeId', 'storeName', 'sortOrder', 'mobileNumber', 'latitude', 'longitude')
+        .select('driverrRoute.id', 'driverrRoute.storeId', 'storeName', 'sortOrder','countryCode', 'mobileNumber', 'latitude', 'longitude')
         .innerJoin('store', 'driverrRoute.storeId', '=', 'store.id')
         .where({'routeId': data.routeId, type: 'STORE'})
         .then((result) => {

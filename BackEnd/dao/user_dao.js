@@ -679,6 +679,7 @@ module.exports = function () {
         })
     })
   }
+  
 
   this.updateDeviceTokenDao = (data) => {
     return new Promise(async function (resolve) {
