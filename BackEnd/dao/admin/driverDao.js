@@ -239,7 +239,11 @@ module.exports = function () {
     return new Promise(async function (resolve) {
       var response = {}
       db('driver')
-        .select('driver.id', 'driver.carId', 'dob', 'isAccepted', 'drId', 'carModel', 'firstName', 'lastName', 'email', 'profilePic', 'countryCode', 'mobileNumber', 'gender', 'IDNumber', 'floatingCash', 'latitude', 'longitude', 'driverActive')
+        .select('driver.id', 'driver.carId', 
+        'dob', 'isAccepted', 'drId', 'carModel', 
+        'firstName', 'lastName', 'email', 'profilePic', 
+        'countryCode', 'mobileNumber', 'gender', 'IDNumber', 
+        'floatingCash', 'latitude', 'longitude', 'driverActive')
         .leftJoin('cars', 'driver.carId', '=', 'cars.id')
         .where('isDeleteDriver', 0)
         .orderBy('driver.id', 'desc')
@@ -254,6 +258,25 @@ module.exports = function () {
             queryBuilder.where('driver.id', id)
           }
         })
+        .then((result) => {
+          response.error = false
+          response.data = result
+        })
+        .catch((error) => {
+          response.error = true
+        })
+        .finally(() => {
+          resolve(response)
+        })
+    })
+  }
+
+
+  this.getDriverOrderListDao = (data, id) => {
+    return new Promise(async function (resolve) {
+      var response = {}
+      db('driverorders')
+        .select('id','driverId', 'isComplete')
         .then((result) => {
           response.error = false
           response.data = result

@@ -124,7 +124,7 @@ module.exports = function () {
       var response = {}
       db('cart')
         .select('id', 'productId', 'userId', 'quantity')
-        .where({ productId: data.productId, userId: data.id })
+        .where({ productId: data.productId, userId: data.id, storeId: data.storeId })
         .then((result) => {
           response.error = false
           response.data = result
