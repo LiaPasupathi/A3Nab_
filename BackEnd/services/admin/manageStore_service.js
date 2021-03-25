@@ -519,7 +519,7 @@ module.exports = function () {
       var response = {}
       var storeObject = new storeDao()
       request.queryType = 'TOTAL'
-      var storeResult = await storeObject.storProductListDao(request)
+      var storeResult = await storeObject.storForProductListDao(request)
       if (storeResult.error) {
         response.error = 'true'
         response.message = 'Query Error'
@@ -528,7 +528,7 @@ module.exports = function () {
 
         request.queryType = 'LIST'
         request.pageCount = 10
-        var productResult = await storeObject.storProductListDao(request)
+        var productResult = await storeObject.storForProductListDao(request)
         if(productResult.error){
           response.error = 'true'
           response.message = 'Query Error'

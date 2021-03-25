@@ -48,7 +48,8 @@ export class ProductStatsComponent implements OnInit {
     const activeMenu = document.getElementById('orders');
     activeMenu.classList.remove('active');
     const object = { pageNumber: 1 }
-    this.getProductList(object)
+    //this.getProductList(object)
+    this.onChangeCategory("", "Category")
 
     this.getCatgoryList();
   }

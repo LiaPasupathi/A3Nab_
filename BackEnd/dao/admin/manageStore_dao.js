@@ -592,4 +592,58 @@ module.exports = function () {
         })
     })
   }
+
+
+  this.storForProductListDao = (data) => {
+    return new Promise(async function (resolve) {
+      var response = {}
+      if (data.queryType === 'LIST') {
+        var pageNumber = data.pageNumber
+        if (pageNumber == '0') {
+          pageNumber = '0'
+        } else {
+          pageNumber = pageNumber - 1
+        }
+        var pageOffset = parseInt(pageNumber * data.pageCount)
+      }
+      db('storeProducts')
+        .select('storeProducts.id', 'productName', 'product.categoryId', 
+        'storeProducts.storeId', 'storeProducts.productId', 'productStatus', 
+        'productCategoryName', 'storeProducts.productPrice', 'storeStock', 'productStatus')
+        .innerJoin('product', 'storeProducts.productId', '=', 'product.id')
+        .innerJoin('product_category', 'product.productCategoryId', '=', 'product_category.id')
+        .innerJoin('category', 'product.categoryId', '=', 'category.id')
+        .where('storeProducts.storeId', data.storeId)
+        .modify(function (queryBuilder) {
+          if(data.categoryId){
+            queryBuilder.where('product.categoryId', data.categoryId)
+          }
+          if(!data.limit){
+            if (data.queryType === 'LIST') {
+              queryBuilder.offset(pageOffset).limit(data.pageCount)
+            }
+          } else {
+            queryBuilder.limit(data.limit)
+          }
+
+          if(data.status == 'STOCK'){
+            queryBuilder.where('storeStock', '!=', 0)
+          }
+          if(data.status == 'OUT'){
+            queryBuilder.where('storeStock', '=', 0)
+          }
+        })
+        .then((result) => {
+          response.error = false
+          response.data = result
+        })
+        .catch((error) => {
+          console.log(error)
+          response.error = true
+        })
+        .finally(() => {
+          resolve(response)
+        })
+    })
+  }
 }
