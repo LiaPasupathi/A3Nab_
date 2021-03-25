@@ -837,7 +837,10 @@ module.exports = function () {
     return new Promise(async function (resolve) {
       var response = {}
       db('product')
-        .select('storeProducts.id', 'storeProducts.categoryIds', 'storeProducts.productId', 'storeRadius', 'storeProductStatus', 'qty as productWeight', 'maxQty', 'storeProducts.storeId', db.raw('ST_Distance_Sphere(point(store.longitude, store.latitude), point(' + data.lng + ', ' + data.lat + ')) / 1000 AS distance'))
+        .select('storeProducts.id', 'storeProducts.categoryIds', 
+        'storeProducts.productId', 'storeRadius', 'storeProductStatus', 
+        'qty as productWeight', 'maxQty', 'storeProducts.storeId', 
+        db.raw('ST_Distance_Sphere(point(store.longitude, store.latitude), point(' + data.lng + ', ' + data.lat + ')) / 1000 AS distance'))
         .innerJoin('storeProducts', 'product.id', '=', 'storeProducts.productId')
         .innerJoin('store', 'storeProducts.storeId', '=', 'store.id')
         // .innerJoin('category', 'product.categoryId', '=', 'category.id')
@@ -1084,7 +1087,7 @@ module.exports = function () {
     return new Promise(async function (resolve) {
       var response = {}
       db('users')
-        .select('users.id', 'firstName', 'lastName', 'email', 'countryCode', 'mobileNumber', 'profilePic', db.raw('DATE_FORMAT(DOB, "%Y-%m-%d") AS DOB'), 'gender', 'walletAmount', 'referralCode', db.raw('COUNT(orders.userId) as orders'), 'packageValue', 'trustUser', 'offersNotify', 'ordersNotify', 'announcementNotify', 'othersNotify')
+        .select('users.id', 'firstName', 'lastName', 'email', 'countryCode', 'mobileNumber', 'profilePic', 'currentAddress', db.raw('DATE_FORMAT(DOB, "%Y-%m-%d") AS DOB'), 'gender', 'walletAmount', 'referralCode', db.raw('COUNT(orders.userId) as orders'), 'packageValue', 'trustUser', 'offersNotify', 'ordersNotify', 'announcementNotify', 'othersNotify')
         .leftJoin('orders', 'users.id', '=', 'orders.userId')
         .groupBy('users.id')
         .where({ 'users.id': data.id })
@@ -1244,6 +1247,32 @@ module.exports = function () {
         db('orders')
          .select('id')
         .where({ userId: data.userId, isRate: 0, orderStatus: 'COMPLETED' })
+        .then((result) => {
+          response.error = false
+          response.data = result
+        })
+        .catch((error) => {
+          response.error = true
+        })
+        .finally(() => {
+          resolve(response)
+        })
+      } else {
+        response.error = false
+        response.data = []
+        resolve(response)
+      }
+    })
+  }
+
+  this.getUpdateAddressListDao = (data) => {
+    console.log(data.currentAddress)
+    return new Promise(async function (resolve) {
+      var response = {}
+      if(data.userId){
+        db('users')
+        .where({ id: data.id })
+        .update("currentAddress", data.currentAddress)
         .then((result) => {
           response.error = false
           response.data = result

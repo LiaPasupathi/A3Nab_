@@ -140,7 +140,8 @@ module.exports = function () {
           userDaoObject.getUserHomeCategoryDao(activeCategory.data),
           this.homeBestProductService(request),
           this.myHomeCartDetails(request),
-          userDaoObject.getUserRatingListDao(request)
+          userDaoObject.getUserRatingListDao(request),
+          userDaoObject.getUpdateAddressListDao(request)
         ])
           .then(result => {
             // console.log(result[4])

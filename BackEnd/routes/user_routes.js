@@ -63,6 +63,7 @@ module.exports = function (app, validator) {
     validator.check('userId').optional({ checkFalsy: true }).isLength({ min: 1, max: 255 }).withMessage('INVALID: $[1], userId'),
     validator.check('lat').trim().exists().isLength({ min: 1, max: 255 }).withMessage('INVALID: $[1], lat'),
     validator.check('lng').trim().exists().isLength({ min: 1, max: 255 }).withMessage('INVALID: $[1], lng'),
+    validator.check('currentAddress').trim().exists().isLength({ min: 1, max: 255 }).withMessage('INVALID: $[1], Current Address'),
   ], function (request, response) {
     var lang = request.headers.lang
     var error = validator.validation(request)
