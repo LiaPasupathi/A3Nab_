@@ -625,9 +625,9 @@ module.exports = function () {
       var response = {}
       db('offers')
         .select('offers.id', 'image', 'status', 'trustUser', 'title', 'description', 'couponCode', 'discount', 'minimumValue', 'offCategoryId', 'offProductId', 'count', db.raw('DATE_FORMAT(startDate, "%Y-%m-%d") AS startDate'), db.raw('DATE_FORMAT(endDate, "%Y-%m-%d") AS endDate'))
-        .where({'offDelete': 0, status: data.status})
+        .where({'offDelete': 0})
         .orderBy('offers.id', 'desc')
-        .then((result) => {
+        .then((result) => { 
           response.error = false
           response.data = result
         })

@@ -50,6 +50,7 @@ import { FaqComponent } from './settings/faq/faq.component';
 import { PrivactyPolicyComponent } from './settings/privacty-policy/privacty-policy.component';
 import { GeneralComponent } from './settings/general/general.component';
 import { ExportComponent } from './export/export.component';
+import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 
 
 
@@ -111,7 +112,8 @@ import { ExportComponent } from './export/export.component';
     AngularMultiSelectModule,
     HttpClientModule,
     ToastrModule.forRoot(),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TimepickerModule.forRoot()
   ],
   providers: [AuthGuard],
   bootstrap: [AppComponent]

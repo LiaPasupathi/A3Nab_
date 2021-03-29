@@ -11,7 +11,7 @@
 <li>
 <!-- <div class="form-group"> -->
 <!-- <label>Select Category</label><br> -->
-<select (change)="onChangeCategory($event.target.value, 'Category')">
+<select (change)="onChangeCategory($event.target.value, 'Category', false)">
 <option [selected]="true" value="">Select Category</option>
 <option *ngFor="let item of category;let i = index" value="{{item.id}}" >{{item.categoryName}}</option>
 </select>
