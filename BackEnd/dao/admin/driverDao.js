@@ -275,7 +275,7 @@ module.exports = function () {
   this.getDriverOrderListDao = (data, id) => {
     return new Promise(async function (resolve) {
       var response = {}
-      db('driverorders')
+      db('driverOrders')
         .select('id','driverId', 'isComplete')
         .then((result) => {
           response.error = false
