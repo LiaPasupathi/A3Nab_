@@ -1684,6 +1684,66 @@ module.exports = function (app, validator) {
     }
   })
 
+  app.post(userPath + '/addSupportNew', app.auth, [
+    validator.check('appUser').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], appUser'),
+    validator.check('orderId').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], orderId'),
+    validator.check('category').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], category'),
+    validator.check('userId').optional({ checkFalsy: true }).isLength({ min: 1 }).withMessage('INVALID: $[1], userId'),
+    validator.check('store_id').optional({ checkFalsy: true }).isLength({ min: 1 }).withMessage('INVALID: $[1], store_id'),
+    validator.check('driver_id').optional({ checkFalsy: true }).isLength({ min: 1 }).withMessage('INVALID: $[1], driver_id'),
+    validator.check('notes').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], notes')
+
+  ], function (request, response) {
+    var lang = request.headers.lang
+    var error = validator.validation(request)
+    if (error.array().length) {
+      this.requestHandler(error.array(), true, lang, function (message) {
+        response.send(message)
+      })
+    } else {
+      var supportServiceObject = new supportService()
+      supportServiceObject.addSupportNewService(request.body, function (result) {
+        this.ctrlHandler([result], result.error, lang, (message) => {
+          return response.send(message)
+        })
+      })
+    }
+  })
+
+  app.post(userPath + '/addSupportCategory', app.auth, [
+    validator.check('categoryName').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], categoryName')
+  ], function (request, response) {
+    var lang = request.headers.lang
+    var error = validator.validation(request)
+    if (error.array().length) {
+      this.requestHandler(error.array(), true, lang, function (message) {
+        response.send(message)
+      })
+    } else {
+      var supportServiceObject = new supportService()
+      supportServiceObject.addSupportCategoryService(request.body, function (result) {
+        this.ctrlHandler([result], result.error, lang, (message) => {
+          return response.send(message)
+        })
+      })
+    }
+  })
+
+  app.get(userPath + '/getSupportCategoryList', app.auth, function (request, response) {
+    var error = {}
+    if (request.headers.role != 'admin') {
+      error.error = 'true'
+      error.message = 'UNAUTHORIZED'
+      return response.status(401).send(error)
+    } else {
+      var supportServiceObject = new supportService()
+      supportServiceObject.getSupportCategoryService(request.body, function (message) {
+        return response.send(message)
+      })
+    }
+  })
+
+
   app.post(userPath + '/updateSupportStatus', app.auth, [
     validator.check('id').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], orderId'),
     validator.check('status').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], orderId')
@@ -1705,7 +1765,9 @@ module.exports = function (app, validator) {
   })
 
   app.post(userPath + '/getSupportList', app.auth, [
-    validator.check('pageNumber').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], pageNumber')
+    validator.check('pageNumber').trim().exists().isLength({ min: 1, max: 255 }).withMessage('INVALID: $[1], pageNumber'),
+    validator.check('category').trim().exists().isLength({ min: 1, max: 255 }).withMessage('INVALID: $[1], category'),
+    validator.check('status').trim().exists().isLength({ min: 1, max: 255 }).withMessage('INVALID: $[1], status'),
   ], function (request, response) {
     var lang = request.headers.lang
     var error = validator.validation(request)

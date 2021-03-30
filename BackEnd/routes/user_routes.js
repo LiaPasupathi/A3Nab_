@@ -235,7 +235,8 @@ module.exports = function (app, validator) {
   app.post(userPath + '/homeSearch', [
     validator.check('lat').trim().exists().isLength({ min: 1, max: 255 }).withMessage('INVALID: $[1], lat'),
     validator.check('lng').trim().exists().isLength({ min: 1, max: 255 }).withMessage('INVALID: $[1], lng'),
-    validator.check('name').isLength({ min: 1, max: 255 }).withMessage('INVALID: $[1], Name')
+    validator.check('name').isLength({ min: 1, max: 255 }).withMessage('INVALID: $[1], Name'),
+    validator.check('currentAddress').isLength({ min: 1, max: 255 }).withMessage('INVALID: $[1], currentAddress'),
   ], function (request, response) {
     var lang = request.headers.lang
     var error = validator.validation(request)

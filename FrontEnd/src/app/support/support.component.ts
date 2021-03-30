@@ -3,6 +3,7 @@ import { ApiCallService } from '../services/api-call.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AngularCsv } from 'angular7-csv/dist/Angular-csv';
+declare var $:any;
 
 @Component({
   selector: 'app-support',
@@ -12,15 +13,19 @@ import { AngularCsv } from 'angular7-csv/dist/Angular-csv';
 export class SupportComponent implements OnInit {
 
   supportForm: FormGroup;
+  addcatName: FormGroup;
 
   supportTotal: number;
   supportPending: number;
   supportEscalate: number;
   resolved: number;
   supportList: any;
-  pages: number;
-  page =1;
+  pages: any;
+  page : Number =1;
+  cateList = 'ALL';
+  supportStatus = 'NONE';
   supportcsvOption : any;
+  catList : any;
 
 
   constructor(
@@ -34,16 +39,41 @@ export class SupportComponent implements OnInit {
 
     this.supportForm   = this.formBuilder.group({
       // orderIds: [''],
-      userId: ['',  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
+      appUser: ['',  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
       orderId: ['',  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-      name: ['',  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-      mobileNumber: ['',  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
+      category: ['',  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
+      userId: ['',  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
+      store_id: ['',  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
+      driver_id: ['',  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
       notes: ['',  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
     });
 
-    const  data = { pageNumber: 1 }
+    this.addcatName   = this.formBuilder.group({
+      categoryName: ['',  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
+    });
+
+    const  data = { pageNumber: 1, category: 'ALL', status: this.supportStatus }
 
     this.getSupportList(data)
+    
+    let params = {
+      url: "admin/getSupportCategoryList"
+    }  
+
+    this.apiCall.commonGetService(params).subscribe((result:any)=>{
+      let resu = result.body;
+      if(resu.error == false)
+      {
+           this.catList = resu.data;
+      
+      }else{
+        this.apiCall.showToast(resu.message, 'Error', 'errorToastr')
+      }
+    },(error)=>{
+       console.error(error);
+       
+    });
+
   }
 
   getSupportList(object){
@@ -92,10 +122,12 @@ export class SupportComponent implements OnInit {
             if(response.body.data.orders.length > 0){
               this.supportForm   = this.formBuilder.group({
                 // orderIds: [response.body.data.orders[0].id,  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
+                appUser: ['',  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
+                category: ['',  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
                 userId: [response.body.data.orders[0].userId,  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
                 orderId: [response.body.data.orders[0].id,  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-                name: [response.body.data.orders[0].firstName,  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-                mobileNumber: [response.body.data.orders[0].mobileNumber,  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
+                store_id: [response.body.data.orders[0].storeId,  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
+                driver_id: [response.body.data.orders[0].as_driverId,  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
                 notes: ['',  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
               })
             } else {
@@ -115,16 +147,38 @@ export class SupportComponent implements OnInit {
     }
   }
 
+  onFilterChange(id, type){
+    const object = { pageNumber: 1, category: this.cateList, status: this.supportStatus}
+    if(type === 'Category'){
+      this.cateList = id
+      this.cateList = this.cateList
+    } else if(type === 'Status') {
+      this.supportStatus = id
+      this.supportStatus = this.supportStatus
+    } 
+    object.category = this.cateList
+    object.status = this.supportStatus
+    this.getSupportList(object)
+    // this.onChangeStoreFilterAPICall(object)
+  }
+
   onSubmit(){
     if (!this.supportForm.valid) {
       this.apiCall.showToast('Please Fill the mandatory field', 'Error', 'errorToastr')
       return false;
     }
 
+
+    // var params = {
+    //   url: 'admin/addSupport',
+    //   data: this.supportForm.value
+    // }
+
     var params = {
-      url: 'admin/addSupport',
+      url: 'admin/addSupportNew ',
       data: this.supportForm.value
     }
+
 
     this.apiCall.commonPostService(params).subscribe(
       (response: any) => {
@@ -136,6 +190,7 @@ export class SupportComponent implements OnInit {
           // this.orderList = response.body.data.orders
           // this.markers = response.body.data.orders
           this.supportForm.reset();
+          $('#add_driv_btn').modal('hide');
           this.apiCall.showToast(response.body.message, 'Success', 'successToastr')
           // this.apiCall.showToast(response.body.message, 'Error', 'errorToastr')
         } else {
@@ -148,13 +203,65 @@ export class SupportComponent implements OnInit {
         console.log('Error', error)
       }
     )
-    // console.log(this.supportForm.value)
+  }
+
+  onSubmit1(){
+    if (!this.addcatName.valid) {
+      this.apiCall.showToast('Please Fill the mandatory field', 'Error', 'errorToastr')
+      return false;
+    }
+    var params = {
+      url: 'admin/addSupportCategory ',
+      data: this.addcatName.value
+    }
+
+
+    this.apiCall.commonPostService(params).subscribe(
+      (response: any) => {
+        // console.log(response.body)
+        if (response.body.error === 'false') {
+          // Success
+          this.addcatName.reset();
+          $('#add_tick_btn').modal('hide');
+          this.apiCall.showToast(response.body.message, 'Success', 'successToastr')
+          // this.apiCall.showToast(response.body.message, 'Error', 'errorToastr')
+        } else {
+          // Query Error
+          this.apiCall.showToast(response.body.message, 'Error', 'errorToastr')
+        }
+      },
+      (error) => {
+        this.apiCall.showToast('Server Error !!', 'Oops', 'errorToastr')
+        console.log('Error', error)
+      }
+    )
   }
 
   nextPage(page){
-    const object = { pageNumber: page}
+    const object = { pageNumber: page,category: this.cateList,status: this.supportStatus }
     this.getSupportList(object)
   }
+
+  onChangeFilter(id,status){
+    const data = {id: id, status: status }
+
+    var params = 
+    {
+      url: 'admin/updateSupportStatus',
+      data: data,  
+    }
+ 
+    this.apiCall.commonPostService(params).subscribe((response:any)=>{
+      if(response.body.error=="false")
+      {
+        this.apiCall.showToast(response.body.message, 'Success', 'successToastr')
+       }
+       else{
+        this.apiCall.showToast(response.body.message, 'Error', 'errorToastr')
+       }
+   });
+  }
+
 
   exportList(event : any){
     const object = { pageNumber: this.page}
@@ -223,5 +330,7 @@ export class SupportComponent implements OnInit {
   
       }
     }
+
+    
 
 }

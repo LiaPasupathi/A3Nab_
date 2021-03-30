@@ -6,42 +6,35 @@
 <section class="custom_head">
 <div class="container-fluid">
 <div class="row">
-<div class="col-md-9">
-<!-- <ul>
+<div class="col-md-6">
+<ul>
 <li>
 <div class="form-group">
-<select>
-<option>Select Category</option>
+<select (change)="onFilterChange($event.target.value, 'Category')">
+<option value="ALL">Select Category</option>
+<option *ngFor="let item of catList" value="{{item.categoryName}}">{{item.categoryName}}</option>
 </select>
 </div>
 </li>
 <li>
 <div class="form-group">
-<select>
-<option>Select Subcategory</option>
+<select (change)="onFilterChange($event.target.value, 'Status')">
+<option value="NONE">All</option>
+<option value="RESOLVED">Resolved</option>
+<option value="PROGRESS">Pending</option>
+<option value="ESCALATE">Escalted</option>   
 </select>
 </div>
 </li>
-<li>
-<div class="form-group">
-<select>
-<option>Select Sub-Subcategory</option>
-</select>
+</ul>
 </div>
-</li>
-<li>
-<div class="form-group">
-<select>
-<option>Status</option>
-</select>
-</div>
-</li>
-</ul> -->
-</div>
-<div class="col-md-3 right_tick">
+<div class="col-md-6 right_tick">
 <ul>
 <li>
 <button type="button" class="add_tick_btn" data-toggle="modal" data-target="#add_driv_btn">Add Ticket</button>
+</li>
+<li>
+   <button type="button" class="add_tick_btn" data-toggle="modal" data-target="#add_tick_btn">Add Ticket Category</button>
 </li>
 <li>
 <button class="float_cash_btn"  (click) = "exportList($event);">Export XLS</button>
@@ -72,13 +65,13 @@
 <thead>
 <tr>
 <th>Date & Time</th>
-<!-- <th>User</th> -->
+<th>User</th>
 <th>Support ID</th>
 <th>Customer ID</th>
 <th>Order ID</th>
 <th>Store ID</th>
-<th>Driver Name</th>
-<!-- <th>Category</th> -->
+<th>Driver ID</th>
+<th>Category</th>
 <th class="text-center">Status</th>
 <!-- <th class="text-center">Action</th> -->
 <th>Note</th>
@@ -86,8 +79,8 @@
 </thead>
 <tbody>
 <tr *ngFor="let item of supportList;let i = index" >
-<td>{{item.createdDate}}</td>
-<!-- <td>Driver</td> -->
+<td>{{item.createdDate}} - {{item.time}}</td>
+<td>{{item.appUser}}</td>
 <td><span class="red_color">{{item.supportID}}</span></td>
 <td><span class="red_color"><a routerLink="/customer/{{ item.userId }}">{{item.customerID}}</a></span></td>
 <td><span class="red_color"><a routerLink="/order-details/{{ item.orderId }}">{{item.orderIDs}}</a></span></td>
@@ -95,11 +88,23 @@
    <span *ngFor="let st of item.store;let i = index" class="red_color"><a routerLink="/view-store/{{ st.storeId }}">{{st.storeID}}</a></span><br>
    <!-- <span class="red_color">#Store2_ID</span> -->
 </td>
-<td><span class="red_color">{{item.driverName}}</span></td>
-<!-- <td>Failed Order</td> -->
+<td><span class="red_color">{{item.drId}}</span></td>
+<td>{{item.category}}</td>
 <td class="text-center">
-   <select class="reject_btn">
+   <select class="reject_btn" *ngIf="item.status == 'ESCALATE'" (change)="onChangeFilter(item.id,$event.target.value)">
       <option>{{item.status}}</option>
+      <option>PROGRESS</option>
+      <option>RESOLVED</option>
+   </select>
+   <select class="accep_btn" *ngIf="item.status == 'RESOLVED'" (change)="onChangeFilter(item.id,$event.target.value)">
+      <option>{{item.status}}</option>
+      <option>PROGRESS</option>
+      <option>ESCALATE</option>
+   </select>
+   <select class="pend_btn" *ngIf="item.status == 'PROGRESS'" (change)="onChangeFilter(item.id,$event.target.value)">
+      <option>{{item.status}}</option>
+      <option>ESCALATE</option>
+      <option>RESOLVED</option>
    </select>
 </td>
 <!-- <td class="text-center"><span class="whatsapp_btn">Whatsapp</span></td> -->
@@ -133,37 +138,65 @@
 </div>
 <div class="modal-body">
 <form [formGroup]="supportForm" (ngSubmit)="onSubmit()" class="tick_form">
-<div class="row">
-<div class="col-md-12">
-<div class="form-group">
-<label>#Order_ID</label>
-<input type="text" (input)="searchSuggestion($event.target.value)" maxlength="4"  class="form-control">
-</div>
-</div>
-</div>
+   <div class="row">
+      <div class="col-md-6">
+      <div class="form-group">
+      <label>Select User</label>
+     <select formControlName="appUser">
+        <option value="Customer">Customer</option>
+        <option value="Driver">Driver</option>
+        <option value="Store Manager">Store Manager</option>
+     </select>
+      </div>
+      </div>
+      <div class="col-md-6">
+         <div class="form-group">
+            <label>#Order_ID</label>
+            <input type="text" (input)="searchSuggestion($event.target.value)" maxlength="4"  class="form-control">
+            </div>
+      </div>
+   </div>
+   <div class="row">
+      <div class="col-md-12">
+         <div class="form-group">
+         <label>Select Category</label><br>
+        <select formControlName="category">
+           <option *ngFor="let item of catList" value="{{item.categoryName}}">{{item.categoryName}}</option>
+        </select>
+         </div>
+         </div>
+      </div>
 
-<div class="row">
+<!-- <div class="row">
 <div class="col-md-6">
 <div class="form-group">
-<label>Customer Phone Number</label>
-<input type="text" formControlName="mobileNumber" class="form-control">
+<label>Customer Id</label>
+<input type="text" formControlName="userId" class="form-control">
 </div>
 </div>
 <div class="col-md-6">
 <div class="form-group">
-<label>Customer Phone Name</label>
-<input type="text" formControlName="name" class="form-control">
+<label>Store Id</label>
+<input type="text" formControlName="store_id" class="form-control">
 </div>
 </div>
-</div>
-<div class="row">
-<div class="col-md-12"> 
+</div> -->
+<!-- <div class="row">
+<div class="col-md-6"> 
 <div class="form-group">
-<label>Notes</label>
-<input type="text" formControlName="notes"  class="form-control">
+<label>Driver Id</label>
+<input type="text" formControlName="driver_id"  class="form-control">
 </div>
 </div>
-</div>
+</div> -->
+<div class="row">
+   <div class="col-md-12"> 
+   <div class="form-group">
+   <label>Notes</label>
+   <input type="text" formControlName="notes"  class="form-control">
+   </div>
+   </div>
+   </div>
 <div class="add_tick_sec">
 <p class="text-center">
 <button class="add_car_btn">Add Ticket</button>
@@ -176,3 +209,40 @@
 </div>
 <!-- modal-dialog -->
 </div>
+</section>
+
+<div class="modal right fade" id="add_tick_btn" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+   <div class="modal-dialog" role="document">
+   <div class="modal-content">
+   <div class="modal-header">
+   <div class="row">
+   <div class="col-md-12">
+   <ul>
+   <li><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></li>
+   </ul>
+   </div>
+   </div>
+   </div>
+   <div class="modal-body">
+   <form [formGroup]="addcatName" (ngSubmit)="onSubmit1()" class="tick_form">
+      <div class="row">
+         <div class="col-md-12">
+            <div class="form-group">
+               <label>Category Name</label>
+               <input type="text" formControlName ="categoryName" class="form-control">
+               </div>
+         </div>
+      </div>
+   
+   <div class="add_tick_sec">
+   <p class="text-center">
+   <button class="add_car_btn">Add Category</button>
+   </p>
+   </div>
+   </form>
+   </div>
+   </div>
+   <!-- modal-content -->
+   </div>
+   <!-- modal-dialog -->
+   </div>

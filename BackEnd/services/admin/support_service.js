@@ -53,6 +53,58 @@ module.exports = function () {
     callback(response)
   }
 
+  this.addSupportNewService = async (request, callback) => {
+    try {
+      var response = {}
+      var supportObject = new supportDao()
+      var ObjectData = {}
+      ObjectData.appUser = request.appUser
+      ObjectData.supportID = '#ID'+Math.floor(1000 + Math.random() * 9000)
+      ObjectData.category = request.category
+      ObjectData.userId = request.userId
+      ObjectData.orderId = request.orderId
+      ObjectData.store_id = request.store_id
+      ObjectData.driver_id = request.driver_id
+      ObjectData.notes = request.notes
+      ObjectData.status = 'PROGRESS'
+      var order = await supportObject.saveSupportNewDao(ObjectData)
+      if (order.error) {
+        response.error = true
+        response.message = 'OOPS DAO Exception'
+      } else {
+        response.error = 'false'
+        response.message = 'Success'
+      }
+    } catch (e) {
+      console.log(e)
+      response.error = 'true'
+      response.message = 'Oops'
+    }
+    callback(response)
+  }
+
+  this.addSupportCategoryService = async (request, callback) => {
+    try {
+      var response = {}
+      var supportObject = new supportDao()
+      var ObjectData = {}
+      ObjectData.categoryName = request.categoryName
+      var order = await supportObject.saveSupportCategoryDao(ObjectData)
+      if (order.error) {
+        response.error = true
+        response.message = 'OOPS DAO Exception'
+      } else {
+        response.error = 'false'
+        response.message = 'Success'
+      }
+    } catch (e) {
+      console.log(e)
+      response.error = 'true'
+      response.message = 'Oops'
+    }
+    callback(response)
+  }
+
   this.getSupportListService = async (request, callback) => {
     try {
       var response = {}
@@ -70,7 +122,7 @@ module.exports = function () {
       } else {
         if (getSupport.data.length > 0) {
           request.queryType = 'LIST'
-          request.pageCount = 20
+          request.pageCount = 10
           var supportResult = await supportObject.getSupportListDao(request)
           if (supportResult.error) {
             response.error = true
@@ -78,7 +130,7 @@ module.exports = function () {
           } else {
             var supportList = supportResult.data
             var length = supportList.length
-
+         
             if (length > 0) {
               async.eachOfSeries(supportList, async function (item, index) {
                 var obj = { orderId: item.orderId }
@@ -119,6 +171,28 @@ module.exports = function () {
       callback(response)
     }
   }
+
+  this.getSupportCategoryService = async (request, callback) => {
+    var response = {}
+    try {
+      var supportObject = new supportDao()
+      var results = await supportObject.getSupportCategoryDao(request)
+      if (results.error) {
+        response.error = true
+        response.message = 'OOPS DAO Exception'
+      } else {
+        response.error = false
+        response.message = 'Success'
+        response.data = results.data
+      }
+    } catch (e) {
+      response.error = true
+      response.message = 'Oops'
+    }
+    callback(response)
+  }
+
+
 
   this.updateSupportStatusService = async (request, callback) => {
     try {

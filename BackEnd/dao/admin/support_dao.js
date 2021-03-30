@@ -5,8 +5,10 @@ module.exports = function () {
     return new Promise(async function (resolve) {
       var response = {}
       db('orders')
-        .select('orders.id', 'firstName', 'mobileNumber', 'userId')
+        .select('orders.id','orders.as_driverId', 'firstName', 'userId', 'orderItems.storeId')
         .innerJoin('users', 'orders.userId', '=', 'users.id')
+        .innerJoin('orderItems', 'orders.id', '=', 'orderItems.orderId')
+        .innerJoin('store', 'orderItems.storeId', '=', 'store.id')
         .whereRaw('( orderIDs LIKE  "%' + id + '%" )')
         .then((result) => {
           response.error = false
@@ -26,6 +28,63 @@ module.exports = function () {
       var response = {}
       db('support')
         .insert(data)
+        .then((result) => {
+          response.error = false
+          response.data = result
+        })
+        .catch((error) => {
+          console.log(error)
+          response.error = true
+        })
+        .finally(() => {
+          resolve(response)
+        })
+    })
+  }
+
+  this.saveSupportNewDao = (data) => {
+    return new Promise(async function (resolve) {
+      var response = {}
+      db('support')
+        .insert(data)
+        .then((result) => {
+          response.error = false
+          response.data = result
+        })
+        .catch((error) => {
+          console.log(error)
+          response.error = true
+        })
+        .finally(() => {
+          resolve(response)
+        })
+    })
+  }
+
+  this.saveSupportCategoryDao = (data) => {
+    return new Promise(async function (resolve) {
+      var response = {}
+      db('supportCategory')
+        .insert(data)
+        .then((result) => {
+          response.error = false
+          response.data = result
+        })
+        .catch((error) => {
+          console.log(error)
+          response.error = true
+        })
+        .finally(() => {
+          resolve(response)
+        })
+    })
+  }
+
+  this.getSupportCategoryDao = (data) => {
+    return new Promise(async function (resolve) {
+      var response = {}
+      db('supportCategory')
+        .select('id','categoryName')
         .then((result) => {
           response.error = false
           response.data = result
@@ -73,14 +132,20 @@ module.exports = function () {
         var pageOffset = parseInt(pageNumber * data.pageCount)
       }
       db('support')
-        .select('support.id', 'driver.id as dr_id', 'supportID', 'users.firstName', 'driver.firstName as driverName', 'drId', 'customerID', 'orders.orderIDs', 'support.orderId', 'status', 'notes', 'as_driverId', 'support.userId', db.raw('DATE_FORMAT(support.createdAt, "%d/%m/%Y") AS createdDate'))
+        .select('support.id','support.appUser','support.category', 'driver.id as dr_id', 'supportID', 'users.firstName', 'driver.firstName as driverName', 'drId', 'customerID', 'orders.orderIDs', 'support.orderId', 'status', 'notes', 'as_driverId', 'support.userId', db.raw('DATE_FORMAT(support.createdAt, "%d/%m/%Y") AS createdDate'), db.raw('TIME_FORMAT(support.createdAt, "%r") AS time'))
         .innerJoin('orders', 'support.orderId', 'orders.id')
         .leftJoin('driver', 'orders.as_driverId', 'driver.id')
         .innerJoin('users', 'support.userId', 'users.id')
         .orderBy('support.id', 'desc')
         .modify(function (queryBuilder) {
-          if (data.queryType === 'LIST') {
+          if (data.category !== 'ALL') {
+            queryBuilder.where('support.category', data.category)
+          }
+          if (data.queryType === 'LIST' && data.category === 'ALL'){
             queryBuilder.offset(pageOffset).limit(data.pageCount)
+          }
+          if (data.status != 'NONE') {
+            queryBuilder.where('status', data.status)
           }
         })
         .then((result) => {
