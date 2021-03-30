@@ -30,7 +30,7 @@
 <li *ngIf = "isSubsubcategory">
 <!-- <div class="form-group"> -->
 
-<select  (change)="onChangeCategory($event.target.value, 'subSubCategory')">
+<select  (change)="onChangeCategory($event.target.value, 'subSubCategory', false)">
 <option [selected]="true" value="">Select Sub-Subcategory</option>
 <option *ngFor="let item of subSubCategory;let i = index" value="{{item.id}}" >{{item.productSubCategoryName}}</option>
 </select>
