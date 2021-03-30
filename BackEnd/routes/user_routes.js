@@ -59,7 +59,7 @@ module.exports = function (app, validator) {
   //   })
   // })
 
-  app.post(userPath + '/homeDashboard', app.setting, [
+  app.post(userPath + '/homeDashboard', [
     validator.check('userId').optional({ checkFalsy: true }).isLength({ min: 1, max: 255 }).withMessage('INVALID: $[1], userId'),
     validator.check('lat').trim().exists().isLength({ min: 1, max: 255 }).withMessage('INVALID: $[1], lat'),
     validator.check('lng').trim().exists().isLength({ min: 1, max: 255 }).withMessage('INVALID: $[1], lng'),

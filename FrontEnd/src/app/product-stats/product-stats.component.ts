@@ -49,7 +49,7 @@ export class ProductStatsComponent implements OnInit {
     activeMenu.classList.remove('active');
     const object = { pageNumber: 1 }
     //this.getProductList(object)
-    this.onChangeCategory("", "Category")
+    this.onChangeCategory("", "Category", true)
 
     this.getCatgoryList();
   }
@@ -163,15 +163,18 @@ export class ProductStatsComponent implements OnInit {
     )
   }
 
-  onChangeCategory(id, value){
-    if(value === 'Category'){
-      this.categoryId = id
-      this.productCategoryList(id)
-    } else {
-      this.subSubCategoryId = id
-      const object = { type: 'SUBCATEGORY', id: id }
-      this.getCategoryProductList(object)
+  onChangeCategory(id, value, status){
+    if(!status){
+      if(value === 'Category'){
+        this.categoryId = id
+        this.productCategoryList(id)
+      } else {
+        this.subSubCategoryId = id
+        const object = { type: 'SUBCATEGORY', id: id }
+        this.getCategoryProductList(object)
+      }
     }
+    
     this.statusobject['category'] = this.categoryId;
     this.statusobject['productCategory'] = this.subCategoryId;
     this.statusobject['subSubCategory'] = this.subSubCategoryId

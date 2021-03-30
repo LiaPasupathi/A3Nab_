@@ -58,6 +58,8 @@ export class OffersComponent implements OnInit {
       image: [''],
       offCategoryId: [''],
       offProductId: [''],
+      StartTime: [''],
+      EndTime: ['']
   });
   
   let allcate = {
@@ -110,10 +112,13 @@ async onSubmit()
   if(!image['error'])
   {
     this.addOffers.value['image'] = image['uploadUrl'];
-  this.addOffers.value['status'] = this.addOffers.value['status'] ? "active" : "inactive";
-  this.addOffers.value['trustUser'] = this.addOffers.value['trustUser'] ? "true" : "false";
-  this.addOffers.value['startDate'] = this.datepipe.transform(this.addOffers.value['startDate'], 'yyyy-MM-dd');
-  this.addOffers.value['endDate'] = this.datepipe.transform(this.addOffers.value['endDate'], 'yyyy-MM-dd');
+    this.addOffers.value['status'] = this.addOffers.value['status'] ? "active" : "inactive";
+    this.addOffers.value['trustUser'] = this.addOffers.value['trustUser'] ? "true" : "false";
+    this.addOffers.value['startDate'] = this.datepipe.transform(this.addOffers.value['startDate'], 'yyyy-MM-dd');
+    this.addOffers.value['endDate'] = this.datepipe.transform(this.addOffers.value['endDate'], 'yyyy-MM-dd');
+    this.addOffers.value['StartTime'] = this.addOffers.value['StartTime'];
+    this.addOffers.value['EndTime'] = this.addOffers.value['EndTime'];
+
 
       if(this.isEdit == false)
       {
@@ -183,8 +188,9 @@ this.addOffers   = this.formBuilder.group({
   endDate: [offers['endDate'],  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
   status: [offers['status'], ],
   offCategoryId: [offers['offCategoryId'],  ],
-  offProductId: [offers['offProductId'],  ]
-  
+  offProductId: [offers['offProductId'],  ],
+  StartTime: [offers['StartTime']],
+  EndTime: [offers['EndTime']]
 })
 
 

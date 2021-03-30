@@ -1541,7 +1541,7 @@ module.exports = function (app, validator) {
   })
 
   // Offers
-  app.post(userPath + '/getOfferList', app.auth, [
+  app.post(userPath + '/getOfferList', [
     validator.check('status').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], status')
   ], function (request, response) {
     var lang = request.headers.lang
@@ -1560,7 +1560,7 @@ module.exports = function (app, validator) {
     }
   })
 
-  app.post(userPath + '/addNewOffers', app.auth, [
+  app.post(userPath + '/addNewOffers', [
     validator.check('title').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], title'),
     validator.check('couponCode').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], couponCode'),
     validator.check('image').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], image'),
@@ -1573,7 +1573,10 @@ module.exports = function (app, validator) {
     validator.check('endDate').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], endDate'),
     validator.check('status').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], status'),
     validator.check('offCategoryId').optional({ checkFalsy: true }).isLength({ min: 1 }).withMessage('INVALID: $[1], offCategoryId'),
-    validator.check('offProductId').optional({ checkFalsy: true }).isLength({ min: 1 }).withMessage('INVALID: $[1], offProductId')
+    validator.check('offProductId').optional({ checkFalsy: true }).isLength({ min: 1 }).withMessage('INVALID: $[1], offProductId'),
+    
+    validator.check('StartTime').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], StartTime'),
+    validator.check('EndTime').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], EndTime'),
   ], function (request, response) {
     var lang = request.headers.lang
     var error = validator.validation(request)
