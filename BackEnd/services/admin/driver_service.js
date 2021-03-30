@@ -209,7 +209,6 @@ module.exports = function () {
       var driverDaoObject = new driverDao()
       var driverResult = await driverDaoObject.getDriverListDao(request)
       let driverOrders = await driverDaoObject.getDriverOrderListDao(request)
-
       //GP
       if(driverResult.data.length > 0 && driverOrders.data.length > 0){
         driverResult.data.map((result)=>{
