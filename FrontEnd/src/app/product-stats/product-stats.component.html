@@ -12,7 +12,7 @@
 <!-- <div class="form-group"> -->
 <!-- <label>Select Category</label><br> -->
 <select (change)="onChangeCategory($event.target.value, 'Category', false)">
-<option [selected]="true" value="">Select Category</option>
+<option [selected]="true" value="Empty">Select Category</option>
 <option *ngFor="let item of category;let i = index" value="{{item.id}}" >{{item.categoryName}}</option>
 </select>
 </li>
@@ -23,7 +23,7 @@
 </select> -->
 
 <select (change)="onChangeSubCategory($event.target.value)">
-<option [selected]="true" value="">Select Subcategory</option>
+<option [selected]="true" value="Empty">Select Subcategory</option>
 <option *ngFor="let item of subCategory;let i = index" value="{{item.id}}" >{{item.productCategoryName}}</option>
 </select>
 </li>
@@ -31,7 +31,7 @@
 <!-- <div class="form-group"> -->
 
 <select  (change)="onChangeCategory($event.target.value, 'subSubCategory', false)">
-<option [selected]="true" value="">Select Sub-Subcategory</option>
+<option [selected]="true" value="Empty">Select Sub-Subcategory</option>
 <option *ngFor="let item of subSubCategory;let i = index" value="{{item.id}}" >{{item.productSubCategoryName}}</option>
 </select>
 <!-- <select>

@@ -48,8 +48,8 @@ export class ProductStatsComponent implements OnInit {
     const activeMenu = document.getElementById('orders');
     activeMenu.classList.remove('active');
     const object = { pageNumber: 1 }
-    //this.getProductList(object)
-    this.onChangeCategory("", "Category", true)
+    this.getProductList(object)
+    //this.onChangeCategory("", "Category", true)
 
     this.getCatgoryList();
   }
@@ -70,7 +70,7 @@ export class ProductStatsComponent implements OnInit {
   }
 
   pageReload(){
-    this.ngOnInit()
+    location.reload()
   }
 
   ChnageCategoryStatus(statusVal, value, id){
@@ -179,7 +179,9 @@ export class ProductStatsComponent implements OnInit {
     this.statusobject['productCategory'] = this.subCategoryId;
     this.statusobject['subSubCategory'] = this.subSubCategoryId
     this.statusobject['productId'] = this.productId
-    this.callProductFilter(this.statusobject)
+    if(id != "Empty"){
+      this.callProductFilter(this.statusobject)
+    }
   }
 
   getCategoryProductList(object){
@@ -232,7 +234,7 @@ export class ProductStatsComponent implements OnInit {
     this.apiCall.commonPostService(params).subscribe(
       (response: any) => {
         if (response.body.error == 'false') {
-          this.pages = response.body.pages * 10;
+          this.pages = response.body.pages * 20;
           this.productsList = response.body.products
           // console.log(response.body)
           if(response.body.products.length > 0){
@@ -290,9 +292,9 @@ export class ProductStatsComponent implements OnInit {
     this.apiCall.commonPostService(params).subscribe(
       (response: any) => {
         if (response.body.error == 'false') {
-          this.pages = response.body.pages * 10;
+          this.pages = response.body.pages * 20;
           this.productsList = response.body.products
-          // console.log(response.body)
+          //console.log(response.body)
         } else {
           this.apiCall.showToast(response.body.message, 'Error', 'errorToastr')
         }

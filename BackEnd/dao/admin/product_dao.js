@@ -116,18 +116,17 @@ module.exports = function () {
               // Category and subcategory
               queryBuilder.where({ 'product.productCategoryId': data.productCategory })
               if(data.category && data.productCategory && data.productId) {
-                queryBuilder.where({ 'product.categoryId': data.category, 'product.productCategoryId': data.productCategory, 'product.id': data.productId })
+                queryBuilder.where({ 'product.categoryId': data.category, 
+                'product.productCategoryId': data.productCategory, 
+                'product.id': data.productId })
               }
 
-              if(data.category && data.productCategory && data.subSubCategory && data.productId) { 
-                queryBuilder.where({ 'product.categoryId': data.category, 'product.productCategoryId': data.productCategory, 'product.productSubCategoryId': data.subSubCategory, 'product.id': data.productId })
-                
+              if(data.category && data.productCategory && data.subSubCategory) { 
+                queryBuilder.where({ 
+                  'product.categoryId': data.category, 
+                'product.productCategoryId': data.productCategory, 
+                'product.productSubCategoryId': data.subSubCategory,})
               }
-
-             
-
-
-              
             }
           }
         })
