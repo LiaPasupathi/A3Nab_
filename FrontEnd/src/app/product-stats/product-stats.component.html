@@ -59,7 +59,7 @@
 <li>
 <a (click)="pageReload()" ><i class="fa fa-refresh"></i></a >
 </li>
-<li>
+<li *ngIf = "showExport == 'true'">
     <button class="float_cash_btn"  (click) = "exportList($event);">Export XLS</button>
 </li>
 </ul>

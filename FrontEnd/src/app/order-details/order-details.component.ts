@@ -43,6 +43,8 @@ export class OrderDetailsComponent implements OnInit {
 
   showMap = false;
   zoom: number = 5;
+
+  showAccept = 'true';
   
     // initial center position for the map
     lat: number = 10.616698;
@@ -67,6 +69,16 @@ export class OrderDetailsComponent implements OnInit {
     this.route.params.subscribe(params => this.orderId = params.id);
     // console.log(this.orderId)
     this.getOrderDetails(this.orderId)
+    this.callRolePermission()
+  }
+
+  callRolePermission(){
+    if(sessionStorage.getItem('adminRole') !== 'superadmin'){
+      let orderpermission = JSON.parse(sessionStorage.getItem('permission'))
+      // console.log(orderpermission[0].readOpt)
+      this.showAccept = orderpermission[0].writeOpt
+      console.log(">>>", this.showAccept)
+    }
   }
 
   getOrderDetails(id){

@@ -22,10 +22,10 @@ Map View &nbsp;&nbsp;
 <li>
 <i class="fa fa-refresh"></i>
 </li>
-<li>
+<li *ngIf = "showExport == 'true'">
   <button class="float_cash_btn"  (click) = "exportList($event);">Export XLS</button>
 </li>
-<li>
+<li *ngIf = "showAccept == 'true'">
 <button type="button" class="float_cash_btn" data-toggle="modal" (click)="openAddStore()" data-target="#add_store_btn">Add Store</button>
 </li>
 </ul>
@@ -82,7 +82,7 @@ Map View &nbsp;&nbsp;
 <th>Activity</th>
 <th>Phone No.</th>
 <th>Store Address</th>
-<th>Action</th>
+<th *ngIf = "showAccept == 'true'">Action</th>
 </tr>
 </thead>
 <tbody>
@@ -108,7 +108,7 @@ Map View &nbsp;&nbsp;
 </td>
 <td>{{item.mobileNumber}}</td>
 <td>{{item.storeAddress}}</td>
-<td><button (click)="deleteStore(item.id)" class="save_btn">Delete</button></td>
+<td *ngIf = "showAccept == 'true'"><button (click)="deleteStore(item.id)" class="save_btn">Delete</button></td>
 </tr>
 </tbody>
 </table>

@@ -37,6 +37,8 @@ export class ProductStatsComponent implements OnInit {
   statusobject = {}
   bsValue: Date = new Date();
   productcsvOption : any;
+showExport = 'true';
+
   
   constructor(
     private apiCall: ApiCallService,
@@ -52,6 +54,16 @@ export class ProductStatsComponent implements OnInit {
     //this.onChangeCategory("", "Category", true)
 
     this.getCatgoryList();
+    this.callRolePermission();
+
+  }
+
+  callRolePermission(){
+    if(sessionStorage.getItem('adminRole') !== 'superadmin'){
+      let orderpermission = JSON.parse(sessionStorage.getItem('permission'))
+      this.showExport = orderpermission[2].exportOpt
+
+    }
   }
 
   valuefrom(event: any) {

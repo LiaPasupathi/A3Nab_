@@ -30,6 +30,7 @@ export class OffersComponent implements OnInit {
    imagePreview = null;
    fileUpload: any;
    submitted = false;
+   showAccept = 'true';
 
   list_offers: any = [];
   constructor(
@@ -77,7 +78,15 @@ export class OffersComponent implements OnInit {
   },(error)=>{
      console.error(error);
   });
+  this.callRolePermission();
+}
 
+callRolePermission(){
+  if(sessionStorage.getItem('adminRole') !== 'superadmin'){
+    let orderpermission = JSON.parse(sessionStorage.getItem('permission'))
+    this.showAccept = orderpermission[5].writeOpt
+
+  }
 }
 
 

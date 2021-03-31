@@ -14,6 +14,7 @@ export class GeneralComponent implements OnInit {
   submitted = false;
   getlinks: any = {};
   quickDelivery: any = false;
+  showAccept = 'true';
 
   constructor(private formBuilder: FormBuilder,
     private apiCall: ApiCallService
@@ -56,7 +57,15 @@ export class GeneralComponent implements OnInit {
     },(error)=>{
        console.error(error);
     });
+    this.callRolePermission();
+  }
 
+  callRolePermission(){
+    if(sessionStorage.getItem('adminRole') !== 'superadmin'){
+      let settingpermission = JSON.parse(sessionStorage.getItem('permission'))
+      this.showAccept = settingpermission[7].writeOpt
+  
+    }
   }
 onlinks()
   {

@@ -26,7 +26,8 @@ export class SupportComponent implements OnInit {
   supportStatus = 'NONE';
   supportcsvOption : any;
   catList : any;
-
+  showExport = 'true';
+  showAccept = 'true';
 
   constructor(
     private apiCall: ApiCallService,
@@ -73,7 +74,16 @@ export class SupportComponent implements OnInit {
        console.error(error);
        
     });
+    this.callRolePermission();
 
+  }
+
+  callRolePermission(){
+    if(sessionStorage.getItem('adminRole') !== 'superadmin'){
+      let orderpermission = JSON.parse(sessionStorage.getItem('permission'))
+      this.showAccept = orderpermission[4].writeOpt
+      this.showExport = orderpermission[4].exportOpt
+    }
   }
 
   getSupportList(object){

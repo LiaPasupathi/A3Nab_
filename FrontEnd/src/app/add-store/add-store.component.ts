@@ -378,7 +378,8 @@ async upload_btn_file(){
     // this.billObject['document'] = image['uploadUrl']
     // console.log(this.billObject)
 
-    const uploadObject = { storeId: this.billObject['storeId'], fromDate: this.billObject['from'], toDate: this.billObject['to'], paidStatus: this.billObject['isPaid'], document: image['uploadUrl'] }
+    const uploadObject = { id: this.billObject['storeId'],  document: image['uploadUrl'] }
+    console.log(">>>>",uploadObject)
 
     var params = {
       url: 'admin/uploadStoreBillingCyle',

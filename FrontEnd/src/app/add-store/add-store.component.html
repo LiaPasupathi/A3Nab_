@@ -356,25 +356,22 @@
 <th>Due Period</th>
 <th>Amount</th>
 <th>Status</th>
-<th class="text-center">Action</th>
-<th class="text-center">Bill</th>
+<th>Action</th>
+<th>Bill</th>
 </tr>
 </thead>
 <tbody>
 <tr *ngFor="let item of storeDue;let i = index">
-<td> {{item.from |  date: "dd/MM/yyy"}}  -  {{item.to |  date: "dd/MM/yyy"}}  </td>
-<td class="amt">SAR {{item.amount}}</td>
-<td *ngIf = "item.isPaid === 0"  class="pend">Pending</td>
-<td *ngIf = "item.isPaid === 1"  class="paid">Paid</td>
-<td class="text-center">
-<span *ngIf = "item.isPaid === 0" class="mark_pai">Mark Paid</span>
-<span *ngIf = "item.isPaid === 1" class="view_inv">View Invoice</span>
-</td>
+<td class="amt"> {{item.fromDate}}  -  {{item.toDate}}  </td>
+<td class="amt">SAR {{item.paidAmount}}</td>
+<td *ngIf = "item.status === 'PAID'"  class="paid">Paid</td>
+<td *ngIf = "item.status !== 'PAID' "  class="pend">Pending</td>
 <td>
-
-<input id="file-input" type="file" (change)="uploadBillFile($event, item)" />
-
+<span *ngIf = "item.status !== 'PAID'" ><input id="file-input" type="file" (change)="uploadBillFile($event, item)" /></span>
+<a href="{{item.document}}" target="_blank"><span *ngIf = "item.status === 'PAID'" class="view_inv">View Invoice</span></a>
 </td>
+<td class="amt">{{item.document}}</td>
+
 </tr>
 
 </tbody>

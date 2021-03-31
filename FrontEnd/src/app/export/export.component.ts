@@ -20,7 +20,8 @@ export class ExportComponent implements OnInit {
   ordercsvOption : any;
   productcsvOption : any;
   supportcsvOption : any;
-
+  showExport = 'true';
+ 
   // data: any = [
   //   {
   //     eid: "e101",
@@ -56,6 +57,17 @@ export class ExportComponent implements OnInit {
       support: [false,  [ Validators.required]],
       vendor: [false,  [ Validators.required]],
     })
+
+  this.callRolePermission();
+
+  }
+
+  callRolePermission(){
+    if(sessionStorage.getItem('adminRole') !== 'superadmin'){
+      let orderpermission = JSON.parse(sessionStorage.getItem('permission'))
+      this.showExport = orderpermission[6].writeOpt
+  
+    }
   }
 
   onSubmit(){

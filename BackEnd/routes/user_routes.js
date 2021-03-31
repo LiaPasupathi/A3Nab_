@@ -59,11 +59,10 @@ module.exports = function (app, validator) {
   //   })
   // })
 
-  app.post(userPath + '/homeDashboard', [
+  app.post(userPath + '/homeDashboard', app.setting, [
     validator.check('userId').optional({ checkFalsy: true }).isLength({ min: 1, max: 255 }).withMessage('INVALID: $[1], userId'),
     validator.check('lat').trim().exists().isLength({ min: 1, max: 255 }).withMessage('INVALID: $[1], lat'),
     validator.check('lng').trim().exists().isLength({ min: 1, max: 255 }).withMessage('INVALID: $[1], lng'),
-    validator.check('currentAddress').trim().exists().isLength({ min: 1, max: 255 }).withMessage('INVALID: $[1], currentAddress'),
   ], function (request, response) {
     var lang = request.headers.lang
     var error = validator.validation(request)
@@ -81,6 +80,7 @@ module.exports = function (app, validator) {
       })
     }
   })
+
 
   /* app.get(userPath + '/homeDashboard',app.auth, function (request, response) {
     var lang = request.headers.lang

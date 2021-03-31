@@ -176,6 +176,7 @@ module.exports = function () {
     return new Promise(async function (resolve) {
       db('roles')
         .select('id', 'roleName')
+        .whereNotIn('id', [5])
         .then((result) => {
           response.error = false
           response.result = result

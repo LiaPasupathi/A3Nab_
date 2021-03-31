@@ -10,7 +10,8 @@ import { ApiCallService } from '../services/api-call.service';
 export class SettingsComponent implements OnInit {
   radiusForm: FormGroup;
   submitted = false;
-
+  showAccept = 'true';
+ 
   constructor(
     private formBuilder: FormBuilder,
     private apiCall: ApiCallService
@@ -22,6 +23,16 @@ export class SettingsComponent implements OnInit {
     });
 
     // this.getSettings()
+    this.callRolePermission();
+
+  }
+
+  callRolePermission(){
+    if(sessionStorage.getItem('adminRole') !== 'superadmin'){
+      let settingpermission = JSON.parse(sessionStorage.getItem('permission'))
+      this.showAccept = settingpermission[7].writeOpt
+  
+    }
   }
 
   getSettings(){

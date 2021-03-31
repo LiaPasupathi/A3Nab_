@@ -32,6 +32,9 @@ export class MakeassignmentComponent implements OnInit {
 
   markers: marker[] = []
   zoom: number = 5;
+
+  showAccept = 'true';
+
   previous;
   constructor(
     private apiCall: ApiCallService,
@@ -42,6 +45,16 @@ export class MakeassignmentComponent implements OnInit {
   ngOnInit(): void {
     this.assignOrderList()
     this.getDriverList()
+    this.callRolePermission()
+  }
+
+  callRolePermission(){
+    if(sessionStorage.getItem('adminRole') !== 'superadmin'){
+      let orderpermission = JSON.parse(sessionStorage.getItem('permission'))
+      // console.log(orderpermission[0].readOpt)
+      this.showAccept = orderpermission[1].writeOpt
+      // console.log(">>>", this.showAccept)
+    }
   }
 
   getSelection(item) {

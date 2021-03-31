@@ -34,6 +34,7 @@ export class DeliveryComponent implements OnInit {
      zoom: number = 5;
      showMap = false;
      previous;
+     showAccept = 'true';
   
      // initial center position for the map
      lat: number = 10.616698;
@@ -90,6 +91,16 @@ export class DeliveryComponent implements OnInit {
         this.apiCall.showToast(res.message, 'Error', 'errorToastr')
       }
     });
+    this.callRolePermission();
+  }
+
+
+  callRolePermission(){
+    if(sessionStorage.getItem('adminRole') !== 'superadmin'){
+      let settingpermission = JSON.parse(sessionStorage.getItem('permission'))
+      this.showAccept = settingpermission[7].writeOpt
+  
+    }
   }
 
   onSubmit(){

@@ -16,7 +16,7 @@
 <tr class="text-center" *ngFor="let items of item.slot;let ii = index">
 {{items.fromTime}} - {{items.toTime}}<br>
 <span>Max Order : {{items.maxOrder}}</span>
-<ul class="timeslot_edit">
+<ul class="timeslot_edit" *ngIf = "showAccept == 'true'">
 <li>
 <button type="button" class="add_bnnt" (click)="editTimeSlot(items,item.dayName)"><img src="assets/img/edit_icon.svg" onmouseover="this.src='assets/img/edit_hover_icon.svg'" onmouseout="this.src='assets/img/edit_icon.svg'"></button>
 </li>
@@ -31,49 +31,49 @@
 <tr class="add_time_secc">
 <td class="text-center">
 <ul class="new_time_sec">
-<li class="text-center">
+<li class="text-center" *ngIf = "showAccept == 'true'">
 <button type="button" class="add_bnnt" data-toggle="modal" (click)="openAddTimeslot()" data-target="#add_time_slot_btn"><img src="assets/img/plus.svg" onmouseover="this.src='assets/img/plus_hover_icon.svg'" onmouseout="this.src='assets/img/plus.svg'"></button>
 </li>
 </ul>
 </td>
 <td class="text-center">
 <ul class="new_time_sec">
-<li class="text-center">
+<li class="text-center" *ngIf = "showAccept == 'true'">
 <button type="button" class="add_bnnt" data-toggle="modal" (click)="openAddTimeslot()" data-target="#add_time_slot_btn"><img src="assets/img/plus.svg" onmouseover="this.src='assets/img/plus_hover_icon.svg'" onmouseout="this.src='assets/img/plus.svg'"></button>
 </li>
 </ul>
 </td>
 <td class="text-center">
 <ul class="new_time_sec">
-<li class="text-center">
+<li class="text-center" *ngIf = "showAccept == 'true'">
 <button type="button" class="add_bnnt" data-toggle="modal" (click)="openAddTimeslot()" data-target="#add_time_slot_btn"><img src="assets/img/plus.svg" onmouseover="this.src='assets/img/plus_hover_icon.svg'" onmouseout="this.src='assets/img/plus.svg'"></button>
 </li>
 </ul>
 </td>
 <td class="text-center">
 <ul class="new_time_sec">
-<li class="text-center">
+<li class="text-center" *ngIf = "showAccept == 'true'">
 <button type="button" class="add_bnnt" data-toggle="modal" (click)="openAddTimeslot()" data-target="#add_time_slot_btn"><img src="assets/img/plus.svg" onmouseover="this.src='assets/img/plus_hover_icon.svg'" onmouseout="this.src='assets/img/plus.svg'"></button>
 </li>
 </ul>
 </td>
 <td class="text-center">
 <ul class="new_time_sec">
-<li class="text-center">
+<li class="text-center" *ngIf = "showAccept == 'true'">
 <button type="button" class="add_bnnt" data-toggle="modal" (click)="openAddTimeslot()" data-target="#add_time_slot_btn"><img src="assets/img/plus.svg" onmouseover="this.src='assets/img/plus_hover_icon.svg'" onmouseout="this.src='assets/img/plus.svg'"></button>
 </li>
 </ul>
 </td>
 <td class="text-center">
 <ul class="new_time_sec">
-<li class="text-center">
+<li class="text-center" *ngIf = "showAccept == 'true'">
 <button type="button" class="add_bnnt" data-toggle="modal" (click)="openAddTimeslot()" data-target="#add_time_slot_btn"><img src="assets/img/plus.svg" onmouseover="this.src='assets/img/plus_hover_icon.svg'" onmouseout="this.src='assets/img/plus.svg'"></button>
 </li>
 </ul>
 </td>
 <td class="text-center">
 <ul class="new_time_sec">
-<li class="text-center">
+<li class="text-center" *ngIf = "showAccept == 'true'">
 <button type="button" class="add_bnnt" data-toggle="modal" (click)="openAddTimeslot()" data-target="#add_time_slot_btn"><img src="assets/img/plus.svg" onmouseover="this.src='assets/img/plus_hover_icon.svg'" onmouseout="this.src='assets/img/plus.svg'"></button>
 </li>
 </ul>
@@ -160,7 +160,7 @@
 <input type="text" class="form-control" formControlName="QuickDeliveryPerKM">
 </div>
 </div>
-<div class="save_btn_sec">
+<div class="save_btn_sec" *ngIf = "showAccept == 'true'">
 <p class="text-center"><button class="mod_save_btn">Save</button></p>
 </div>
 </form>

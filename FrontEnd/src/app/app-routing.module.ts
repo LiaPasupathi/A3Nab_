@@ -23,6 +23,7 @@ import { FeedbackComponent } from './feedback/feedback.component';
 import { RequestComponent } from './request/request.component';
 import { OffersComponent } from './offers/offers.component';
 import { ExportComponent  } from './export/export.component';
+import { RoleGuardService } from './auth/role-guard.service';
 import { from } from 'rxjs';
 
 
@@ -37,25 +38,25 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       { path: 'dashboard', component: DashboardComponent,  canActivate: [AuthGuard] },
-      { path: 'products', component: ProductsComponent,  canActivate: [AuthGuard] },
-      { path: 'store', component: StoresComponent,  canActivate: [AuthGuard] },
-      { path: 'view-store/:id', component: AddStoreComponent,  canActivate: [AuthGuard] },
-      { path: 'customer', component: CustomerComponent,  canActivate: [AuthGuard] },
-      { path: 'customer/:id', component: CustomerComponent,  canActivate: [AuthGuard] },
-      { path: 'product-stats', component: ProductStatsComponent,  canActivate: [AuthGuard] },
-      { path: 'orders', component: OrdersComponent,  canActivate: [AuthGuard] },
-      { path: 'drivers', component: DriversComponent,  canActivate: [AuthGuard] },
-      { path: 'cars', component: CarsComponent,  canActivate: [AuthGuard] },
-      { path: 'assignment', component: AssignmentComponent,  canActivate: [AuthGuard] },
-      { path: 'settings', component: SettingsComponent,  canActivate: [AuthGuard] },
-      { path: 'order-details/:id', component: OrderDetailsComponent,  canActivate: [AuthGuard] },
-      { path: 'makeassignment', component: MakeassignmentComponent,  canActivate: [AuthGuard] },
-      { path: 'makeassignment/:id', component: MakeassignmentComponent,  canActivate: [AuthGuard] },
-      {path: 'support', component: SupportComponent,  canActivate: [AuthGuard]},
-      {path: 'feedback', component: FeedbackComponent,  canActivate: [AuthGuard]},
-      {path: 'requests', component: RequestComponent,  canActivate: [AuthGuard]},
-      {path: 'offers', component: OffersComponent,  canActivate: [AuthGuard]},
-      {path: 'export', component: ExportComponent,  canActivate: [AuthGuard]},
+      { path: 'products', component: ProductsComponent,  canActivate: [AuthGuard,RoleGuardService],data: { expectedRole: 'Storestrue'} },
+      { path: 'store', component: StoresComponent,  canActivate: [AuthGuard,RoleGuardService],data: { expectedRole: 'Storestrue'} },
+      { path: 'view-store/:id', component: AddStoreComponent,  canActivate: [AuthGuard,RoleGuardService],data: { expectedRole: 'Storestrue'} },
+      { path: 'customer', component: CustomerComponent,  canActivate: [AuthGuard,RoleGuardService],data: { expectedRole: 'Customertrue'} },
+      { path: 'customer/:id', component: CustomerComponent,  canActivate: [AuthGuard,RoleGuardService],data: { expectedRole: 'Customertrue'} },
+      { path: 'product-stats', component: ProductStatsComponent,  canActivate: [AuthGuard,RoleGuardService],data: { expectedRole: 'Storestrue'} },
+      { path: 'orders', component: OrdersComponent,  canActivate: [AuthGuard, RoleGuardService], data: { expectedRole: 'Orderstrue'} },
+      { path: 'drivers', component: DriversComponent,  canActivate: [AuthGuard, RoleGuardService], data: { expectedRole: 'Driverstrue'}},
+      { path: 'cars', component: CarsComponent,  canActivate: [AuthGuard,RoleGuardService],data: { expectedRole: 'Driverstrue'} },
+      { path: 'assignment', component: AssignmentComponent,  canActivate: [AuthGuard,RoleGuardService],data: { expectedRole: 'Driverstrue'} },
+      { path: 'settings', component: SettingsComponent,  canActivate: [AuthGuard,RoleGuardService],data: { expectedRole: 'Settingstrue'} },
+      { path: 'order-details/:id', component: OrderDetailsComponent,  canActivate: [AuthGuard,RoleGuardService], data: { expectedRole: 'Orderstrue'} },
+      { path: 'makeassignment', component: MakeassignmentComponent,  canActivate: [AuthGuard,RoleGuardService],data: { expectedRole: 'Driverstrue'} },
+      { path: 'makeassignment/:id', component: MakeassignmentComponent,  canActivate: [AuthGuard,RoleGuardService],data: { expectedRole: 'Driverstrue'} },
+      {path: 'support', component: SupportComponent,  canActivate: [AuthGuard,RoleGuardService],data: { expectedRole: 'Supporttrue'}},
+      {path: 'feedback', component: FeedbackComponent,  canActivate: [AuthGuard,RoleGuardService],data: { expectedRole: 'Supporttrue'}},
+      {path: 'requests', component: RequestComponent,  canActivate: [AuthGuard,RoleGuardService],data: { expectedRole: 'Supporttrue'}},
+      {path: 'offers', component: OffersComponent,  canActivate: [AuthGuard,RoleGuardService],data: { expectedRole: 'Offerstrue'}},
+      {path: 'export', component: ExportComponent,  canActivate: [AuthGuard,RoleGuardService],data: { expectedRole: 'Exporttrue'}},
     ],
     canActivate: [AuthGuard]
   }

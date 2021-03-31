@@ -30,6 +30,8 @@ export class StoresComponent implements OnInit {
   previous;
   pages: any;
   page : Number =1;
+showAccept = 'true';
+showExport = 'true';
   
   constructor(
     private apiCall: ApiCallService,
@@ -77,6 +79,18 @@ export class StoresComponent implements OnInit {
     //       // this.storeForm.reset();     
     //   }
     // })
+    this.callRolePermission();
+
+  }
+
+  callRolePermission(){
+    if(sessionStorage.getItem('adminRole') !== 'superadmin'){
+      let orderpermission = JSON.parse(sessionStorage.getItem('permission'))
+
+      this.showAccept = orderpermission[2].writeOpt
+      this.showExport = orderpermission[2].exportOpt
+
+    }
   }
 
 

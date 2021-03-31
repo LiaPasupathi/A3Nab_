@@ -22,7 +22,7 @@
     object-fit: contain;
 }
 .modal.right .modal-content{
-    height: 670px;
+    height: 600px;
 }
 @media only screen and (max-width: 1399px) and (min-width: 1000px){
     .modal.right .modal-content{

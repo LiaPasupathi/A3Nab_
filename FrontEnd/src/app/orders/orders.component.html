@@ -132,13 +132,12 @@ Map View &nbsp;&nbsp;
     </div>
 </td>
 
-<td >
+<td>
     <div *ngFor="let store of item.storeList">
         <p *ngIf = "store.storeStatus == 'NOT CONFIRM'" > <span  class="red_color"><a routerLink="/view-store/{{ store.storeId }}">  {{store.storeID}}</a></span><span>  {{store.storeName}}</span><span class="yellow"> Not Confirmed</span></p>
         <p *ngIf = "store.storeStatus == 'ACCEPTED'" > <span class="red_color"><a routerLink="/view-store/{{ store.storeId }}">  {{store.storeID}}</a></span><span>  {{store.storeName}}</span><span class="green"> Accepted</span></p>
         <p *ngIf = "store.storeStatus == 'PICKUP'" > <span class="red_color"><a routerLink="/view-store/{{ store.storeId }}">  {{store.storeID}}</a></span><span>  {{store.storeName}}</span><span class="green"> Pichup</span></p>
         <p *ngIf = "store.storeStatus == 'ONGOING'" > <span class="red_color"><a routerLink="/view-store/{{ store.storeId }}">  {{store.storeID}}</a></span><span>  {{store.storeName}}</span><span class="green"> Ongoing</span></p>
-
         <p *ngIf = "store.storeStatus == 'REJECTED'" ><span class="red_color"><a routerLink="/view-store/{{ store.storeId }}"> {{store.storeID}}</a></span><span> {{store.storeName}}</span><span class="red_color"> Rejected</span></p>
         <!-- <span class="red_color">{{store.storeID}}</span>&nbsp;&nbsp;<span>{{store.storeName}}</span>&nbsp;&nbsp;<span class="yellow">{{store.storeStatus}}</span> -->
     </div>

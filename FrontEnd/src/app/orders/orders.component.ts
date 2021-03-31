@@ -30,6 +30,7 @@ export class OrdersComponent implements OnInit {
 
 
   zoom: number = 5;
+  showAccept = true;
   
   // initial center position for the map
   lat: number = 10.616698;
@@ -72,7 +73,16 @@ export class OrdersComponent implements OnInit {
 
     const object = { pageNumber: 1, orderStatus: 'ALL', deliveryTime: 0, storeStatus: this.storeStatus }
     this.getOrderList(object)
-    this.getTime()
+    this.getTime();
+    this.callRolePermission()
+  }
+
+  callRolePermission(){
+    if(sessionStorage.getItem('adminRole') !== 'superadmin'){
+      let orderpermission = JSON.parse(sessionStorage.getItem('permission'))
+      // console.log(orderpermission[0].read)
+      this.showAccept = orderpermission[0].read
+    }
   }
 
   onchangeMap(values:any){

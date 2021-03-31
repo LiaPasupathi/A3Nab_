@@ -55,6 +55,8 @@ export class CustomerComponent implements OnInit {
 
   markers: marker[] = []
   previous;
+  showExport = 'true';
+showAccept = 'true';
 
   constructor(
     private apiCall: ApiCallService,
@@ -77,6 +79,17 @@ export class CustomerComponent implements OnInit {
       packageValue: [0,  [Validators.required, Validators.pattern("[+-]?([0-9]*[.])?[0-9]+")]],
       id: ['',  [Validators.required, Validators.pattern("[+-]?([0-9]*[.])?[0-9]+")]],
     })
+    
+    this.callRolePermission();
+  }
+
+  callRolePermission(){
+    if(sessionStorage.getItem('adminRole') !== 'superadmin'){
+      let orderpermission = JSON.parse(sessionStorage.getItem('permission'))
+      this.showAccept = orderpermission[3].writeOpt
+      this.showExport = orderpermission[3].exportOpt
+
+    }
   }
 
   dateValue(event: any) {
@@ -101,6 +114,7 @@ export class CustomerComponent implements OnInit {
 
   pageReload(){
     this,this.ngOnInit();
+    window.location.reload();
     this.bsValue = null;
   }
 

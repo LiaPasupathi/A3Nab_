@@ -43,6 +43,8 @@ lng: number = 76.936195;
 markers: marker[] = []
 previous;
 
+showAccept = 'true';
+
   constructor(
     private apiCall: ApiCallService,
     private formBuilder: FormBuilder,
@@ -63,6 +65,16 @@ previous;
     const data = {status: "ALL"}
     this.getCars(data)
     this.assignDriverList();
+    this.callRolePermission();
+  }
+
+  callRolePermission(){
+    if(sessionStorage.getItem('adminRole') !== 'superadmin'){
+      let orderpermission = JSON.parse(sessionStorage.getItem('permission'))
+
+      this.showAccept = orderpermission[1].writeOpt
+
+    }
   }
 
   assignDriverList(){

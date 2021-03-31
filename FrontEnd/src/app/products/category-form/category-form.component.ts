@@ -21,6 +21,8 @@ export class CategoryFormComponent implements OnInit {
   categoryId : number;
 
   isEdit = false;
+showAccept = 'true';
+
 
   constructor(
     private apiCall: ApiCallService,
@@ -63,6 +65,14 @@ export class CategoryFormComponent implements OnInit {
     });
 
     // this.apiCall.showToast("Can't change order status  !!", 'Orders', 'errorToastr')
+    this.callRolePermission();
+  }
+
+  callRolePermission(){
+    if(sessionStorage.getItem('adminRole') !== 'superadmin'){
+      let orderpermission = JSON.parse(sessionStorage.getItem('permission'))
+      this.showAccept = orderpermission[2].writeOpt;
+    }
   }
 
   editCategory(data){

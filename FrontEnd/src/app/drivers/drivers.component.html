@@ -28,10 +28,10 @@ Show Off Duty Drivers &nbsp;&nbsp;
 <li>
 <p>Total Floating Cash : <span>SAR 215.00</span></p>
 </li>
-<li>
+<li *ngIf = "showAccept == 'true'">
 <button type="button" class="float_cash_btn" data-toggle="modal" data-target="#float_cash_btn">Submit Floating Cash</button>
 </li>
-<li>
+<li *ngIf = "showAccept == 'true'">
 <button type="button" class="float_cash_btn" data-toggle="modal" (click)="addNewDriver()" data-target="#add_driv_btn">Add Driver</button>
 </li>
 </ul>
@@ -230,7 +230,7 @@ Status &nbsp;&nbsp;
 </label>
 </li>
 
-<li class="stat_btn text-center" style="padding-left: 10px;" *ngIf = "!isEdit">
+<li class="stat_btn text-center" style="padding-left: 10px;" *ngIf = "!isEdit" >
 Status &nbsp;&nbsp; 
 <label class="switch">
 <input   checked type="checkbox" (change)="ChangeStatus($event.target.checked, 1)" />    <span class="slider"></span>
@@ -591,7 +591,7 @@ Status &nbsp;&nbsp;
 <p>7/6/20 - 12:43 pm</p>
 </div> -->
 <br>
-<p class="text-center"><button class="add_car_btn">Submit</button></p>
+<p class="text-center" *ngIf = "showAccept == 'true'"><button class="add_car_btn">Submit</button></p>
 
 </div>
 </div>

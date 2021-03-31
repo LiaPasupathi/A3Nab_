@@ -30,13 +30,13 @@
 </div>
 <div class="col-md-6 right_tick">
 <ul>
-<li>
+<li *ngIf = "showAccept == 'true'">
 <button type="button" class="add_tick_btn" data-toggle="modal" data-target="#add_driv_btn">Add Ticket</button>
 </li>
-<li>
+<li *ngIf = "showAccept == 'true'">
    <button type="button" class="add_tick_btn" data-toggle="modal" data-target="#add_tick_btn">Add Ticket Category</button>
 </li>
-<li>
+<li *ngIf = "showExport == 'true'">
 <button class="float_cash_btn"  (click) = "exportList($event);">Export XLS</button>
 </li>
 </ul>

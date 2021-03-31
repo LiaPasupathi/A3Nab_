@@ -5,7 +5,9 @@
 }
 .ass_sss{
     margin: 0px 20px;
-    width: 200px ! important;
+}
+.make_sec img{
+    width: 50px;
 }
 /* .sortable-container{
     width: 100% ! important;

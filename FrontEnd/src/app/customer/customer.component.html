@@ -41,7 +41,7 @@ Map View &nbsp;&nbsp;
 <li>
 <a (click)="pageReload()"> <i class="fa fa-refresh"></i> </a>
 </li>
-<li>
+<li *ngIf = "showExport == 'true'">
     <button class="float_cash_btn"  (click) = "exportList($event);">Export XLS</button>
 </li>
 </ul>
@@ -231,7 +231,7 @@ Trusty User &nbsp;&nbsp;
     <input class="form-control" formControlName="packageValue" type="text">
 </div>
 </li>
-<li>
+<li *ngIf = "showAccept == 'true'">
 <button  class="action_log_btn" >Submit</button>
 </li>
 </form>
@@ -328,10 +328,10 @@ Trusty User &nbsp;&nbsp;
 </div>
 <div class="col-md-4 custom_head">
 <ul class="right_cont">
-<li>
+<!-- <li>
 <i class="fa fa-refresh"></i>
-</li>
-<li>
+</li> -->
+<li *ngIf = "showExport == 'true'">
 <a href="" class="export_btn">Export XLS</a>
 </li>
 </ul>

@@ -30,6 +30,7 @@ export class ProductsComponent implements OnInit {
   isSubcatepass = ''
   isSubcate: number;
   productId: number;
+showAccept = 'true';
 
   constructor(
     private apiCall: ApiCallService
@@ -66,6 +67,16 @@ export class ProductsComponent implements OnInit {
         }, err => {
         console.log(err);
     });
+    this.callRolePermission();
+  }
+
+  callRolePermission(){
+    if(sessionStorage.getItem('adminRole') !== 'superadmin'){
+      let orderpermission = JSON.parse(sessionStorage.getItem('permission'))
+
+      this.showAccept = orderpermission[2].writeOpt;
+
+    }
   }
   
   getCatgoryList(){

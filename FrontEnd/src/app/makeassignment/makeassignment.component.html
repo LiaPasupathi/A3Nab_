@@ -15,7 +15,7 @@ Show Off Duty Drivers &nbsp;&nbsp;
 <span class="slider"></span>
 </label>
 </li>
-<li>
+<!-- <li>
 <select>
 <option>Driver Status</option>
 </select>
@@ -24,15 +24,15 @@ Show Off Duty Drivers &nbsp;&nbsp;
 <select>
 <option>Time Slot</option>
 </select>
-</li>
+</li> -->
 </ul>
 </div>
 <div class="col-md-2 right_cont">
-<ul>
+<!-- <ul>
 <li>
     <a (click)="pageReload()" > <i class="fa fa-refresh"></i> </a>
 </li>
-</ul>
+</ul> -->
 </div>
 </div>
 </div>
@@ -189,11 +189,11 @@ Show Off Duty Drivers &nbsp;&nbsp;
 <tbody>
 <tr>
 <td><img src="{{driverImage}}"></td>
-<td><span>{{driverName}}</span><br>
+<td><span>{{driverName}}</span>
 <span class="red_color">{{driverID}}</span><br>
 <span class="light_color">Orders : 0</span>
 </td>
-<td style="vertical-align: middle;"><button (click)="driverAssign()" class="update_btn">Update</button></td>
+<td *ngIf = "showAccept == 'true'" style="vertical-align: middle;"><button (click)="driverAssign()" class="update_btn">Update</button></td>
 </tr>
 </tbody>
 </table>
@@ -214,7 +214,6 @@ Show Off Duty Drivers &nbsp;&nbsp;
 <div class="row">
     <div class="col-md-12">
 <div class="ass_sss">
-
 <ngx-sortable [items]="distance" (listSorted)="listOrderChanged($event)">
 <ng-template let-item>
 <div *ngIf = "item.storeName" class="sortable-list-item">

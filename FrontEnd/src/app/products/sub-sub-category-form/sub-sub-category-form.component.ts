@@ -21,6 +21,7 @@ export class SubSubCategoryFormComponent implements OnInit {
 
   editImage = null;
   categoryId = null;
+  showAccept = 'true';
 
   constructor(
     private apiCall: ApiCallService,
@@ -71,6 +72,15 @@ export class SubSubCategoryFormComponent implements OnInit {
       }, err => {
       console.log(err);
     });
+    this.callRolePermission();
+  }
+
+
+  callRolePermission(){
+    if(sessionStorage.getItem('adminRole') !== 'superadmin'){
+      let orderpermission = JSON.parse(sessionStorage.getItem('permission'))
+      this.showAccept = orderpermission[2].writeOpt;
+    }
   }
 
   editSubSubCategory(data){

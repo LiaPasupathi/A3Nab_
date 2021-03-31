@@ -106,7 +106,7 @@ Show only favorite Products &nbsp;&nbsp;
 </div>
 </div> -->
 </div>
-<div class="tab_sec">
+<div class="tab_sec" *ngIf = "showAccept == 'true'">
 <p class="text-center cate_hand"><a (click)="openCategoryTab('category')" >Add New Category</a></p>
 </div>
 </div>
@@ -191,7 +191,7 @@ Show only favorite Products &nbsp;&nbsp;
 </div>
 </div> -->
 </div>
-<div class="tab_sec">
+<div class="tab_sec" *ngIf = "showAccept == 'true'">
 <p class="text-center cate_hand"><a (click)="openCategoryTab('subCategory')" >Add New Subcategory</a></p>
 </div>
 </div>
@@ -275,7 +275,7 @@ Show only favorite Products &nbsp;&nbsp;
 </div>
 </div> -->
 </div>
-<div class="tab_sec">
+<div class="tab_sec" *ngIf = "showAccept == 'true'">
 <p class="text-center cate_hand" id="sub_sub_category" (click)="openCategoryTab('subSubCategory')"><a >Add New Sub-Subcategory</a></p>
 </div>
 </div>
@@ -368,7 +368,7 @@ Show only favorite Products &nbsp;&nbsp;
 </div>
 </div> -->
 </div>
-<div class="tab_sec">
+<div class="tab_sec" *ngIf = "showAccept == 'true'">
 <p class="text-center cate_hand"><a (click)="openCategoryTab('products')">Add New Product</a></p>
 </div>
 </div>

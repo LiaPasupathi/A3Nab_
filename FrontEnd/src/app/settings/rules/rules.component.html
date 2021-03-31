@@ -91,7 +91,9 @@
     <label>Select Trigger</label><br>
     <select formControlName="triggerName" >
     <option>Select Trigger</option>
-    <option *ngFor = "let ii of getrules" value="{{ii.triggerName}}">{{ii.triggerName}}</option>
+    <option value="New points added to customer">New points added to customer</option>
+    <option value="points expired for customer">points expired for customer</option>
+    <option value="new referral accepted and points added to customer">new referral accepted and points added to customer</option>
     </select>
     </div>
     </div>
@@ -146,11 +148,11 @@
     </div>
         </div>
 <div class="row">
-<div class="col-md-8"></div>
-<div class="col-md-4">
+<div class="col-md-7"></div>
+<div class="col-md-5">
     <ul>
         <li class="ent_tag">
-       <p (click)="addaction()"> <img src="assets/img/plus.svg" onmouseover="this.src='assets/img/plus_hover_icon.svg'" onmouseout="this.src='assets/img/plus.svg'"><span>Enter Tag</span></p>
+       <p (click)="addaction()"><span>Enter Tag</span></p>
         </li>
         </ul>
 </div>

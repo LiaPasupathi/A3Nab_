@@ -50,17 +50,13 @@ export class PrivactyPolicyComponent implements OnInit {
         if(result.error =="false")
         {
           this.apiCall.showToast(result.message, 'Success', 'successToastr');
+          $('#private').modal('hide');
           this.ngOnInit();
         }else{
           this.apiCall.showToast(result.message, 'Error', '')
         }
       });
     }
-
-
-
-   
-
   }
   termsand()
   {
@@ -79,10 +75,11 @@ export class PrivactyPolicyComponent implements OnInit {
 
       this.apiCall.commonPostService(params).subscribe((result: any)=>{
         result = result.body;
-        console.log("-----", result);
+        // console.log("-----", result);
         if(result.error =="false")
         {
           this.apiCall.showToast(result.message, 'Success', 'successToastr');
+          $('#Terms').modal('hide');
           this.ngOnInit();
         }else{
           this.apiCall.showToast(result.message, 'Error', '')

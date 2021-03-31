@@ -51,6 +51,7 @@ import { PrivactyPolicyComponent } from './settings/privacty-policy/privacty-pol
 import { GeneralComponent } from './settings/general/general.component';
 import { ExportComponent } from './export/export.component';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
+import { RoleGuardService } from './auth/role-guard.service';
 
 
 
@@ -115,7 +116,7 @@ import { TimepickerModule } from 'ngx-bootstrap/timepicker';
     ReactiveFormsModule,
     TimepickerModule.forRoot()
   ],
-  providers: [AuthGuard],
+  providers: [AuthGuard, RoleGuardService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

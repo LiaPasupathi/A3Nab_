@@ -24,8 +24,14 @@ agm-map {
     display: block !important;
   }
 
-
-
+  .sortable-container{
+    max-width: 240px !important;
+  }
+  @media only screen and (max-width: 1399px) and (min-width: 1000px){
+    .sortable-container{
+      max-width: 200px ! important;
+    }
+  }
   .error-val-pro{
     font-size: 10px;
     color: red;

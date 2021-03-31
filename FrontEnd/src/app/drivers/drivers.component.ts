@@ -36,6 +36,8 @@ export class DriversComponent implements OnInit {
   id : number;
   markers: marker[] = []
   previous;
+  showAccept = 'true';
+
   
   constructor(
     private apiCall: ApiCallService,
@@ -59,6 +61,16 @@ export class DriversComponent implements OnInit {
     const obj = { }
 
     this.getDriverList(obj)
+    this.callRolePermission()
+
+  }
+
+  callRolePermission(){
+    if(sessionStorage.getItem('adminRole') !== 'superadmin'){
+      let orderpermission = JSON.parse(sessionStorage.getItem('permission'))
+      this.showAccept = orderpermission[1].writeOpt
+      // console.log(">>>", this.showAccept)
+    }
   }
 
   clickedMarker(infowindow){

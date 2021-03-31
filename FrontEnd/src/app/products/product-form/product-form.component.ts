@@ -33,6 +33,7 @@ export class ProductFormComponent implements OnInit {
   productId: number;
 
   isEdit =false;
+  showAccept = 'true';
 
   dropdownList = [];
     selectedItems = [];
@@ -143,6 +144,16 @@ this.dropdownSettings = {
       console.log(err);
     });
     this.cuttingStyle = this.productForm.controls.cuttingStyle.value
+
+    this.callRolePermission();
+
+  }
+
+  callRolePermission(){
+    if(sessionStorage.getItem('adminRole') !== 'superadmin'){
+      let orderpermission = JSON.parse(sessionStorage.getItem('permission'))
+      this.showAccept = orderpermission[2].writeOpt;
+    }
   }
 
   onItemSelect(item: any) {

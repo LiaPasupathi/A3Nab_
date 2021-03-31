@@ -34,7 +34,7 @@ module.exports = function () {
         var pageOffset = parseInt(pageNumber * data.pageCount)
       }
       db('store')
-        .select('id', 'storeID', 'email', 'mobileNumber', 'storeName', 'storeImage', 'storeAddress', 'managerFname', 'latitude', 'longitude', 'storeRadius', 'managerLname', 'status', 'isComingSoon', db.raw('DATE_FORMAT(createdAt, "%d/%m/%Y") AS createdDate'), db.raw('TIME_FORMAT(createdAt, "%r") AS time'))
+        .select('id', 'storeID', 'email', 'mobileNumber', 'storeName', 'storeImage', 'storeAddress', 'managerFname', 'latitude', 'longitude', 'storeRadius', 'managerLname','dueDay', 'status', 'isComingSoon', db.raw('DATE_FORMAT(createdAt, "%d/%m/%Y") AS createdDate'), db.raw('TIME_FORMAT(createdAt, "%r") AS time'))
         .where('isStoreDelete', 0)
         .orderBy('id', 'desc')
         .modify(function (queryBuilder) {

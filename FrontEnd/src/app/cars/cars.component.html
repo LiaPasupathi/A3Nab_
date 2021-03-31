@@ -19,7 +19,7 @@
 </div>
 <div class="col-md-8 right_cont">
 <ul>
-<li>
+<li *ngIf = "showAccept == 'true'">
 <button type="button" class="float_cash_btn" data-toggle="modal" data-target="#add_driv_btn">Add Car</button>
 </li>
 </ul>
@@ -71,7 +71,7 @@
 <p *ngIf = "item.crId" >{{item.firstName}} {{item.lastName}}</p>
 <p class="red_color">{{item.carID}}</p>
 <p><span class="light_color">Mileage :</span> {{item.startingMileage}}</p>
-<button *ngIf = "!item.crId" type="button" class="assig_dri_btn" (click)="assigndri(item)" data-toggle="modal" data-target="#assign_dri_btn">Assign Driver</button>
+<button *ngIf = "!item.crId && showAccept == 'true'" type="button" class="assig_dri_btn" (click)="assigndri(item)" data-toggle="modal" data-target="#assign_dri_btn">Assign Driver</button>
 
 <button *ngIf = "item.crId" type="button" class="assig_gree_btn">Driver : {{item.drId}}</button>
 
