@@ -82,6 +82,10 @@ Map View &nbsp;&nbsp;
 <th>Activity</th>
 <th>Phone No.</th>
 <th>Store Address</th>
+<th>Rejected %</th>
+<th>Orders</th>
+<th>Due</th>
+<th>Earned</th>
 <th>Action</th>
 </tr>
 </thead>
@@ -108,6 +112,10 @@ Map View &nbsp;&nbsp;
 </td>
 <td>{{item.mobileNumber}}</td>
 <td>{{item.storeAddress}}</td>
+<td></td>
+<td></td>
+<td>{{item.dueDay}}</td>
+<td></td>
 <td><button (click)="deleteStore(item.id)" class="save_btn">Delete</button></td>
 </tr>
 </tbody>

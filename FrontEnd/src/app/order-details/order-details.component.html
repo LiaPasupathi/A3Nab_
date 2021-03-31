@@ -350,28 +350,25 @@ My Super Mart<br>
 </div>
 </div>
 <div class="col-md-3">
-<div class="card">
-<div class="card-content">
-<ul *ngFor="let item of orderDetails;let i = index">
-<li class="ord_driv"><img src="{{item.storeImage}}"></li>
-<li class="ord_det"><span>{{item.storeName}}</span><br>
-<span class="red_color">{{item.storeID}}</span><br>
-<span class="light_color">Status &nbsp; <b class="green">{{item.storeStatus}}</b></span>
-</li>
-</ul>
-<!-- <ul>
-<li class="ord_driv"><img src="assets/img/store2.png"></li>
-<li class="ord_det"><span>#Dr0020</span><br>
-<span class="red_color">#Dr0020</span><br>
-<span class="light_color">Status &nbsp; <b class="orange">Rejected</b></span>
-</li>
-</ul>
-<ul class="rej_bbn">
-<li><button type="button" class="float_cash_btn">Reject Reason</button></li>
-<li><button type="button" class="float_cash_btn">Assign Store</button></li>
-</ul> -->
-</div>
-</div>
+    <div class="card">
+        <div class="card-content">
+            <ul *ngFor="let item of orderDetails;let i = index" style="display: flex; overflow: hidden;">
+                <li class="ord_det col-md-4" style="padding-left: 0px; padding-right: 0px; margin-top: 8px;">
+                    <img src="{{item.storeImage}}">
+                </li>
+                <li class="ord_det col-md-12" style="padding-right: 0px;"><span>{{item.storeName}}</span><br>
+                    <span class="red_color">{{item.storeID}}</span><br>
+                    <span class="light_color">Status &nbsp; <b class="green">{{item.storeStatus}}</b></span><br>
+                    <span *ngIf="orderStatus == 'CANCELLED'" class="light_color">Order Status &nbsp; <b class="green">{{orderStatus}}</b></span><br>
+                    <span *ngIf="cancelReason" class="light_color">Cancel Reason &nbsp; <b class="red">{{cancelReason}}</b></span>
+                </li>
+            </ul>
+            <ul class="rej_bbn" style="display: block ruby;">
+                <!-- <li class="col-md-9" style="padding-left: 0px; padding-top: 10px; padding-bottom: 10px;"><button type="button" class="float_cash_btn">Reject Reason</button></li> -->
+                <!-- <li><button type="button" class="float_cash_btn">Assign Store</button></li> -->
+            </ul>
+        </div>
+    </div>
 </div>
 </div>
 </div>

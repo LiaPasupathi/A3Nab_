@@ -90,26 +90,26 @@ this.dropdownSettings = {
     console.log('subsubCateID', this.subSubCate)
 
     this.productForm = this.formBuilder.group({
-      productName: ['',  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-      arabicName: ['',  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-      qty: ['',  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-      maxQty: ['',  [Validators.required, Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
+      productName: ['',  [ Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+      arabicName: ['',  [ Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+      qty: ['',  [Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+      maxQty: ['',  [Validators.required, Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
       productPrice: ['',  [Validators.required, Validators.pattern("[+-]?([0-9]*[.])?[0-9]+")]],
       productDiscount: ['',  [Validators.required, Validators.required, Validators.pattern(/^(99(\.00?)?|[1-9]?\d(\.\d\d?)?)$/)]],
-      // productDescription: ['',  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-      managerPrice: [false,  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-      // orderVariants: [false,  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-      instructionsStatus: [false,  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-      // differentPriceVariant: [false,  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-      isComingSoon: [false,  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-      categoryId: [this.mainCateId,  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-      productCategoryId: [this.subCategoryId,  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
+      // productDescription: ['',  [ Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+      managerPrice: [false,  [Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+      // orderVariants: [false,  [Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+      instructionsStatus: [false,  [Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+      // differentPriceVariant: [false,  [Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+      isComingSoon: [false,  [Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+      categoryId: [this.mainCateId,  [Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+      productCategoryId: [this.subCategoryId,  [Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
       productSubCategoryId: [this.subSubCate],
-      storeId: ['',  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
+      storeId: ['',  [Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
       relCategory: [''],
       relProCategory: [''],
       relsubCategory: [''],
-      images: ['',  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
+      images: ['',  [Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
       cuttingStyle: this.formBuilder.array([
         this.getcuttingStyle()
       ]),
@@ -221,22 +221,22 @@ this.dropdownSettings = {
     this.selectedItems = data['storeProduct']
 
     this.productForm = this.formBuilder.group({
-      productName: [data['productName'],  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-      arabicName: [data['arabicName'],  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
+      productName: [data['productName'],  [ Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+      arabicName: [data['arabicName'],  [ Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
       productPrice: [data['productPrice'],  [Validators.required, Validators.pattern("[+-]?([0-9]*[.])?[0-9]+")]],
-      qty: [data['qty'],  [Validators.required, Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-      maxQty: [data['maxQty'],  [Validators.required, Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
+      qty: [data['qty'],  [Validators.required, Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+      maxQty: [data['maxQty'],  [Validators.required, Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
       productDiscount: [data['productDiscount'],  [Validators.required, Validators.required, Validators.pattern(/^(99(\.00?)?|[1-9]?\d(\.\d\d?)?)$/)]],
-      // productDescription: [data['productDescription'],  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-      managerPrice: [managerPrice,  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-      // orderVariants: [orderVariants,  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-      instructionsStatus: [instructionsStatus,  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-      // differentPriceVariant: [differentPriceVariant,  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-      isComingSoon: [isComingSoon,  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-      categoryId: [data['categoryId'],  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-      productCategoryId: [data['productCategoryId'],  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
+      // productDescription: [data['productDescription'],  [ Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+      managerPrice: [managerPrice,  [Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+      // orderVariants: [orderVariants,  [Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+      instructionsStatus: [instructionsStatus,  [Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+      // differentPriceVariant: [differentPriceVariant,  [Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+      isComingSoon: [isComingSoon,  [Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+      categoryId: [data['categoryId'],  [Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+      productCategoryId: [data['productCategoryId'],  [Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
       productSubCategoryId: [data['productSubCategoryId']],
-      storeId: [data['storeId'],  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
+      storeId: [data['storeId'],  [Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
       relCategory: [relCategory],
       relProCategory: [relProCategory],
       relsubCategory: [relsubCategory],
@@ -248,16 +248,16 @@ this.dropdownSettings = {
 
   buildFormCuttingArray(obj): FormGroup{
     return this.formBuilder.group({
-      cuttingName: [obj.cuttingName,  [Validators.pattern(/^\S+(?: \S+)*$/)]],
-      arabicName: [obj.arabicName,  [Validators.pattern(/^\S+(?: \S+)*$/)]],
+      cuttingName: [obj.cuttingName,  [Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+      arabicName: [obj.arabicName,  [Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
       cuttingPrice: [obj.cuttingPrice,  [Validators.pattern("[+-]?([0-9]*[.])?[0-9]+")]],
     })
   }
 
   buildFormBoxArray(obj): FormGroup{
     return this.formBuilder.group({
-      boxName: [obj.boxName,  [Validators.pattern(/^\S+(?: \S+)*$/)]],
-      arabicName: [obj.arabicName,  [Validators.pattern(/^\S+(?: \S+)*$/)]],
+      boxName: [obj.boxName,  [Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+      arabicName: [obj.arabicName,  [Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
       boxPrice: [obj.boxPrice,  [ Validators.pattern("[+-]?([0-9]*[.])?[0-9]+")]],
     })
   }
@@ -287,16 +287,16 @@ this.dropdownSettings = {
 
   private getcuttingStyle() {
     return this.formBuilder.group({
-      cuttingName: ['',  [Validators.pattern(/^\S+(?: \S+)*$/)]],
-      arabicName: ['',  [Validators.pattern(/^\S+(?: \S+)*$/)]],
+      cuttingName: ['',  [Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+      arabicName: ['',  [Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
       cuttingPrice: ['',  [Validators.pattern("[+-]?([0-9]*[.])?[0-9]+")]]
     })
   }
 
   private getboxStyle() {
     return this.formBuilder.group({
-      boxName: ['',  [Validators.pattern(/^\S+(?: \S+)*$/)]],
-      arabicName: ['',  [Validators.pattern(/^\S+(?: \S+)*$/)]],
+      boxName: ['',  [Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+      arabicName: ['',  [Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
       boxPrice: ['',  [Validators.pattern("[+-]?([0-9]*[.])?[0-9]+")]]
     })
   }
@@ -305,8 +305,8 @@ this.dropdownSettings = {
     let control = <FormArray>this.productForm.controls.boxStyle;
     control.push(
       this.formBuilder.group({
-        boxName: ['',  [Validators.pattern(/^\S+(?: \S+)*$/)]],
-        arabicName: ['',  [Validators.pattern(/^\S+(?: \S+)*$/)]],
+        boxName: ['',  [Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+        arabicName: ['',  [Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
         boxPrice: ['',  [Validators.pattern("[+-]?([0-9]*[.])?[0-9]+")]]
       })
     )
@@ -316,8 +316,8 @@ this.dropdownSettings = {
     let control = <FormArray>this.productForm.controls.cuttingStyle;
     control.push(
       this.formBuilder.group({
-        cuttingName: ['',  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-        arabicName: ['',  [Validators.pattern(/^\S+(?: \S+)*$/)]],
+        cuttingName: ['',  [Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+        arabicName: ['',  [Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
         cuttingPrice: ['',  [Validators.required, Validators.pattern("[+-]?([0-9]*[.])?[0-9]+")]]
       })
     )
