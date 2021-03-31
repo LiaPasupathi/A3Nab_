@@ -41,9 +41,9 @@ export class SubSubCategoryFormComponent implements OnInit {
     console.log('subCate', this.subCategoryId)
     // console.log(this.subCategoryId)
     this.subCategoryForm = this.formBuilder.group({
-      productSubCategoryName: ['',  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-      arabicName: ['',  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-      productCategoryId: [this.subCategoryId,  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
+      productSubCategoryName: ['',  [ Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+      arabicName: ['',  [Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+      productCategoryId: [this.subCategoryId,  [Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
       // minimumOrderValue: ['',  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
       // orderProcessing: ['',  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
       // storeId: ['',  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
@@ -98,9 +98,9 @@ export class SubSubCategoryFormComponent implements OnInit {
     // this.editImage = data['productSubCategoryImage']
     this.categoryId = data['id']
     this.subCategoryForm = this.formBuilder.group({
-      productSubCategoryName: [data['productSubCategoryName'],  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-      arabicName: [data['arabicName'], [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)] ],
-      productCategoryId: [data['productCategoryId'],  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
+      productSubCategoryName: [data['productSubCategoryName'],  [ Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+      arabicName: [data['arabicName'], [Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)] ],
+      productCategoryId: [data['productCategoryId'],  [Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
     });
   }
 

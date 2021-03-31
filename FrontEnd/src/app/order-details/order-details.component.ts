@@ -1,3 +1,4 @@
+import { browser } from 'protractor';
 import { Component, OnInit } from '@angular/core';
 import { ApiCallService } from '../services/api-call.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -40,6 +41,7 @@ export class OrderDetailsComponent implements OnInit {
   fromTime:any;
   toTime:any;
   ordertime:any;
+  cancelReason: any;
 
   showMap = false;
   zoom: number = 5;
@@ -108,6 +110,7 @@ export class OrderDetailsComponent implements OnInit {
           this.fromTime = response.body.data.orderInfo.fromTime
           this.toTime = response.body.data.orderInfo.toTime
           this.ordertime = response.body.data.orderInfo.ordertime
+          this.cancelReason = response.body.data.orderInfo.cancelReason
           
           
           this.payType = response.body.data.orderInfo.paytype

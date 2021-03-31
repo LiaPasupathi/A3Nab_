@@ -91,17 +91,17 @@ export class SubCategoryFormComponent implements OnInit {
     this.editImage = data['productCategoryImage']
     this.categoryId = data['id']
     this.subCategoryForm = this.formBuilder.group({
-      productCategoryName: [data['productCategoryName'],  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
+      productCategoryName: [data['productCategoryName'],  [Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
       productCategoryImage: [''],
       minimumOrderValue: [data['minimumOrderValue'],  [Validators.required, Validators.pattern("[+-]?([0-9]*[.])?[0-9]+")]],
-      orderProcessing: [data['orderProcessing'],  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-      storeId: [data['storeId'],  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-      categoryId: [data['categoryId'],  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-      arabicName: [data['arabicName'],  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
+      orderProcessing: [data['orderProcessing'],  [Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+      storeId: [data['storeId'],  [Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+      categoryId: [data['categoryId'],  [Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+      arabicName: [data['arabicName'],  [Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
       minOrderTime: [data['minOrderTime'],  [Validators.required, Validators.pattern("[+-]?([0-9]*[.])?[0-9]+")]],
-      managerPrice: [managerPrice,  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-      isComingSoon: [isComingSoon,  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-      isSubcate: [isSubcate,  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
+      managerPrice: [managerPrice,  [Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+      isComingSoon: [isComingSoon,  [Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
+      isSubcate: [isSubcate,  [Validators.required, Validators.pattern(/\S+(?: \S+)*(?!\s).*$/)]],
     });
   }
 
