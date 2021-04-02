@@ -1,0 +1,9 @@
+.form-control.datepicker{
+     height: 42px;
+     margin-left: 10px;
+     margin-right: 10px;
+     
+}
+::placeholder{
+     color: #12303C40 ! important;
+}

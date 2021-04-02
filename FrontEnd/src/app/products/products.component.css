@@ -1,0 +1,8 @@
+.cat_nam a {
+    /* color: #000 !important; */
+    cursor: pointer;
+}
+
+    .prod_cate .card .card_sec::-webkit-scrollbar{
+        display: none
+    }

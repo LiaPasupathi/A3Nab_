@@ -1,0 +1,52 @@
+.modal-content{
+    max-height: 600px;
+    overflow-y: scroll;
+}
+.car_modal .modal.right .modal-dialog{
+    width: 50%;
+}
+.upload-img{
+    width: 250px;
+    height: auto;
+    cursor: pointer;
+}
+.image-upload > input{
+    display: none;
+}
+.driv_img img {
+    /* width: 60px !important; */
+    height:60px ! important;
+  }
+  #car_profile .modal-dialog{
+    width: 70% ! important;
+}
+#log_man .modal-dialog{
+    width: 50% ! important;
+}
+#assign_his .modal-dialog{
+    width: 50% ! important;
+}
+  @media only screen and (max-width: 1399px) and (min-width: 1000px){
+    .modal.right .modal-content{
+        height: 550px ! important;
+    }
+    #car_profile .modal-dialog{
+        width: 70% ! important;
+    }
+  }
+@media only screen and (max-width: 1024px) and (min-width: 767px){
+    .modal.right .modal-content{
+        height: 670px ! important;
+    }
+    #car_profile .modal-dialog{
+        width: 70% ! important;
+    }
+  }
+  @media only screen and (max-width: 1200px) and (min-width: 1024px){
+    .modal.right .modal-content{
+        height: 430px ! important;
+    }
+    #car_profile .modal-dialog{
+        width: 70% ! important;
+    }
+  }

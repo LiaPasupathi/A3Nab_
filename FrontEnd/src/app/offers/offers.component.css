@@ -1,0 +1,53 @@
+.upload-img{
+    width: 250px;
+    height: auto;
+}
+.image-upload > input{
+    display: none;
+}
+.del_btn{
+    cursor: pointer;
+}
+.del_btn:hover{
+    color: #C1003A;
+}
+.edit_bttn{
+    cursor: pointer;
+}
+.edit_bttn:hover{
+    color: #C1003A;
+}
+.prof_sec img{
+    height: 200px;
+    object-fit: contain;
+}
+.modal.right .modal-content{
+    height: 600px;
+}
+@media only screen and (max-width: 1399px) and (min-width: 1000px){
+    .modal.right .modal-content{
+        height: 550px ! important;
+    }
+  }
+@media only screen and (max-width: 1024px) and (min-width: 767px){
+    .modal.right .modal-content{
+        height: 670px ! important;
+    }
+    .modal.right .modal-dialog{
+        width: 60%;
+    }
+  }
+  @media only screen and (max-width: 1200px) and (min-width: 1024px){
+    .modal.right .modal-content{
+        height: 430px ! important;
+    }
+  }
+.active_on_sec select{
+    padding: 0.5em 3rem 0.5em 0em ! important;
+}
+.modal .modal-header ul li.stat_btn{
+    padding: 5px 10px 9px 20px;
+}
+.modal .modal-header{
+    padding: 24px 24px 0 24px;
+}

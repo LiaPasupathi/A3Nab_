@@ -1,0 +1,75 @@
+<div class="main-panel">
+<app-navbar></app-navbar>
+<div class="content">
+<!-- uiView:  -->
+<div ui-view="" class="ng-scope">
+<section class="gene_setting_sec">
+<div class="row">
+<div class="col-md-2">
+<div class="container-fluid">
+<div class="card">
+<ul class="nav nav-pills">
+<li class="active"><a href="#1a" data-toggle="tab">General</a></li>
+<li><a href="#2a" data-toggle="tab">Delivery</a></li>
+<li *ngIf = "showAccept == 'true'"><a href="#3a" data-toggle="tab">User Settings</a></li>
+<li *ngIf = "showAccept == 'true'"><a href="#4a" data-toggle="tab">Notifications</a></li>
+<li *ngIf = "showAccept == 'true'" style="width: 100%;"><a href="#5a" data-toggle="tab">Rules</a></li>
+<li *ngIf = "showAccept == 'true'"><a href="#6a" data-toggle="tab">FAQ</a></li>
+<li *ngIf = "showAccept == 'true'"><a href="#7a" data-toggle="tab">P.P. & TnC</a></li>
+<li *ngIf = "showAccept == 'true'"><a href="#8a" data-toggle="tab">Radius</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="col-md-10">
+<div class="tab-content clearfix">
+   <div class="tab-pane active" id="1a">
+<app-general></app-general>
+</div>
+<div class="tab-pane" id="2a">
+   <app-delivery></app-delivery>
+</div>
+<div class="tab-pane" id="3a">
+   <app-user-setting></app-user-setting>
+</div>
+<div class="tab-pane" id="4a">
+   <app-notifications></app-notifications>
+</div>
+<div class="tab-pane" id="5a">
+   <app-rules></app-rules>
+</div>
+<div class="tab-pane" id="6a">
+   <app-faq></app-faq>
+</div>
+<div class="tab-pane" id="7a">
+   <app-privacty-policy></app-privacty-policy>
+</div>
+
+<div class="tab-pane" id="8a">
+<div class="container-fluid">
+<!-- <p class="text-right" data-toggle="modal" data-target="#add_adm_btn"><button class="add_admin_btn">Add Admin</button></p> -->
+<div class="col-md-12 usr_sec">
+<div class="card">
+<div class="card-content">
+<form [formGroup]="radiusForm" (ngSubmit)="onSubmit()">
+<div class="row">
+<div class="col-md-5">
+<div class="form-group">
+   <label>Radius</label>
+   <input type="text" formControlName="radius" class="form-control">
+   </div>
+</div>
+</div>
+<button class="save_btn">Save</button>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+
+

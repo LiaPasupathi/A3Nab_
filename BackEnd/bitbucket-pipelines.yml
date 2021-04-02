@@ -1,0 +1,6 @@
+image: node:latest
+pipelines:
+  default:
+    - step:
+        script:
+          - npm install
