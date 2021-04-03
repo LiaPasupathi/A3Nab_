@@ -2,6 +2,8 @@ import { browser } from 'protractor';
 import { Component, OnInit } from '@angular/core';
 import { ApiCallService } from '../services/api-call.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { PrintService, UsbDriver, WebPrintDriver } from 'ng-thermal-print';
+import { PrintDriver } from 'ng-thermal-print/lib/drivers/PrintDriver';
 declare var $:any;
 
 @Component({
@@ -17,6 +19,7 @@ export class OrderDetailsComponent implements OnInit {
 
   orderOn: string;
   deliveryDate: string;
+  orderIDs: any;
   lastName: string;
   firstName: string;
   landmark : string;
@@ -45,23 +48,41 @@ export class OrderDetailsComponent implements OnInit {
 
   showMap = false;
   zoom: number = 5;
-
-  showAccept = 'true';
   
-    // initial center position for the map
-    lat: number = 10.616698;
-    lng: number = 76.936195;
-    markers: marker[] = []
+  // initial center position for the map
+  lat: number = 10.616698;
+  lng: number = 76.936195;
+  markers: marker[] = []
     
   previous;
 
   payType: string;
 
+  //For Thermal Printer
+  status: boolean = false;
+  usbPrintDriver: UsbDriver;
+  printService: PrintService;
+  webPrintDriver: WebPrintDriver;
+  ip: string = '';
+  //End Thermal Printer
+  
   constructor(
     private apiCall: ApiCallService,
     private router: Router,
     private route: ActivatedRoute,
-  ) { }
+    
+  ) {
+    this.usbPrintDriver = new UsbDriver();
+    this.printService = new PrintService();
+    this.printService.isConnected.subscribe(result => {
+        this.status = result;
+        if (result) {
+            console.log('Connected to printer!!!');
+        } else {
+        console.log('Not connected to printer.');
+        }
+    });
+   }
 
   ngOnInit(): void {
 
@@ -71,16 +92,6 @@ export class OrderDetailsComponent implements OnInit {
     this.route.params.subscribe(params => this.orderId = params.id);
     // console.log(this.orderId)
     this.getOrderDetails(this.orderId)
-    this.callRolePermission()
-  }
-
-  callRolePermission(){
-    if(sessionStorage.getItem('adminRole') !== 'superadmin'){
-      let orderpermission = JSON.parse(sessionStorage.getItem('permission'))
-      // console.log(orderpermission[0].readOpt)
-      this.showAccept = orderpermission[0].writeOpt
-      console.log(">>>", this.showAccept)
-    }
   }
 
   getOrderDetails(id){
@@ -94,6 +105,7 @@ export class OrderDetailsComponent implements OnInit {
           console.log(response.body.data.orderInfo)
           // Success
           this.orderOn = response.body.data.orderInfo.orderOn
+          this.orderIDs = response.body.data.orderInfo.orderIDs
           this.deliveryDate = response.body.data.orderInfo.deliveryDate
           this.firstName = response.body.data.orderInfo.firstName
           this.lastName = response.body.data.orderInfo.lastName
@@ -210,6 +222,28 @@ export class OrderDetailsComponent implements OnInit {
   onSubmit(){
     
   }
+
+  onPrint(){
+    const printContent = document.getElementById("print_portion");
+    const WindowPrt = window.open('', '', 'left=0,top=0,width=900,height=900,toolbar=0,scrollbars=0,status=0');
+    WindowPrt.document.write(printContent.innerHTML);
+    WindowPrt.document.close();
+    WindowPrt.focus();
+    WindowPrt.print();
+    WindowPrt.close();
+  }
+
+  print(driver: PrintDriver) {
+    const printContent = document.getElementById("print_portion");
+
+    this.printService.init()
+        .setBold(true)
+        .writeLine("print_portion")
+        .setBold(false)
+        .feed(4)
+        .cut('full')
+        .flush();
+}
 
 }
 

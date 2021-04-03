@@ -24,6 +24,7 @@ import { RequestComponent } from './request/request.component';
 import { OffersComponent } from './offers/offers.component';
 import { ExportComponent  } from './export/export.component';
 import { RoleGuardService } from './auth/role-guard.service';
+import { ThermalPrintModule } from 'ng-thermal-print';
 import { from } from 'rxjs';
 
 
@@ -66,7 +67,7 @@ const routes: Routes = [
 
 @NgModule({
   // imports: [RouterModule.forRoot(routes)],
-  imports: [CommonModule,BrowserModule,RouterModule.forRoot(routes, { useHash: true })],
+  imports: [CommonModule, BrowserModule, ThermalPrintModule, RouterModule.forRoot(routes, { useHash: true })],
 
   exports: [RouterModule]
 })

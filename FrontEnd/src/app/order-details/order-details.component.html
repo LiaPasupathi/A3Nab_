@@ -44,7 +44,7 @@
                             </div>
                             <div class="col-md-2">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="width: 100%;">
-                                    <span aria-hidden="true" style="font-size: 20px;">Print</span>
+                                    <span aria-hidden="true" style="font-size: 20px;" (click)="onPrint()">Print</span>
                                 </button>
                             </div>
                             <div class="col-md-3">
@@ -54,70 +54,126 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" id='print_portion'>
                         <div class="col-md-12" style="margin-top: 30px;">
-                            <div style="text-align: center;">INVOICE</div>
+                            <div style="text-align: center;">????????</div>
                         </div>
 
                         <div class="col-md-12">
-                            <div style="text-align: center;">INOIVE NO: 7704</div>
+                            <div style="text-align: center;">{{orderIDs}} :??? ????????</div>
                         </div>
 
-                        <div class="col-md-12" style="margin-top: 10px;">
-                            <div style="text-align: center;">A3nab</div>
+                        <div class="col-md-12" style="margin-top: 10px; text-align: center;">
+                            <img style="width: 20%;" src="../../assets/img/bill_logo.png" alt="a3nab_image"/>
                             <div style="text-align: center;">a3nab@gmail.com</div>
                             <div style="text-align: center;">Taif, Makkah Province Saudi Arabia</div>
+                            <div style="text-align: center; margin-top: 10px;">8028456 :????? ???????</div>
+                        </div>
+                        
+
+                        <div class="col-md-12" style="margin-top: 30px;">
+                            <div class="col-md-6" >
+                                {{ordertime}} :??? ????????
+                            </div>
+                            <div class="col-md-6" style="text-align: right;">
+                                {{orderOn}} :????? ????????
+                            </div>
                         </div>
 
                         <div class="col-md-12" style="margin-top: 30px;">
                             <div class="col-md-6">
-                                Data: 23/03/2021
+                                {{firstName}} {{lastName}} :??? ??????
                             </div>
                             <div class="col-md-6" style="text-align: right;">
-                                Time: 04:01:20 PM
+                                {{mobileNumber}} :??? ????????
                             </div>
                         </div>
 
-                        <div class="col-md-12" style="margin-top: 30px; text-align: center;">
-                            ---------------------------------------------------------------------------------------------------------------------------  
-                        </div>
-                        <div class="col-md-12">
-                            <div class="col-md-6">
-                                Product
-                            </div>
-                            <div class="col-md-3" style="text-align: center;">
-                                Quality
-                            </div>
-                            <div class="col-md-3" style="text-align: right;">
-                                Price
+
+                        <div class="col-md-12" *ngFor="let item of orderDetails" style="margin-top: 25px;">
+                            <div>
+                                <div class="col-md-6" style="text-align: left;">
+                                    <p>{{item.storeName}} :?????</p>
+                                </div>
+                                <div class="col-md-6" style="text-align: right; margin: 0px;">
+                                    <p>{{item.storeID}} :???? ??????</p>
+                                </div>
                             </div>
                         </div>
+                        
 
                         <div class="col-md-12" style="text-align: center;">
                             ---------------------------------------------------------------------------------------------------------------------------  
                         </div>
-
-                        <div class="col-md-12" style="margin-top: 10px;">
+                        <div class="col-md-12">
                             <div class="col-md-6">
-                                Item 1
+                                ??????
                             </div>
-                            <div class="col-md-3" style="text-align: center;">
-                                1.00
+                            <div class="col-md-2" style="text-align: center;">
+                                ????
                             </div>
-                            <div class="col-md-3" style="text-align: right;">
-                                500
+                            <div class="col-md-2" style="text-align: center;">
+                                ????? / ??????
+                            </div>
+                            <div class="col-md-2" style="text-align: right;">
+                                ??? (SAR)
                             </div>
                         </div>
 
-                        <div class="col-md-12" style="margin-top: 10px;">
-                            <div class="col-md-6">
-                                Item 2
-                            </div>
-                            <div class="col-md-3" style="text-align: center;">
-                                1.00
+                        <div class="col-md-12" style="text-align: center;" >
+                            ---------------------------------------------------------------------------------------------------------------------------  
+                        </div>
+                        
+
+                        <div *ngFor="let item of orderDetails" >
+                            <span class="col-md-12" style="margin-top: 10px;" *ngFor="let prod of item.products">
+                                <div class="col-md-6">
+                                    <p>{{prod.productName}}</p>
+                                </div>
+                                <div class="col-md-2" style="text-align: center;">
+                                    <p>{{prod.quantity}}</p>
+                                </div>
+                                <div class="col-md-2" style="text-align: center;">
+                                    <p>{{prod.singlePrice}}</p>
+                                </div>
+                                <div class="col-md-2" style="text-align: right;">
+                                    <p>{{prod.supplyPrice}}</p>
+                                </div>
+                            </span>
+                        </div>
+                        
+
+                        <div class="col-md-12" style="margin-top: 10px; text-align: center;">
+                            ---------------------------------------------------------------------------------------------------------------------------  
+                        </div>
+
+                        <div class="col-md-12" style="margin-top: 15px;">
+                            <div class="col-md-9" style='text-align: right;'>
+                                ?????
+                                <br>Total
                             </div>
                             <div class="col-md-3" style="text-align: right;">
-                                1000
+                                {{totalAmount}}
+                            </div>
+                        </div>
+
+                        <div *ngIf='discountAmount' class="col-md-12" style="margin-top: 15px;">
+                            <div class="col-md-9" style='text-align: right;'>
+                                ???
+                                <br> Discount
+                            </div>
+                            <div class="col-md-3" style="text-align: right;">
+                                <span class="green">(-) </span>{{discountAmount}}
+                            </div>
+                        </div>
+
+                        <div class="col-md-12" style="margin-top: 15px;">
+                            <div class="col-md-9" style='text-align: right;'>
+                                ??????? ??????? (15%)<br>
+                                (%15) Vat
+                            </div>
+                            <div class="col-md-3" style="text-align: right;">
+                                {{ordertax}}
                             </div>
                         </div>
 
@@ -126,25 +182,23 @@
                         </div>
 
                         <div class="col-md-12" style="margin-top: 15px;">
-                            <div class="col-md-9">
-                                Total:
+                            <div class="col-md-9" style="text-align: right;">
+                                ??????? ???????? (SAR) <br>
+                                Grand Total (SAR)
                             </div>
                             <div class="col-md-3" style="text-align: right;">
-                                1500
+                                {{grandTotal}}
                             </div>
                         </div>
 
-                        <div class="col-md-12" style="margin-top: 15px;">
-                            <div class="col-md-9">
-                                Inc.VAT (15%):
+                        <!-- <div *ngFor="let item of orderDetails" >
+                            <div class="col-md-12" style="margin-top: 10px; text-align: center;">
+                                <img src="{{item.storeImage}}" class="" style="width: 10%; border-radius: 60%;">
                             </div>
-                            <div class="col-md-3" style="text-align: right;">
-                                17.5
-                            </div>
-                        </div>
+                        </div> -->
 
-                        <div class="col-md-12" style="margin-top: 30px;">
-                            >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>  Close Invoice 7704  >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+                        <div class="col-md-12" style="margin-top: 30px; text-align: center;">
+                            >>>>>>>>>>>>>>>>>>>>>>>>> {{orderIDs}} ??? ???????? >>>>>>>>>>>>>>>>>>>>>>>>>
                         </div>
 
                         <div class="" style="margin: 20px; text-align: center;">
