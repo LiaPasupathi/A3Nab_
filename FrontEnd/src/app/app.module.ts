@@ -53,8 +53,6 @@ import { ExportComponent } from './export/export.component';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { RoleGuardService } from './auth/role-guard.service';
 
-
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -114,7 +112,7 @@ import { RoleGuardService } from './auth/role-guard.service';
     HttpClientModule,
     ToastrModule.forRoot(),
     ReactiveFormsModule,
-    TimepickerModule.forRoot()
+    TimepickerModule.forRoot(),
   ],
   providers: [AuthGuard, RoleGuardService],
   bootstrap: [AppComponent]

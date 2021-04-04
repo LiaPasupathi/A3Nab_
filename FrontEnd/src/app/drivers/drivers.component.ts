@@ -221,6 +221,7 @@ export class DriversComponent implements OnInit {
           // Success
           this.apiCall.showToast(response.body.message, 'Success', 'successToastr')
           $('#add_driv_btn').modal('hide');
+          this.imagePreview = null;
           this.ngOnInit();
           // this.router.navigateByUrl('/dashboard');
         } else {
@@ -239,6 +240,7 @@ export class DriversComponent implements OnInit {
        this.apiCall.showToast('Upload Error !!', 'Oops', 'errorToastr')
     }
   }
+
 
   async driverEditService(data){
     data['profilePic'] = this.imagePreview
@@ -260,8 +262,9 @@ export class DriversComponent implements OnInit {
       (response: any) => {
         if (response.body.error == 'false') {
           // Success
-          $('#add_driv_btn').modal('hide');
           this.apiCall.showToast(response.body.message, 'Success', 'successToastr')
+          $('#add_driv_btn').modal('hide');
+          this.imagePreview = null;
           this.ngOnInit();
         } else {
           // Query Error

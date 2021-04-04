@@ -62,7 +62,16 @@ module.exports = function () {
         .innerJoin('users_address', 'orders.addressId', '=', 'users_address.id')
         .innerJoin('deliveryTime', 'orders.timeId', '=', 'deliveryTime.id')
         .where('orders.userId', data.id)
+        .modify(function (queryBuilder) {
+          if (data.fromDate && data.toDate) {
+            queryBuilder.whereRaw('DATE(orderOn) BETWEEN ? AND ? ', [data.fromDate, data.toDate])
+          }
+          if (data.fromDate && data.toDate == '') {
+            queryBuilder.whereRaw('DATE(orderOn) = ?', [data.fromDate])
+          }
+        })
         .then((result) => {
+          // console.log(result)
           response.error = false
           response.data = result
         })

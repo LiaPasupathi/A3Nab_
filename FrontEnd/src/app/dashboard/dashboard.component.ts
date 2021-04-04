@@ -52,6 +52,7 @@ export class DashboardComponent implements OnInit {
   delivered:any;
   assigned:any;
   cancelled:any;
+  pending:any;
   totalOrders:any;
   totalProducts:any;
   totalOffers:any;
@@ -156,6 +157,7 @@ export class DashboardComponent implements OnInit {
            this.delivered = resu.data.orderStatusCount.delivered;
            this.assigned = resu.data.orderStatusCount.assigned;
            this.cancelled = resu.data.orderStatusCount.cancelled;
+           this.pending = resu.data.orderStatusCount.pending;
            this.totalOrders = resu.data.orderStatusCount.totalOrders;
            this.totalProducts = resu.data.orderStatusCount.totalProducts;
            this.totalOffers = resu.data.orderStatusCount.totalOffers;
@@ -315,7 +317,7 @@ export class DashboardComponent implements OnInit {
     // console.log(this.driversList)
     // console.log("val",value)
     var driverIDs = '#dr'+value
-    console.log("->>>>>>>>>",driverIDs)
+    // console.log("->>>>>>>>>",driverIDs)
 
     var sortOrder = this.driversList.filter(function(item) {
       return item.driverIDs.toLowerCase().indexOf(driverIDs.toLowerCase()) >= 0

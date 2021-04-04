@@ -959,7 +959,9 @@ module.exports = function (app, validator) {
   })
 
   app.post(userPath + '/viewUser', app.auth, [
-    validator.check('id').trim().exists().isLength({ min: 1, max: 255 }).withMessage('INVALID: $[1], id')
+    validator.check('id').trim().exists().isLength({ min: 1, max: 255 }).withMessage('INVALID: $[1], id'),
+    validator.check('fromDate').optional({ checkFalsy: true }).isLength({ min: 1 }).withMessage('fromDate is Empty'),
+    validator.check('toDate').optional({ checkFalsy: true }).isLength({ min: 1 }).withMessage('toDate is Empty')
   ], function (request, response) {
     var lang = request.headers.lang
     var error = validator.validation(request)

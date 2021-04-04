@@ -31,184 +31,184 @@
 
 
 <section class="add_driv_sec">
-    <div class="modal center fade" id="add_driv_btn" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="col-md-7">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div class="col-md-2">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="width: 100%;">
-                                    <span aria-hidden="true" style="font-size: 20px;" (click)="onPrint()">Print</span>
-                                </button>
-                            </div>
-                            <div class="col-md-3">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="width: 100%;">
-                                    <span aria-hidden="true" style="font-size: 20px;">Download</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row" id='print_portion'>
-                        <div class="col-md-12" style="margin-top: 30px;">
-                            <div style="text-align: center;">????????</div>
-                        </div>
+<div class="modal center fade" id="add_driv_btn" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<div class="row">
+<div class="col-md-12">
+<div class="col-md-7">
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="col-md-2">
+<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="width: 100%;">
+<span aria-hidden="true" style="font-size: 20px;" (click)="onPrint()">Print</span>
+</button>
+</div>
+<div class="col-md-3">
+<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="width: 100%;">
+<span aria-hidden="true" style="font-size: 20px;">Download</span>
+</button>
+</div>
+</div>
+</div>
+<div class="row" id='print_portion'>
+<div class="col-md-12" style="margin-top: 30px;">
+<div style="text-align: center;">????????</div>
+</div>
 
-                        <div class="col-md-12">
-                            <div style="text-align: center;">{{orderIDs}} :??? ????????</div>
-                        </div>
+<div class="col-md-12">
+<div style="text-align: center;">{{orderIDs}} :??? ????????</div>
+</div>
 
-                        <div class="col-md-12" style="margin-top: 10px; text-align: center;">
-                            <img style="width: 20%;" src="../../assets/img/bill_logo.png" alt="a3nab_image"/>
-                            <div style="text-align: center;">a3nab@gmail.com</div>
-                            <div style="text-align: center;">Taif, Makkah Province Saudi Arabia</div>
-                            <div style="text-align: center; margin-top: 10px;">8028456 :????? ???????</div>
-                        </div>
-                        
-
-                        <div class="col-md-12" style="margin-top: 30px;">
-                            <div class="col-md-6" >
-                                {{ordertime}} :??? ????????
-                            </div>
-                            <div class="col-md-6" style="text-align: right;">
-                                {{orderOn}} :????? ????????
-                            </div>
-                        </div>
-
-                        <div class="col-md-12" style="margin-top: 30px;">
-                            <div class="col-md-6">
-                                {{firstName}} {{lastName}} :??? ??????
-                            </div>
-                            <div class="col-md-6" style="text-align: right;">
-                                {{mobileNumber}} :??? ????????
-                            </div>
-                        </div>
+<div class="col-md-12" style="margin-top: 10px; text-align: center;">
+<img style="width: 20%;" src="../../assets/img/bill_logo.png" alt="a3nab_image"/>
+<div style="text-align: center;">a3nab@gmail.com</div>
+<div style="text-align: center;">Taif, Makkah Province Saudi Arabia</div>
+<div style="text-align: center; margin-top: 10px;">8028456 :????? ???????</div>
+</div>
 
 
-                        <div class="col-md-12" *ngFor="let item of orderDetails" style="margin-top: 25px;">
-                            <div>
-                                <div class="col-md-6" style="text-align: left;">
-                                    <p>{{item.storeName}} :?????</p>
-                                </div>
-                                <div class="col-md-6" style="text-align: right; margin: 0px;">
-                                    <p>{{item.storeID}} :???? ??????</p>
-                                </div>
-                            </div>
-                        </div>
-                        
+<div class="col-md-12" style="margin-top: 30px;">
+<div class="col-md-6" >
+{{ordertime}} :??? ????????
+</div>
+<div class="col-md-6" style="text-align: right;">
+{{orderOn}} :????? ????????
+</div>
+</div>
 
-                        <div class="col-md-12" style="text-align: center;">
-                            ---------------------------------------------------------------------------------------------------------------------------  
-                        </div>
-                        <div class="col-md-12">
-                            <div class="col-md-6">
-                                ??????
-                            </div>
-                            <div class="col-md-2" style="text-align: center;">
-                                ????
-                            </div>
-                            <div class="col-md-2" style="text-align: center;">
-                                ????? / ??????
-                            </div>
-                            <div class="col-md-2" style="text-align: right;">
-                                ??? (SAR)
-                            </div>
-                        </div>
+<div class="col-md-12" style="margin-top: 30px;">
+<div class="col-md-6">
+{{firstName}} {{lastName}} :??? ??????
+</div>
+<div class="col-md-6" style="text-align: right;">
+{{mobileNumber}} :??? ????????
+</div>
+</div>
 
-                        <div class="col-md-12" style="text-align: center;" >
-                            ---------------------------------------------------------------------------------------------------------------------------  
-                        </div>
-                        
 
-                        <div *ngFor="let item of orderDetails" >
-                            <span class="col-md-12" style="margin-top: 10px;" *ngFor="let prod of item.products">
-                                <div class="col-md-6">
-                                    <p>{{prod.productName}}</p>
-                                </div>
-                                <div class="col-md-2" style="text-align: center;">
-                                    <p>{{prod.quantity}}</p>
-                                </div>
-                                <div class="col-md-2" style="text-align: center;">
-                                    <p>{{prod.singlePrice}}</p>
-                                </div>
-                                <div class="col-md-2" style="text-align: right;">
-                                    <p>{{prod.supplyPrice}}</p>
-                                </div>
-                            </span>
-                        </div>
-                        
+<div class="col-md-12" *ngFor="let item of orderDetails" style="margin-top: 25px;">
+<div>
+<div class="col-md-6" style="text-align: left;">
+<p>{{item.storeName}} :?????</p>
+</div>
+<div class="col-md-6" style="text-align: right; margin: 0px;">
+<p>{{item.storeID}} :???? ??????</p>
+</div>
+</div>
+</div>
 
-                        <div class="col-md-12" style="margin-top: 10px; text-align: center;">
-                            ---------------------------------------------------------------------------------------------------------------------------  
-                        </div>
 
-                        <div class="col-md-12" style="margin-top: 15px;">
-                            <div class="col-md-9" style='text-align: right;'>
-                                ?????
-                                <br>Total
-                            </div>
-                            <div class="col-md-3" style="text-align: right;">
-                                {{totalAmount}}
-                            </div>
-                        </div>
+<div class="col-md-12" style="text-align: center;">
+---------------------------------------------------------------------------------------------------------------------------  
+</div>
+<div class="col-md-12">
+<div class="col-md-6">
+??????
+</div>
+<div class="col-md-2" style="text-align: center;">
+????
+</div>
+<div class="col-md-2" style="text-align: center;">
+????? / ??????
+</div>
+<div class="col-md-2" style="text-align: right;">
+??? (SAR)
+</div>
+</div>
 
-                        <div *ngIf='discountAmount' class="col-md-12" style="margin-top: 15px;">
-                            <div class="col-md-9" style='text-align: right;'>
-                                ???
-                                <br> Discount
-                            </div>
-                            <div class="col-md-3" style="text-align: right;">
-                                <span class="green">(-) </span>{{discountAmount}}
-                            </div>
-                        </div>
+<div class="col-md-12" style="text-align: center;" >
+---------------------------------------------------------------------------------------------------------------------------  
+</div>
 
-                        <div class="col-md-12" style="margin-top: 15px;">
-                            <div class="col-md-9" style='text-align: right;'>
-                                ??????? ??????? (15%)<br>
-                                (%15) Vat
-                            </div>
-                            <div class="col-md-3" style="text-align: right;">
-                                {{ordertax}}
-                            </div>
-                        </div>
 
-                        <div class="col-md-12" style="margin-top: 10px; text-align: center;">
-                            ---------------------------------------------------------------------------------------------------------------------------  
-                        </div>
+<div *ngFor="let item of orderDetails" >
+<span class="col-md-12" style="margin-top: 10px;" *ngFor="let prod of item.products">
+<div class="col-md-6">
+<p>{{prod.productName}}</p>
+</div>
+<div class="col-md-2" style="text-align: center;">
+<p>{{prod.quantity}}</p>
+</div>
+<div class="col-md-2" style="text-align: center;">
+<p>{{prod.singlePrice}}</p>
+</div>
+<div class="col-md-2" style="text-align: right;">
+<p>{{prod.supplyPrice}}</p>
+</div>
+</span>
+</div>
 
-                        <div class="col-md-12" style="margin-top: 15px;">
-                            <div class="col-md-9" style="text-align: right;">
-                                ??????? ???????? (SAR) <br>
-                                Grand Total (SAR)
-                            </div>
-                            <div class="col-md-3" style="text-align: right;">
-                                {{grandTotal}}
-                            </div>
-                        </div>
 
-                        <!-- <div *ngFor="let item of orderDetails" >
-                            <div class="col-md-12" style="margin-top: 10px; text-align: center;">
-                                <img src="{{item.storeImage}}" class="" style="width: 10%; border-radius: 60%;">
-                            </div>
-                        </div> -->
+<div class="col-md-12" style="margin-top: 10px; text-align: center;">
+---------------------------------------------------------------------------------------------------------------------------  
+</div>
 
-                        <div class="col-md-12" style="margin-top: 30px; text-align: center;">
-                            >>>>>>>>>>>>>>>>>>>>>>>>> {{orderIDs}} ??? ???????? >>>>>>>>>>>>>>>>>>>>>>>>>
-                        </div>
+<div class="col-md-12" style="margin-top: 15px;">
+<div class="col-md-9" style='text-align: right;'>
+?????
+<br>Total
+</div>
+<div class="col-md-3" style="text-align: right;">
+{{totalAmount}}
+</div>
+</div>
 
-                        <div class="" style="margin: 20px; text-align: center;">
-                            <img src="../../assets/img/sample.png" style="width: 50%; margin-top: 30px;"/>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<div *ngIf='discountAmount' class="col-md-12" style="margin-top: 15px;">
+<div class="col-md-9" style='text-align: right;'>
+???
+<br> Discount
+</div>
+<div class="col-md-3" style="text-align: right;">
+<span class="green">(-) </span>{{discountAmount}}
+</div>
+</div>
+
+<div class="col-md-12" style="margin-top: 15px;">
+<div class="col-md-9" style='text-align: right;'>
+??????? ??????? (15%)<br>
+(%15) Vat
+</div>
+<div class="col-md-3" style="text-align: right;">
+{{ordertax}}
+</div>
+</div>
+
+<div class="col-md-12" style="margin-top: 10px; text-align: center;">
+---------------------------------------------------------------------------------------------------------------------------  
+</div>
+
+<div class="col-md-12" style="margin-top: 15px;">
+<div class="col-md-9" style="text-align: right;">
+??????? ???????? (SAR) <br>
+Grand Total (SAR)
+</div>
+<div class="col-md-3" style="text-align: right;">
+{{grandTotal}}
+</div>
+</div>
+
+<!-- <div *ngFor="let item of orderDetails" >
+<div class="col-md-12" style="margin-top: 10px; text-align: center;">
+<img src="{{item.storeImage}}" class="" style="width: 10%; border-radius: 60%;">
+</div>
+</div> -->
+
+<div class="col-md-12" style="margin-top: 30px; text-align: center;">
+>>>>>>>>>>>>>>>>>>>>>>>>> {{orderIDs}} ??? ???????? >>>>>>>>>>>>>>>>>>>>>>>>>
+</div>
+
+<div class="" style="margin: 20px; text-align: center;">
+<img src="../../assets/img/sample.png" style="width: 50%; margin-top: 30px;"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 </section>
 
 
@@ -270,7 +270,7 @@ My Super Mart<br>
 </td> -->
 <td style="width: 30px;">
 
-        <img src="{{prod.productImage}}">
+<img src="{{prod.productImage}}">
 
 
 </td>
@@ -339,9 +339,9 @@ My Super Mart<br>
 <li class="righ_cont">{{ordertax}}</li>
 </ul>
 <ul>
-    <li class="light_color">Discount</li>
-    <li class="righ_cont">{{discountAmount}}</li>
-    </ul>
+<li class="light_color">Discount</li>
+<li class="righ_cont">{{discountAmount}}</li>
+</ul>
 <ul>
 <li class="light_color">Delivery Charges</li>
 <li class="righ_cont">Free</li>
@@ -365,12 +365,12 @@ My Super Mart<br>
 <div class="card-content">
 <div class="row">
 <div class="col-md-4">
-    <img src="{{driverImage}}">
+<img src="{{driverImage}}">
 </div>
 <div class="col-md-8">
-    <span class="red_color">{{drId}}</span><br>
-    <span><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i></span><br>
-    <!-- <span class="light_color">Success Rate : 85%</span> -->
+<span class="red_color">{{drId}}</span><br>
+<span><i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i></span><br>
+<!-- <span class="light_color">Success Rate : 85%</span> -->
 </div>
 </div>
 <br>
@@ -380,49 +380,49 @@ My Super Mart<br>
 </ul>
 <!-- <p class="driv_desc">Driver is picking up the item from Store 2 ( #store_id )</p> -->
 <div class="row">
-    <div class="col-md-12">
-        <agm-map 
-        [latitude]="lat"
-        [longitude]="lng"
-        [zoom]="zoom"
-        [disableDefaultUI]="false"
-        [zoomControl]="false">
-        <agm-marker 
-        *ngFor="let m of markers; let i = index"
-        (markerClick)="clickedMarker(infowindow)"
-        [latitude]="m.latitude"
-        [longitude]="m.longitude"
-        >
-        <agm-info-window #infowindow>
-        <p><strong>Name: </strong> {{m.address}}</p>
-        </agm-info-window>
-        </agm-marker>
-        </agm-map>
-    </div>
-    </div>
+<div class="col-md-12">
+<agm-map 
+[latitude]="lat"
+[longitude]="lng"
+[zoom]="zoom"
+[disableDefaultUI]="false"
+[zoomControl]="false">
+<agm-marker 
+*ngFor="let m of markers; let i = index"
+(markerClick)="clickedMarker(infowindow)"
+[latitude]="m.latitude"
+[longitude]="m.longitude"
+>
+<agm-info-window #infowindow>
+<p><strong>Name: </strong> {{m.address}}</p>
+</agm-info-window>
+</agm-marker>
+</agm-map>
+</div>
+</div>
 </div>
 </div>
 </div>
 <div class="col-md-3">
-    <div class="card">
-        <div class="card-content">
-            <ul *ngFor="let item of orderDetails;let i = index" style="display: flex; overflow: hidden;">
-                <li class="ord_det col-md-4" style="padding-left: 0px; padding-right: 0px; margin-top: 8px;">
-                    <img src="{{item.storeImage}}">
-                </li>
-                <li class="ord_det col-md-12" style="padding-right: 0px;"><span>{{item.storeName}}</span><br>
-                    <span class="red_color">{{item.storeID}}</span><br>
-                    <span class="light_color">Status &nbsp; <b class="green">{{item.storeStatus}}</b></span><br>
-                    <span *ngIf="orderStatus == 'CANCELLED'" class="light_color">Order Status &nbsp; <b class="green">{{orderStatus}}</b></span><br>
-                    <span *ngIf="cancelReason" class="light_color">Cancel Reason &nbsp; <b class="red">{{cancelReason}}</b></span>
-                </li>
-            </ul>
-            <ul class="rej_bbn" style="display: block ruby;">
-                <!-- <li class="col-md-9" style="padding-left: 0px; padding-top: 10px; padding-bottom: 10px;"><button type="button" class="float_cash_btn">Reject Reason</button></li> -->
-                <!-- <li><button type="button" class="float_cash_btn">Assign Store</button></li> -->
-            </ul>
-        </div>
-    </div>
+<div class="card">
+<div class="card-content">
+<ul *ngFor="let item of orderDetails;let i = index" style="display: flex; overflow: hidden;">
+<li class="ord_det col-md-4" style="padding-left: 0px; padding-right: 0px; margin-top: 8px;">
+<img src="{{item.storeImage}}">
+</li>
+<li class="ord_det col-md-12" style="padding-right: 0px;"><span>{{item.storeName}}</span><br>
+<span class="red_color">{{item.storeID}}</span><br>
+<span class="light_color">Status &nbsp; <b class="green">{{item.storeStatus}}</b></span><br>
+<span *ngIf="orderStatus == 'CANCELLED'" class="light_color">Order Status &nbsp; <b class="green">{{orderStatus}}</b></span><br>
+<span *ngIf="cancelReason" class="light_color">Cancel Reason &nbsp; <b class="red">{{cancelReason}}</b></span>
+</li>
+</ul>
+<ul class="rej_bbn" style="display: block ruby;">
+<!-- <li class="col-md-9" style="padding-left: 0px; padding-top: 10px; padding-bottom: 10px;"><button type="button" class="float_cash_btn">Reject Reason</button></li> -->
+<!-- <li><button type="button" class="float_cash_btn">Assign Store</button></li> -->
+</ul>
+</div>
+</div>
 </div>
 </div>
 </div>

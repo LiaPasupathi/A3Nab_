@@ -23,7 +23,7 @@ export class ProductFormComponent implements OnInit {
   subCategoryId: any;
   mainCateId: any;
   subSubCate: any;
-
+  imagePreview: any;
   cuttingStyle:any;
   productList: any;
   selectedProduct: any;
@@ -549,7 +549,7 @@ this.dropdownSettings = {
       this.updateProducts(productObject)
       return;
     }
-
+    this.proImages = []
     var imgLength = this.productImages.length;
     for (var i = 0; i < this.productImages.length; i++) { 
       const imageformData = new FormData();
@@ -560,7 +560,8 @@ this.dropdownSettings = {
       this.proImages.push(imgObj)
       if(0 === --imgLength) {
         console.log('final Call')
-        console.log(productObject)
+        // console.log(",,,",this.proImages)
+       
         productObject['images'] = JSON.stringify(this.proImages)
         this.saveProductService(productObject);
       }
@@ -585,6 +586,9 @@ this.dropdownSettings = {
           this.spinner.hide();
           this.submitted = false;
           this.apiCall.setProductValue('products')
+          this.proImages = []
+          this.productImages = []          
+          // console.log("??",this.proImages)
           this.apiCall.showToast(response.body.message, 'Success', 'successToastr')
           // this.router.navigateByUrl('/product-stats');
         } else {

@@ -55,6 +55,7 @@ export class OrderDetailsComponent implements OnInit {
   markers: marker[] = []
     
   previous;
+  showAccept = 'true';
 
   payType: string;
 
@@ -92,7 +93,17 @@ export class OrderDetailsComponent implements OnInit {
     this.route.params.subscribe(params => this.orderId = params.id);
     // console.log(this.orderId)
     this.getOrderDetails(this.orderId)
+    this.callRolePermission()
   }
+
+  callRolePermission(){
+    if(sessionStorage.getItem('adminRole') !== 'superadmin'){
+      let orderpermission = JSON.parse(sessionStorage.getItem('permission'))
+      // console.log(orderpermission[0].read)
+      this.showAccept = orderpermission[0].read
+    }
+  }
+
 
   getOrderDetails(id){
     var params = {

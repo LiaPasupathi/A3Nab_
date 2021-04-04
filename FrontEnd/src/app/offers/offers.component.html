@@ -326,12 +326,12 @@ _icon.svg'"></li>
 
 <div class="modal-body">
 
-<form>
+<form  [formGroup]="pushNotify" (ngSubmit)="onPushsubmit()">
 <div class="row">
 <div class="col-md-12">
 <div class="form-group">
 <label>Notification Title</label>
-<input type="text" name="" class="form-control" placeholder="Trusty User">
+<input type="text" class="form-control" placeholder="Trusty User" formControlName="title">
 </div>
 </div>
 </div>
@@ -339,7 +339,7 @@ _icon.svg'"></li>
 <div class="col-md-12">
 <div class="form-group">
 <label>Notification Content</label>
-<textarea class="form-control" rows="5">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</textarea>
+<textarea class="form-control" rows="5" formControlName="content">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.</textarea>
 </div>
 </div>
 </div>
@@ -347,22 +347,26 @@ _icon.svg'"></li>
 <div class="col-md-6">
 <div class="form-group">
 <label>Select Gender</label><br>
-<select>
-<option>None</option>
+<select  formControlName="gender">
+<option>Male</option>
+<option>Female</option>
 </select>
 </div>
 </div>
 <div class="col-md-6">
 <div class="form-group">
 <label>Select Age Range</label><br>
-<select>
-<option>18 - 25</option>
+<select formControlName="age">
+<option>0 - 12</option>
+<option>13 - 18</option>
+<option>19 - 56</option>
+<option>All</option>
 </select>
 </div>
 </div>
 </div>
 
-<div class="row">
+<!-- <div class="row">
 <div class="col-md-12">
 <div class="form-group">
 <label>Select Location</label><br>
@@ -371,10 +375,10 @@ _icon.svg'"></li>
 </select>
 </div>
 </div>
-</div>
+</div> -->
 
 <br>
-<p class="text-center"><button class="add_car_btn">Send Push Notification</button></p>
+<p class="text-center" *ngIf = "showAccept == 'true'"><button class="add_car_btn">Send Push Notification</button></p>
 
 </form>
 </div>

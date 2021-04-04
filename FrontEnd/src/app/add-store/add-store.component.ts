@@ -59,8 +59,10 @@ export class AddStoreComponent implements OnInit {
 
   isEdit = false;
 
-  pages: number;
-  page =1;
+  paginat : any;
+  pages: any;
+  page : Number =1;
+  pagno : Number =1;
   limitValue = 0;
   status = 'ALL';
 
@@ -92,7 +94,6 @@ export class AddStoreComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => this.storeId = params.id);
-
     this.storeForm   = this.formBuilder.group({
       storeName: ['',  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
       managerFname: ['',  [Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
@@ -262,13 +263,23 @@ export class AddStoreComponent implements OnInit {
     const object = {storeId:this.storeId, pageNumber: page, limit: this.limitValue}
     this.storeOrdersList(object)
   }
+  stoProductPage(pagno){
+    const object = {storeId:this.storeId,categoryId: this.categoryId, pageNumber: pagno,status: this.status, limit: this.limitValue}
+    this.storeProductList(object)
+  }
 
   onChangeLimit(value){
     this.limitValue = value
     this.pages = 0
     this.page = 0
     const object = {storeId:this.storeId, pageNumber: 1, limit: this.limitValue}
-    this.storeOrdersList(object)
+    this.storeOrdersList(object)  
+  }
+
+  onChangeProdlimt(value){
+    this.limitValue = value 
+    const object = {storeId: this.storeId, categoryId: this.categoryId,pageNumber: 1, status: this.status,limit: this.limitValue }
+    this.storeProductList(object)
   }
   
 
@@ -296,7 +307,8 @@ export class AddStoreComponent implements OnInit {
   }
 
   onProdStatusFilter(status){
-    const object = {storeId: this.storeId, categoryId: this.categoryId,pageNumber: 1, status: status,limit: this.limitValue }
+    this.status = status;
+    const object = {storeId: this.storeId, categoryId: this.categoryId,pageNumber: 1, status: this.status,limit: this.limitValue }
     this.storeProductList(object)
   }
 
@@ -306,13 +318,13 @@ export class AddStoreComponent implements OnInit {
       url: 'admin/viewStoreProducts',
       data: object
     }
-    console.log("-----",params)
+    // console.log("-----",params)
     this.apiCall.commonPostService(params).subscribe(
       (response: any) => {
         if (response.body.error == 'false') {
-          this.pages = response.body.data.pages * 10;
+          this.paginat = response.body.data.page * 10;
           this.storeproducts = response.body.data.store
-          // console.log(this.storeproducts)
+          // console.log("?????",this.pages)
         } else {
           this.apiCall.showToast(response.body.message, 'Error', 'errorToastr') 
         }
@@ -416,6 +428,7 @@ async upload_btn_file(){
       url: 'admin/viewStoreDetails',
       data: object
     }
+
     this.apiCall.commonPostService(params).subscribe(
       (response: any) => {
         // console.log(response.body)

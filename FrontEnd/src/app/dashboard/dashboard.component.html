@@ -3,7 +3,7 @@
 <div class="content">
 <!-- uiView:  --><div ui-view="" class="ng-scope"><div class="container-fluid ng-scope">
 <div class="row dash_page">
-<div class="col-md-4 delive_col">
+<div class="col-md-3 delive_col">
 <div class="card card-stats">
 <div class="card-content">
 <p class="category text-center">Delivered Orders &nbsp;&nbsp;<strong>{{delivered}}</strong></p>
@@ -11,15 +11,15 @@
 </div>
 </div>
 </div>
-<!-- <div class="col-md-3 delive_col">
+<div class="col-md-3 delive_col">
 <div class="card card-stats">
 <div class="card-content">
-<p class="category text-center">Pending Orders &nbsp;&nbsp;<strong>{{statCount.assigned}}</strong></p>
+<p class="category text-center">Pending Orders &nbsp;&nbsp;<strong>{{pending}}</strong></p>
 <h3 class="card-title"></h3>
 </div>
 </div>
-</div> -->
-<div class="col-md-4 delive_col">
+</div>
+<div class="col-md-3 delive_col">
 <div class="card card-stats">
 <div class="card-content">
 <p class="category text-center">Assigned Orders &nbsp;&nbsp;<strong>{{assigned}}</strong></p>
@@ -27,7 +27,7 @@
 </div>
 </div>
 </div>
-<div class="col-md-4 delive_col">
+<div class="col-md-3 delive_col">
 <div class="card card-stats">
 <div class="card-content">
 <p class="category text-center">Cancelled Orders &nbsp;&nbsp;<strong>{{cancelled}}</strong></p>
@@ -116,8 +116,8 @@
 <td class="col_chan"><a routerLink="/customer/{{ order.userId }}">{{order.customerID}}</a></td>
 <td>{{order.grandTotal}}</td>
 <td>{{order.orderStatus}}</td>
-<td class="driv_btn" *ngIf="order.orderStatus == 'PENDING'">Not Assigned</td>
-<td class="col_chan text-center" *ngIf="order.orderStatus != 'PENDING'">{{order.as_driverId}}</td>
+<td class="driv_btn" *ngIf="order.orderStatus == 'PENDING'">{{order.orderStatus}}</td>
+<td class="col_chan text-center" style="color: #C1003A;" *ngIf="order.orderStatus != 'PENDING'">{{order.drId}}</td>
 
 <td class="col_chan text-center">{{order.assignment_ID}}</td>
 </tr>

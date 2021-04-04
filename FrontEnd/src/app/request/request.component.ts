@@ -47,7 +47,7 @@ export class RequestComponent implements OnInit {
 
   pageReload() {
     this.ngOnInit();
-    window.location.reload();
+    
   }
 
   nextPage(page){

@@ -397,20 +397,28 @@
 <div class="tab-content clearfix">
 <div class="tab-pane active" id="1b">
 <ul class="filter_cont">
-<li>
-<input type="text" bsDatepicker  placeholder="Start Date" (bsValueChange) ="valuefrom($event)"  [bsConfig]="{dateInputFormat: 'DD-MM-YYYY'}" readonly   [outsideClick] = "true"  class="form-control datepicker">
-</li>
-<li>
-<input type="text" bsDatepicker  placeholder="End Date" (bsValueChange) ="valueTo($event)" [bsConfig]="{dateInputFormat: 'DD-MM-YYYY'}" readonly   [outsideClick] = "true"  class="form-control datepicker">
-</li>
-<li>
-   <select (change)="onChangeLimit($event.target.value)">
-   <option value="0">select</option>
-   <option value="1">Show 25</option>
-   <option value="2">Show 50</option>
-   <option value="3">Show 75</option>
-   </select>
-   </li>
+<div class="row">
+<div class="col-md-4">
+   <li>
+      <p><input type="text" bsDatepicker  placeholder="Start Date" (bsValueChange) ="valuefrom($event)"  [bsConfig]="{dateInputFormat: 'DD-MM-YYYY'}" readonly   [outsideClick] = "true"  class="form-control datepicker"></p>
+      </li>
+</div>
+<div class="col-md-8">
+   <li>
+      <p><input type="text" bsDatepicker  placeholder="End Date" (bsValueChange) ="valueTo($event)" [bsConfig]="{dateInputFormat: 'DD-MM-YYYY'}" readonly   [outsideClick] = "true"  class="form-control datepicker"></p>
+      </li>
+      <li>
+         <p>Show :
+            <select (change)="onChangeLimit($event.target.value)">
+            <option value="0">select</option>
+            <option value="10">Show 10</option>
+            <option value="25">Show 25</option>
+            <option value="50">Show 50</option>
+            </select>
+            </p>
+         </li>
+</div>
+</div>
 </ul>
 <div class="card">
 <div class="card-content">
@@ -483,11 +491,11 @@ Status Filter :
 </li>
 <li>
    <p>Show :
-   <select (change)="onChangeLimit($event.target.value)">
+   <select (change)="onChangeProdlimt($event.target.value)">
    <option value="0">select</option>
-   <option value="1">Show 25</option>
-   <option value="2">Show 50</option>
-   <option value="3">Show 75</option>
+   <option value="10">Show 10</option>
+   <option value="25">Show 25</option>
+   <option value="50">Show 50</option>
    </select>
    </p>
 </li>
@@ -531,7 +539,7 @@ View Details</button>
 </tr>
 </tbody>
 </table>
-<p class="text-center"><ngb-pagination  [collectionSize]="pages" (pageChange)="nextPage($event)" [(page)]="page" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
+<p class="text-center"><ngb-pagination  [collectionSize]="paginat" (pageChange)="stoProductPage($event)" [(page)]="pagno" [maxSize]="5" [rotate]="true" [boundaryLinks]="true"></ngb-pagination>
 </p>
 </div>
 </div>

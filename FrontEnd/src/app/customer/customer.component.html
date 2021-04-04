@@ -42,7 +42,7 @@ Map View &nbsp;&nbsp;
 <a (click)="pageReload()"> <i class="fa fa-refresh"></i> </a>
 </li>
 <li *ngIf = "showExport == 'true'">
-    <button class="float_cash_btn"  (click) = "exportList($event);">Export XLS</button>
+<button class="float_cash_btn"  (click) = "exportList($event);">Export XLS</button>
 </li>
 </ul>
 </div>
@@ -114,13 +114,13 @@ Map View &nbsp;&nbsp;
 </div> -->
 </td>
 <td>{{item.signupDate}} - {{item.signupDateTime}}</td>
-<td class="col_chan"><button type="button" (click)="viewUser(item.id)" class="cust_view_btn" data-toggle="modal" data-target="#cust_btn">{{item.customerID}}</button></td>
+<td class="col_chan"><button type="button" (click)="viewUser(item.id,'','')" class="cust_view_btn" data-toggle="modal" data-target="#cust_btn">{{item.customerID}}</button></td>
 <td>{{item.firstName}}</td>
 <td>{{item.gender}}</td>
 <td>{{item.DOB}}</td>
 <td>{{item.mobileNumber}}</td>
 <td>{{item.addressPinDetails}}</td>
-<td class="text-center">46%</td>
+<td class="text-center"></td>
 <td>{{item.lastOrder}}- {{item.lastOrdertime}}</td>
 <td class="text-center">{{item.orders}}</td>
 <td>SAR {{item.amount}}</td>
@@ -151,9 +151,9 @@ margin-top: -34%;
 <div class="modal-content">
 <div class="modal-header">
 <div class="row">
-<div class="col-md-4">
+<div class="col-md-12">
 <div class="row">
-<div class="col-md-7">
+<div class="col-md-12">
 <ul>
 <li><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></li>
 <!-- <li class="stat_btn text-center">
@@ -188,7 +188,7 @@ Status &nbsp;&nbsp;
 </tr>
 <tr>
 <td class="cus_head">Wallet Point</td>
-<td>0</td>
+<td></td>
 </tr>
 <tr>
 <td class="cus_head">Wallet Balance</td>
@@ -204,7 +204,7 @@ Status &nbsp;&nbsp;
 </tr>
 <tr>
 <td class="cus_head">Cancellation %</td>
-<td>6%</td>
+<td></td>
 </tr>
 <tr>
 <td class="cus_head">Signup Date</td>
@@ -224,11 +224,12 @@ Trusty User &nbsp;&nbsp;
 <span class="slider"></span>
 </label>
 </li>
+<li><button type="button" class="car_log_btn" data-toggle="modal" data-target="#log_man">Action Log</button></li>
 <br>
 <li> 
-    <div class="form-group">
-        <label>Package Value</label>
-    <input class="form-control" formControlName="packageValue" type="text">
+<div class="form-group">
+<label>Package Value</label>
+<input class="form-control" formControlName="packageValue" type="text">
 </div>
 </li>
 <li *ngIf = "showAccept == 'true'">
@@ -309,30 +310,43 @@ Trusty User &nbsp;&nbsp;
 </form>
 </div>
 </div>
-<div class="col-md-8">
+
+</div>
+</div>
+<!-- modal-content -->
+</div>
+<!-- modal-dialog -->
+</div>
+</div>
+</section>
+
+<section class="car_modal">
+<div class="modal right fade" id="log_man" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<div class="row">
+<div class="col-md-12">
 <div class="row">
 <div class="col-md-8">
-<!-- <ul>
-<li><img src="assets/img/left_arrow.svg"></li>
+<ul>
+    <li><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></li>
+<!-- <li><img src="assets/img/left_arrow.svg"></li> -->
 <li>
-<select>
-<option>Start Date</option>
-</select>
+    <input type="text" bsDatepicker  placeholder="From Date"  (bsValueChange) ="rangevalueFrom($event)" [bsConfig]="{dateInputFormat: 'DD-MM-YYYY'}" readonly   [outsideClick] = "true"  class="form-control datepicker">
 </li>
 <li>
-<select>
-<option>End Date</option>
-</select>
+    <input type="text" bsDatepicker  placeholder="To Date"  (bsValueChange) ="rangevalueTo($event)" [bsConfig]="{dateInputFormat: 'DD-MM-YYYY'}" readonly   [outsideClick] = "true"  class="form-control datepicker">
 </li>
-</ul> -->
+</ul>
 </div>
 <div class="col-md-4 custom_head">
 <ul class="right_cont">
-<!-- <li>
-<i class="fa fa-refresh"></i>
-</li> -->
+<li>
+    <a (click)="pageReload()" ><i class="fa fa-refresh"></i></a >
+</li>
 <li *ngIf = "showExport == 'true'">
-<a href="" class="export_btn">Export XLS</a>
+    <button class="float_cash_btn" (click) = "logExportList($event);">Export XLS</button>
 </li>
 </ul>
 </div>
@@ -421,6 +435,7 @@ Trusty User &nbsp;&nbsp;
 </div>
 </div>
 </section>
+
 <div class="modal right fade" id="view_det" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
 <div class="modal-dialog" role="document">
 <div class="modal-content">

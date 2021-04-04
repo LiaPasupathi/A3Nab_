@@ -78,6 +78,7 @@ module.exports = function () {
         .innerJoin('driver', 'driverMaintenance.driverId', '=', 'driver.id')
         .innerJoin('cars', 'driverMaintenance.carId', '=', 'cars.id')
         .where({ 'driverMaintenance.carId': id })
+        
         .then((result) => {
           response.error = false
           response.data = result

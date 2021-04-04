@@ -48,6 +48,7 @@ export class CustomerComponent implements OnInit {
   cusID = null;
   usercsvOptions:any;
   zoom: number = 5;
+  userViewId : number;
   
   // initial center position for the map
   lat: number = 10.616698;
@@ -55,6 +56,9 @@ export class CustomerComponent implements OnInit {
 
   markers: marker[] = []
   previous;
+  valueFrom = ''
+  valueTo = ''
+  id : number;
   showExport = 'true';
 showAccept = 'true';
 
@@ -67,6 +71,7 @@ showAccept = 'true';
 
   ngOnInit(): void {
     this.route.params.subscribe(params => this.cusID = params.id);
+    // console.log("???",this.cusID)
     if(this.cusID){
       this.viewUserListData(this.cusID)
     } else {
@@ -79,7 +84,7 @@ showAccept = 'true';
       packageValue: [0,  [Validators.required, Validators.pattern("[+-]?([0-9]*[.])?[0-9]+")]],
       id: ['',  [Validators.required, Validators.pattern("[+-]?([0-9]*[.])?[0-9]+")]],
     })
-    
+    // this.viewUser({id: this.id,fromDate: this.valueFrom, toDate: this.valueTo})
     this.callRolePermission();
   }
 
@@ -257,6 +262,64 @@ showAccept = 'true';
     }
   }
 
+  logExportList(event : any){
+    const object = {id : this.userViewId,fromDate: this.valueFrom, toDate: this.valueTo}
+    var params = {
+      url: 'admin/viewUser',
+      data: object
+    }
+
+    this.apiCall.commonPostService(params).subscribe(
+      (response: any) => {
+        if (response.body.error == 'false') {
+         // Success
+          if(this.cusID == undefined){
+           
+            this.userOrderList = response.body.data.orderList
+          }
+          // console.log(this.userList)
+          if(response.body.data.orderList.length > 0){
+            this.logexportUserData(response.body.data.orderList)
+          }
+
+        } else {
+          // Query Error
+          this.apiCall.showToast(response.body.message, 'Error', 'errorToastr')
+        }
+      },
+      (error) => {
+        this.apiCall.showToast('Server Error !!', 'Oops', 'errorToastr')
+        console.log('Error', error)
+      }
+    )
+  }
+
+  logexportUserData(data) {
+    if(data.length > 0){
+      var userArray = []
+      data.forEach(element => {
+        var obj = {}
+        obj['orderOn'] = element.orderOn
+        obj['orderIDs'] = element.orderIDs
+        obj['grandTotal'] = element.grandTotal
+        obj['paytype'] = element.paytype
+        userArray.push(obj)
+      })
+      this.usercsvOptions = {
+        fieldSeparator: ',',
+        quoteStrings: '"',
+        decimalseparator: '.',
+        showLabels: true,
+        showTitle: true,
+        title: 'User Report',
+        useBom: true,
+        noDownload: false,
+        headers: ["Entry", "Order", "Price", "PayType"]
+      };
+      new  AngularCsv(userArray, "Customer Report", this.usercsvOptions);
+    }
+  }
+
   onSubmit(){
     var params = {
       url: 'admin/trustUserActive',
@@ -314,13 +377,26 @@ showAccept = 'true';
     )
   }
 
-viewUser(id){
-  var params = {
-    url: 'admin/viewUser',
-    data: {id : id}
+  rangevalueFrom(event: any){
+    this.valueFrom= this.datePipe.transform(event, 'yyyy-MM-dd');
+    this.viewUser(this.userViewId,this.valueFrom,this.valueTo)
   }
 
-  console.log(params)
+  rangevalueTo(event: any){
+    this.valueTo = this.datePipe.transform(event, 'yyyy-MM-dd');
+    this.viewUser(this.userViewId,this.valueFrom,this.valueTo)
+  }
+
+viewUser(id,valueFrom,valueTo){
+     this.userViewId = id;
+     this.valueFrom = valueFrom;
+     this.valueTo = valueTo;
+  var params = {
+    url: 'admin/viewUser',
+    data: {id : this.userViewId,fromDate: this.valueFrom, toDate: this.valueTo}
+  }
+
+  // console.log(">>",params)
     this.apiCall.commonPostService(params).subscribe(
       (response: any) => {
         if (response.body.error == 'false') {

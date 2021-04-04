@@ -4,7 +4,7 @@ module.exports = function () {
   this.orderStatusCountDao = (data) => {
     var response = {}
     return new Promise(function (resolve, reject) {
-      db.raw("SELECT (SELECT COUNT(*) FROM orders WHERE orderStatus = 'COMPLETED' ) AS delivered, (SELECT COUNT(*) FROM orders ) AS totalOrders, (SELECT COUNT(*) FROM orders WHERE as_driverId IS NOT NULL AND orderStatus IN('ONGOING') ) AS assigned, (SELECT COUNT(*) FROM orders WHERE orderStatus = 'CANCELLED' ) AS cancelled, (SELECT COUNT(*) FROM product WHERE isDelete = '0' ) AS totalProducts, (SELECT COUNT(*) FROM offers WHERE offDelete = '0' ) AS totalOffers ")
+      db.raw("SELECT (SELECT COUNT(*) FROM orders WHERE orderStatus = 'COMPLETED' ) AS delivered, (SELECT COUNT(*) FROM orders WHERE orderStatus = 'PENDING' ) AS pending,  (SELECT COUNT(*) FROM orders ) AS totalOrders, (SELECT COUNT(*) FROM orders WHERE as_driverId IS NOT NULL AND orderStatus IN('ONGOING') ) AS assigned, (SELECT COUNT(*) FROM orders WHERE orderStatus = 'CANCELLED' ) AS cancelled, (SELECT COUNT(*) FROM product WHERE isDelete = '0' ) AS totalProducts, (SELECT COUNT(*) FROM offers WHERE offDelete = '0' ) AS totalOffers ")
         .then((result) => {
           response.error = false
           response.data = result[0]

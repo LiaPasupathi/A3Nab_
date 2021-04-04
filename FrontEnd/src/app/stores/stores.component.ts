@@ -242,6 +242,7 @@ showExport = 'true';
           this.submitted = false;
           this.storeForm.reset();
           $('#add_store_btn').modal('hide');
+          this.imagePreview = null;
           this.ngOnInit();
         } else {
           // Query Error

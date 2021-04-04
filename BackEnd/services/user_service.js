@@ -602,24 +602,23 @@ module.exports = function () {
       var response = {}
       var resp = {}
       
-      var today = new Date();
-      var h = today.getHours();
-      var m = today.getMinutes();
-      var s = today.getSeconds();
-      let TimeNow = h + ":" + m + ":" + s
-
+      // var today = new Date();
+      // var h = today.getHours();
+      // var m = today.getMinutes();
+      // var s = today.getSeconds();
+      // let TimeNow = h + ":" + m + ":" + s
       var userDaoObject = new userDao()
       try {
         var bannerImages = await userDaoObject.getAllOfferDetailsDao()
+        // let dataResult = bannerImages.result.filter((Data)=>{
+        //   return Data.StartTime <= TimeNow &&  Data.EndTime >= TimeNow ? Data : ""
+        // })
 
-        let dataResult = bannerImages.result.filter((Data)=>{
-          return Data.StartTime <= TimeNow &&  Data.EndTime >= TimeNow ? Data : ""
-        })
 
-        if (bannerImages.error === 'false' && dataResult.length != 0) {
+        if (bannerImages.error === 'false') {
           response.error = 'false'
           response.message = 'ads retrived successfully'
-          response.result = dataResult
+          response.result = bannerImages.result
           resolve(response)
         } else {
           response.error = 'true'

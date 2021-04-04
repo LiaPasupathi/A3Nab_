@@ -16,6 +16,7 @@ declare var $:any;
 export class OffersComponent implements OnInit {
   
   addOffers: FormGroup;
+  pushNotify: FormGroup;
   datePickerConfig:Partial<BsDatepickerConfig>;
 
    bsValue: Date = new Date();
@@ -62,6 +63,13 @@ export class OffersComponent implements OnInit {
       StartTime: [''],
       EndTime: ['']
   });
+
+  this.pushNotify   = this.formBuilder.group({
+    title: ['',  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
+    content: ['',  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
+    gender:['',[ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
+    age: ['',  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]]
+});
   
   let allcate = {
     url: "admin/getAllCategory"
@@ -158,6 +166,7 @@ async onSubmit()
           this.submitted = false;
           this.addOffers.reset();
           $('#add_offer_btn').modal('hide');
+          this.imagePreview = null;
           this.ngOnInit();
         }
         else
@@ -277,6 +286,7 @@ statclick(status,type,id){
     if(resu.error == "false")
     {
       this.apiCall.showToast("Status updated Successfully", 'Success', 'successToastr');
+      this.ngOnInit();
     }else{
       this.apiCall.showToast(resu.message, 'Error', 'errorToastr');
     }
@@ -286,4 +296,37 @@ statclick(status,type,id){
   });
 
 }
+
+onPushsubmit(){
+  if(!this.pushNotify.valid){
+    this.apiCall.showToast('Please Fill the mandatory field', 'Error', 'errorToastr')
+    return false;
+  }
+  const postData = this.pushNotify.value
+  var params = {
+    url: 'admin/sendPush',
+    data: postData
+  }
+
+  this.apiCall.commonPostService(params).subscribe(
+    (response: any) => {
+      if (response.body.error == 'false') {
+        // Success
+        this.apiCall.showToast(response.body.message, 'Success', 'successToastr')
+        $('#notification_btn').modal('hide');
+        this.ngOnInit();
+        // this.router.navigateByUrl('/dashboard');
+      } else {
+        // Query Error
+        this.apiCall.showToast(response.body.message, 'Error', 'errorToastr')
+      }
+    },
+    (error) => {
+      this.apiCall.showToast('Server Error !!', 'Oops', 'errorToastr')
+      console.log('Error', error)
+    }
+  )
+
+  } 
+
 }

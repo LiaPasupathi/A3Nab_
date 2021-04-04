@@ -183,6 +183,7 @@ showAccept = 'true';
             this.submitted = false;
             this.apiCall.setProductValue('Category')
             this.apiCall.showToast(response.body.message, 'Success', 'successToastr')
+            this.imagePreview = null;
           } else {
             this.spinner.hide();
             // Query Error

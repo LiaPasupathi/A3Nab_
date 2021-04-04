@@ -42,7 +42,9 @@ lat: number = 10.616698;
 lng: number = 76.936195;
 markers: marker[] = []
 previous;
-
+valueFrom = ''
+valueTo = ''
+filtID : number;
 showAccept = 'true';
 
   constructor(
@@ -59,7 +61,6 @@ showAccept = 'true';
       expirationDate: [this.bsValue,  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
       startingMileage: ['',  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
       carModel: ['',  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
-      countryCode: ['',  [ Validators.required, Validators.pattern(/^\S+(?: \S+)*$/)]],
     })  
 
     const data = {status: "ALL"}
@@ -217,6 +218,7 @@ showAccept = 'true';
           // Success
           this.apiCall.showToast(response.body.message, 'Success', 'successToastr')
           $('#add_driv_btn').modal('hide');
+          this.imagePreview = null;
           this.ngOnInit();
           // this.router.navigateByUrl('/dashboard');
         } else {
@@ -229,15 +231,28 @@ showAccept = 'true';
         console.log('Error', error)
       }
     )
+  } 
+
+  rangevalueFrom(event: any){
+    this.valueFrom= this.datePipe.transform(event, 'yyyy-MM-dd');
+    this.drivStat(this.filtID,this.valueFrom,this.valueTo)
   }
 
-  drivStat(object){
+  rangevalueTo(event: any){
+    this.valueTo = this.datePipe.transform(event, 'yyyy-MM-dd');
+    this.drivStat(this.filtID,this.valueFrom,this.valueTo)
+  }
 
+  drivStat(id,valueFrom,valueTo){
+     this.filtID = id;
+     this.valueFrom = valueFrom;
+     this.valueTo = valueTo;
   var params = 
         {
           url: 'admin/viewCarrDetails',
-          data: {id: object}
+          data: {id : this.filtID,fromDate: this.valueFrom, toDate: this.valueTo}
         }
+        // console.log("????",params)
         this.apiCall.commonPostService(params).subscribe(
           (response: any) => {
             if (response.body.error == 'false') {

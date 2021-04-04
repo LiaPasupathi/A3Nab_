@@ -188,6 +188,7 @@ export class DeliveryComponent implements OnInit {
           if(resu.error == "false")
           {
             this.apiCall.showToast("Deleted", 'Success', 'successToastr');
+          this.ngOnInit();
           }else{
             this.apiCall.showToast(resu.message, 'Error', 'errorToastr');
           }

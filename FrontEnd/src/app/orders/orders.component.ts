@@ -30,7 +30,7 @@ export class OrdersComponent implements OnInit {
 
 
   zoom: number = 5;
-  showAccept = true;
+  showAccept = 'true';
   
   // initial center position for the map
   lat: number = 10.616698;
