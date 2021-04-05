@@ -3,6 +3,7 @@ module.exports = function () {
   var productDao = require('../dao/products_dao')
   var userDao = require('../dao/user_dao')
   var notification = require('./user_notification_service')
+  var settingDao = require('../dao/admin/settings_dao')
   require('../utils/common.js')
 
   this.addFavouriteProductService = async (request, callback) => {
@@ -649,6 +650,12 @@ module.exports = function () {
     var response = {}
     var resp = {}
     try {
+      var settingObject = new settingDao()
+      var fsdelivery = 0
+      if(request.fastDelivery == 1){
+        var result = await settingObject.getAppSettingDao()
+        fsdelivery = result.data[0].fastDelievryCharge
+      }
       // var notificationObj = {}
       // notificationObj.userId = request.id
       // notificationObj.notifyType = 'PLACEORDER'
@@ -707,12 +714,13 @@ module.exports = function () {
             productObject.orderOn = new Date()
             productObject.totalAmount = cartResult.originalPrice
             productObject.discountAmount = cartResult.discountAmount
-            productObject.grandTotal = cartResult.cartAmount - couponDiscount
+            productObject.grandTotal = cartResult.cartAmount - couponDiscount + fsdelivery
             productObject.couponDiscount = couponDiscount
             productObject.couponDiscountPer = couponDiscountPer
             productObject.fastDelivery = request.fastDelivery
             productObject.fastDelivery = request.fastDelivery
             productObject.deleteItems = request.deleteItems
+            productObject.fastDelievryCharge = fsdelivery
             // console.log(request)
             request.amount = productObject.grandTotal
   
@@ -1179,34 +1187,47 @@ module.exports = function () {
         } else {
           var orderList = orderItemsResult.data
           var length = orderList.length
-          async.eachOfSeries(orderList, async function (item, index) {
-            var req = {
-              productId: item.productId,
-              userId: request.id
-            }
-            orderList[index].isFavourite = 'false'
-            orderList[index].productImage = ''
-            var productImagesDao = await userDaoObject.productImagesDao(req)
-            var checkFav = await productDaoObject.checkUserFavProduct(req)
-
-            if(productImagesDao.result.length > 0){
-              orderList[index].productImage = productImagesDao.result
-            }
-            if (checkFav.data.length > 0) {
-              orderList[index].isFavourite = 'true'
-            }
-            if (--length === 0) {
-              var orderData = order.data[0]
-              orderData.tax = appSettings.data[0].taxAmount
-              resp.tax = appSettings.data[0].taxAmount
-              resp.orderInfo = orderData
-              resp.orderList = orderItemsResult.data
-              response.error = 'false'
-              response.message = 'Success'
-              response.data = resp
-              callback(response)
-            }
-          })
+          if(length > 0){
+            async.eachOfSeries(orderList, async function (item, index) {
+              var req = {
+                productId: item.productId,
+                userId: request.id
+              }
+              orderList[index].isFavourite = 'false'
+              orderList[index].productImage = ''
+              var productImagesDao = await userDaoObject.productImagesDao(req)
+              var checkFav = await productDaoObject.checkUserFavProduct(req)
+  
+              if(productImagesDao.result.length > 0){
+                orderList[index].productImage = productImagesDao.result
+              }
+              if (checkFav.data.length > 0) {
+                orderList[index].isFavourite = 'true'
+              }
+              if (--length === 0) {
+                var orderData = order.data[0]
+                orderData.tax = appSettings.data[0].taxAmount
+                resp.tax = appSettings.data[0].taxAmount
+                resp.orderInfo = orderData
+                resp.orderList = orderItemsResult.data
+                response.error = 'false'
+                response.message = 'Success'
+                response.data = resp
+                callback(response)
+              }
+            })
+          } else {
+            var orderData = order.data[0]
+                orderData.tax = appSettings.data[0].taxAmount
+                resp.tax = appSettings.data[0].taxAmount
+                resp.orderInfo = orderData
+                resp.orderList = orderItemsResult.data
+                response.error = 'false'
+                response.message = 'Success'
+                response.data = resp
+                callback(response)
+          }
+          
         }
       }
     } catch (e) {

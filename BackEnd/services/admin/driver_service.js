@@ -55,7 +55,7 @@ module.exports = function () {
       Promise.all([
         driverDaoObject.getCarListDao(request, request.id),
         driverDaoObject.admincarDamageListDao(request.id),
-        driverDaoObject.adminGetMaintenanceDao(request.id),
+        driverDaoObject.adminGetMaintenanceDao(request),
         this.returnCarServiceList(request.id)
       ]).then(result => {
         // console.log(result[0])
@@ -126,7 +126,6 @@ module.exports = function () {
       } else {
         response.error = 'false'
         response.message = 'Success'
-        response.data = driver
       }
     } catch (e) {
       console.log(e)

@@ -140,7 +140,8 @@ module.exports = function () {
           userDaoObject.getUserHomeCategoryDao(activeCategory.data),
           this.homeBestProductService(request),
           this.myHomeCartDetails(request),
-          userDaoObject.getUserRatingListDao(request)
+          userDaoObject.getUserRatingListDao(request),
+          userDaoObject.getUpdateAddressListDao(request)
         ])
           .then(result => {
             // console.log(result[4])
@@ -597,7 +598,7 @@ module.exports = function () {
     })
   }
 
-  this.getAllAddsUserService = (userData) => {
+this.getAllAddsUserService = (userData) => {
     return new Promise(async function (resolve) {
       var response = {}
       var resp = {}
@@ -658,8 +659,6 @@ module.exports = function () {
     })
   }
 
-
-
   this.getMyProfileUserService = (userData) => {
     return new Promise(async function (resolve) {
       var response = {}
@@ -685,6 +684,7 @@ module.exports = function () {
       }
     })
   }
+
 
   this.updateProfileUserService = (userData) => {
     return new Promise(async function (resolve) {

@@ -186,6 +186,36 @@ module.exports = function () {
     callback(response)
   }
 
+  this.adminBillingCycle = async (request, callback) => {
+    var storeObject = new storeDao()
+    var results = await storeObject.getAllStoreDao(request)
+    if(!results.error){
+      for (const list of results.data) {
+        let data = {}
+        data.storeId = list.id
+        data.year = 2021
+        // console.log(list)
+        var storeDueUnPaid = await this.getStoteBillingCycleService(data, list.dueDay, 0)
+        if(storeDueUnPaid.length > 0){
+          for (const storelist of storeDueUnPaid) {
+            // console.log(storelist)
+            // const year = new Date().getFullYear();
+            // const month = new Date().getMonth() + 1;
+            const day = new Date().getDate();
+            // const currentDate = year+'-'+month+'-'+day
+            if(day === list.dueDay){
+              var check =  await storeObject.checkBillingCycleStoreDao(storelist)
+              if(check.data.length === 0 ){
+                await storeObject.saveBillingCycleDao(storelist)
+                // console.log('save')
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
   this.adminViewStoreDetailService = async (request, callback) => {
     var response = {}
     var resp = {}
@@ -201,14 +231,14 @@ module.exports = function () {
         var revenue = await this.getStoreRevenueService(request)
         var orders = await this.getStoreOrdergraphService(request)
 
-        var storeDuePaid = await this.getStoteBillingCycleService(request, checkStore.data[0].dueDay, 1)
+        // var storeDuePaid = await this.getStoteBillingCycleService(request, checkStore.data[0].dueDay, 1)
 
-        var storeDueUnPaid = await this.getStoteBillingCycleService(request, checkStore.data[0].dueDay, 0)
-
+        // var storeDueUnPaid = await this.getStoteBillingCycleService(request, checkStore.data[0].dueDay, 0)
+        var storeDueUnPaid = await storeObject.getStoteBillingCycleDao(request)
         // console.log(storeDueUnPaid)
         // console.log(storeDuePaid)
 
-        var finalArray = storeDueUnPaid.concat(storeDuePaid);
+        var finalArray = storeDueUnPaid.data;
 
         // console.log(storeDueUnPaid)
         // var storeDue = await storeObject.getStoteDueAmountDao(request)
@@ -519,7 +549,7 @@ module.exports = function () {
       var response = {}
       var storeObject = new storeDao()
       request.queryType = 'TOTAL'
-      var storeResult = await storeObject.storForProductListDao(request)
+       var storeResult = await storeObject.storForProductListDao(request)
       if (storeResult.error) {
         response.error = 'true'
         response.message = 'Query Error'

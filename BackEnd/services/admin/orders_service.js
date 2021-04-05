@@ -253,7 +253,15 @@ module.exports = function () {
             let orderObj = {}
             orderObj.id = checkOrder.data[0].orderId
             orderObj.storeDelete = 1
+
+            orderObj.ordertax = 0
+            orderObj.taxValue = 0
+            orderObj.totalAmount = 0
+            orderObj.discountAmount = 0
+            orderObj.grandTotal = 0
+
             await orderDaoObject.replaceOrderDao(orderObj)
+
           }
 
           response.error = 'false'
@@ -570,6 +578,28 @@ module.exports = function () {
       var resp = {}
       var orderObject = new orderDao()
       var Offers = await orderObject.getAdminOfferListDao(request)
+      if(Offers.error){
+        response.error = 'true'
+        response.message = 'failed to retrive store details'
+      } else {
+        resp.Offers = Offers.data
+        response.error = 'false'
+        response.message = 'Success'
+        response.data = resp
+      }
+    } catch (e) {
+      response.error = 'true'
+      response.message = 'OOPS Service Error'
+    }
+    callback(response)
+  }
+
+   this.sendPushService = async (request, callback) => {
+    try {
+      var response = {}
+      var resp = {}
+      var orderObject = new orderDao()
+      var Offers = await orderObject.saveSendPushdao(request)
       if(Offers.error){
         response.error = 'true'
         response.message = 'failed to retrive store details'

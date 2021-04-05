@@ -689,11 +689,13 @@ module.exports = function () {
       var driverDaoObject = new driverDao()
       object.id = request.id
       object.isPickUp = 1
+      console.log(object)
       var result = await driverDaoObject.driverupdateOrderStatuDao(object)
       if (result.error) {
         response.error = 'true'
         response.message = 'fetch failed'
       } else {
+        await driverDaoObject.driverupdateUserOrderStatusDao(request.id)
         response.error = 'false'
         response.message = 'Success'
       }

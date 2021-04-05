@@ -385,7 +385,7 @@ module.exports = function () {
       var response = {}
       db('orders')
         .where('id', data.orderId)
-        .decrement({ grandTotal: data.price })
+        .decrement({ grandTotal: data.price, totalAmount: data.price })
         .then((result) => {
           response.error = false
           response.data = result

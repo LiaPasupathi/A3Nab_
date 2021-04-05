@@ -296,7 +296,7 @@ module.exports = function () {
     return new Promise(async function (resolve) {
       var response = {}
       db('driverrRoute')
-        .select('driverrRoute.id', 'driverrRoute.storeId', 'storeName', 'sortOrder','countryCode', 'mobileNumber', 'latitude', 'longitude')
+        .select('driverrRoute.id', 'driverrRoute.storeId', 'storeName', 'sortOrder', 'mobileNumber', 'latitude', 'longitude')
         .innerJoin('store', 'driverrRoute.storeId', '=', 'store.id')
         .where({'routeId': data.routeId, type: 'STORE'})
         .then((result) => {
@@ -646,6 +646,39 @@ module.exports = function () {
           response.error = true
         })
         .finally(() => {
+          resolve(response)
+        })
+    })
+  }
+
+  this.driverupdateUserOrderStatusDao = (id) => {
+    return new Promise(async function (resolve) {
+      var response = {}
+      return db.transaction(function (t) {
+        // console.log(data)
+        return db('deliveryUsers')
+          .transacting(t)
+          .where({'id': id })
+          .then(function (response) {
+            if(response.length > 0){
+              // console.log(response[0].orderId)
+              if(response[0].orderId){
+                return db('orders')
+                .transacting(t)
+                .where('id', response[0].orderId)
+                .update({ packedByStore: 1, packedByDriver: 1 })              }
+            }
+          })
+          .then(t.commit)
+          .catch(t.rollback)
+      })
+        .then(function (result) {
+          response.error = false
+          resolve(response)
+        })
+        .catch(function (error) {
+          console.log(error)
+          response.error = true
           resolve(response)
         })
     })

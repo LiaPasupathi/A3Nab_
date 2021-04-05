@@ -256,6 +256,55 @@ module.exports = function () {
     }
   }
 
+  this.getUserSearchListService = async (request, callback) => {
+    try {
+      var response = {}
+      var resp = {}
+      var supportObject = new supportDao()
+      request.queryType = 'TOTAL'
+      var getSupport = await supportObject.getUserSearchListDao(request)
+      if (getSupport.error) {
+        response.error = true
+        response.message = 'OOPS DAO Exception'
+        callback(response)
+      } else {
+        if (getSupport.data.length > 0) {
+          request.queryType = 'LIST'
+          request.pageCount = 10
+          var supportResult = await supportObject.getUserSearchListDao(request)
+          if (supportResult.error) {
+            response.error = true
+            response.message = 'OOPS DAO Exception'
+          } else {
+            var total = getSupport.data.length / request.pageCount
+            if (total % 1 !== 0) {
+              total++
+              total = Math.trunc(total)
+            }
+            resp.pages = total
+            resp.search = supportResult.data
+            response.error = 'false'
+            response.message = 'Success'
+            response.data = resp
+            callback(response)
+          }
+        } else {
+          resp.pages = 0
+          resp.search = getSupport.data
+          response.error = 'false'
+          response.message = 'Success'
+          response.data = resp
+          callback(response)
+        }
+      }
+    } catch (e) {
+      console.log(e)
+      response.error = 'true'
+      response.message = 'Oops'
+      callback(response)
+    }
+  }
+
   this.getUserFeedbackListService = async (request, callback) => {
     try {
       var response = {}
@@ -429,3 +478,4 @@ module.exports = function () {
   }
 
 }
+

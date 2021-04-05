@@ -32,6 +32,14 @@ module.exports = function (app, validator) {
 
   var upload = multer({ storage: storage })
 
+  app.schedule.scheduleJob('*/5 * * * * *', async () => {
+    // app.schedule.scheduleJob('*/5 * * * *', async () => {
+      var storeServiceObject = new storeService()
+      // storeServiceObject.adminBillingCycle(request.body, function (message) { })
+    // console.log('call')
+    storeServiceObject.adminBillingCycle(function (results) {})
+  })
+
   app.post(userPath + '/imageUpload', upload.single('uploaded_file'), function (req, res) {
     var response = {}
     if (req.file) {
@@ -509,10 +517,10 @@ module.exports = function (app, validator) {
   })
 
   app.post(userPath + '/uploadStoreBillingCyle', app.auth, [
-    validator.check('storeId').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], storeId'),
-    validator.check('fromDate').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], fromDate'),
-    validator.check('toDate').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], toDate'),
-    validator.check('paidStatus').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], paidStatus'),
+    validator.check('id').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], id'),
+    // validator.check('fromDate').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], fromDate'),
+    // validator.check('toDate').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], toDate'),
+    // validator.check('paidStatus').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], paidStatus'),
     validator.check('document').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], document')
   ], function (request, response) {
     var lang = request.headers.lang
@@ -1396,6 +1404,8 @@ module.exports = function (app, validator) {
 
   app.post(userPath + '/viewCarrDetails', app.auth, [
     validator.check('id').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], id'),
+    validator.check('fromDate').optional({ checkFalsy: true }).isLength({ min: 1 }).withMessage('fromDate is Empty'),
+    validator.check('toDate').optional({ checkFalsy: true }).isLength({ min: 1 }).withMessage('toDate is Empty')
   ], function (request, response) {
     var lang = request.headers.lang
     var error = validator.validation(request)
@@ -1543,7 +1553,7 @@ module.exports = function (app, validator) {
   })
 
   // Offers
-  app.post(userPath + '/getOfferList', [
+  app.post(userPath + '/getOfferList',[
     validator.check('status').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], status')
   ], function (request, response) {
     var lang = request.headers.lang
@@ -1562,7 +1572,29 @@ module.exports = function (app, validator) {
     }
   })
 
-  app.post(userPath + '/addNewOffers', [
+  app.post(userPath + '/sendPush', app.auth, [
+    validator.check('title').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], title'),
+    validator.check('content').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], content'),
+    validator.check('gender').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], gender'),
+    validator.check('age').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], age')
+  ], function (request, response) {
+    var lang = request.headers.lang
+    var error = validator.validation(request)
+    if (error.array().length) {
+      this.requestHandler(error.array(), true, lang, function (message) {
+        response.send(message)
+      })
+    } else {
+      var orderServiceObject = new orderService()
+      orderServiceObject.sendPushService(request.body, function (result) {
+        this.ctrlHandler([result], result.error, lang, (message) => {
+          return response.send(message)
+        })
+      })
+    }
+  })
+
+  app.post(userPath + '/addNewOffers',  [
     validator.check('title').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], title'),
     validator.check('couponCode').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], couponCode'),
     validator.check('image').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], image'),
@@ -1649,7 +1681,7 @@ module.exports = function (app, validator) {
   })
 
   // Support
-  app.post(userPath + '/searchOrderId', app.auth, [
+   app.post(userPath + '/searchOrderId', app.auth, [
     validator.check('orderId').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], orderId')
   ], function (request, response) {
     var lang = request.headers.lang
@@ -1667,7 +1699,7 @@ module.exports = function (app, validator) {
       })
     }
   })
-
+  
   app.post(userPath + '/addSupport', app.auth, [
     validator.check('userId').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], orderId'),
     validator.check('orderId').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], orderId'),
@@ -1821,6 +1853,25 @@ module.exports = function (app, validator) {
     } else {
       var supportServiceObject = new supportService()
       supportServiceObject.getUserFeedbackListService(request.body, function (result) {
+        this.ctrlHandler([result], result.error, lang, (message) => {
+          return response.send(message)
+        })
+      })
+    }
+  })
+
+  app.post(userPath + '/getUserSearchList', app.auth, [
+    validator.check('pageNumber').trim().exists().isLength({ min: 1 }).withMessage('INVALID: $[1], pageNumber')
+  ], function (request, response) {
+    var lang = request.headers.lang
+    var error = validator.validation(request)
+    if (error.array().length) {
+      this.requestHandler(error.array(), true, lang, function (message) {
+        response.send(message)
+      })
+    } else {
+      var supportServiceObject = new supportService()
+      supportServiceObject.getUserSearchListService(request.body, function (result) {
         this.ctrlHandler([result], result.error, lang, (message) => {
           return response.send(message)
         })

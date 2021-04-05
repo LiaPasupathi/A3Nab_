@@ -100,7 +100,7 @@ export class OrderDetailsComponent implements OnInit {
     if(sessionStorage.getItem('adminRole') !== 'superadmin'){
       let orderpermission = JSON.parse(sessionStorage.getItem('permission'))
       // console.log(orderpermission[0].read)
-      this.showAccept = orderpermission[0].read
+      this.showAccept = orderpermission[0].writeOpt
     }
   }
 

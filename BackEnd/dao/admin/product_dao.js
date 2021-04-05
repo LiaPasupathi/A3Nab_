@@ -121,11 +121,12 @@ module.exports = function () {
                 'product.id': data.productId })
               }
 
-              if(data.category && data.productCategory && data.subSubCategory) { 
+               if(data.category && data.productCategory && data.subSubCategory) { 
                 queryBuilder.where({ 
                   'product.categoryId': data.category, 
                 'product.productCategoryId': data.productCategory, 
                 'product.productSubCategoryId': data.subSubCategory,})
+                
               }
             }
           }

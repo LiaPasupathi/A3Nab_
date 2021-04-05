@@ -43,7 +43,7 @@ module.exports = function () {
     return new Promise(async function (resolve) {
       var response = {}
       db('appSettings')
-        .select('minimumOrderValue', 'quickDelivery', 'flatRate', 'perKM', 'taxAmount', 'QuickDeliveryPerKM')
+        .select('minimumOrderValue', 'quickDelivery', 'flatRate', 'perKM', 'taxAmount', 'QuickDeliveryPerKM', 'fastDelievryCharge')
         .then((result) => {
           response.error = false
           response.data = result
@@ -124,7 +124,7 @@ module.exports = function () {
       var response = {}
       db('cart')
         .select('id', 'productId', 'userId', 'quantity')
-        .where({ productId: data.productId, userId: data.id, storeId: data.storeId })
+        .where({ productId: data.productId, userId: data.id })
         .then((result) => {
           response.error = false
           response.data = result
@@ -736,7 +736,7 @@ module.exports = function () {
     return new Promise(async function (resolve, reject) {
       var response = {}
       db('orders')
-        .select('orders.id', 'orderIDs', 'orders.userId', 'orderStatus', 'taxvalue', 'ordertax', 'orderOn', 'deliveryOn', 'deliveryDate', 'totalAmount', 'discountAmount', 'grandTotal', 'totalQuantity', 'couponDiscount', 'couponDiscountPer', 'deleteItems', 'cancelDate', 'cancelReason', 'addressType', 'addressPinDetails', 'landmark', 'instruction', 'users_address.latitude', 'users_address.longitude', 'buildingName', 'addressId', 'timeId', 'timeText', 'paymentType.type as paytype', 'paymentId')
+        .select('orders.id', 'orderIDs', 'orders.userId', 'orderStatus', 'taxvalue', 'ordertax', 'orderOn', 'deliveryOn', 'deliveryDate', 'totalAmount', 'discountAmount', 'grandTotal', 'totalQuantity', 'couponDiscount', 'couponDiscountPer', 'deleteItems', 'cancelDate', 'cancelReason', 'addressType', 'addressPinDetails', 'landmark', 'instruction', 'users_address.latitude', 'users_address.longitude', 'buildingName', 'addressId', 'timeId', 'timeText', 'paymentType.type as paytype', 'paymentId', 'fastDelievryCharge')
         .innerJoin('users', 'orders.userId', '=', 'users.id')
         .innerJoin('paymentType', 'orders.paymentId', '=', 'paymentType.id')
         .innerJoin('users_address', 'orders.addressId', '=', 'users_address.id')

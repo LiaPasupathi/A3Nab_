@@ -679,7 +679,6 @@ module.exports = function () {
         })
     })
   }
-  
 
   this.updateDeviceTokenDao = (data) => {
     return new Promise(async function (resolve) {
@@ -1084,7 +1083,7 @@ module.exports = function () {
     return new Promise(async function (resolve) {
       var response = {}
       db('users')
-        .select('users.id', 'firstName', 'lastName', 'email', 'countryCode', 'mobileNumber', 'profilePic', db.raw('DATE_FORMAT(DOB, "%Y-%m-%d") AS DOB'), 'gender', 'walletAmount', 'referralCode', db.raw('COUNT(orders.userId) as orders'), 'packageValue', 'trustUser', 'offersNotify', 'ordersNotify', 'announcementNotify', 'othersNotify')
+       .select('users.id', 'firstName', 'lastName', 'email', 'countryCode', 'mobileNumber', 'profilePic', db.raw('DATE_FORMAT(DOB, "%Y-%m-%d") AS DOB'), 'gender', 'walletAmount', 'referralCode', db.raw('COUNT(orders.userId) as orders'), 'packageValue', 'trustUser', 'offersNotify', 'ordersNotify', 'announcementNotify', 'othersNotify')
         .leftJoin('orders', 'users.id', '=', 'orders.userId')
         .groupBy('users.id')
         .where({ 'users.id': data.id })
@@ -1093,7 +1092,6 @@ module.exports = function () {
           response.data = result
         })
         .catch((error) => {
-
           response.error = true
         })
         .finally(() => {
@@ -1262,8 +1260,8 @@ module.exports = function () {
       }
     })
   }
-
-  this.getUpdateAddressListDao = (data) => {
+  
+   this.getUpdateAddressListDao = (data) => {
     console.log(data.currentAddress)
     return new Promise(async function (resolve) {
       var response = {}
@@ -1288,6 +1286,8 @@ module.exports = function () {
       }
     })
   }
+  
+
 
   this.unavailableProductDao = (data) => {
     return new Promise(async function (resolve) {

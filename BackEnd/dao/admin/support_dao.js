@@ -216,6 +216,41 @@ module.exports = function () {
     })
   }
 
+  this.getUserSearchListDao = (data) => {
+    return new Promise(async function (resolve) {
+      var response = {}
+      if (data.queryType === 'LIST') {
+        var pageNumber = data.pageNumber
+        if (pageNumber == '0') {
+          pageNumber = '0'
+        } else {
+          pageNumber = pageNumber - 1
+        }
+        var pageOffset = parseInt(pageNumber * data.pageCount)
+      }
+      db('userSearch')
+        .select('userSearch.id', 'type', 'firstName', 'lastName', 'customerID', 'mobileNumber', 'lat', 'lng', 'searchText', db.raw('DATE_FORMAT(userSearch.createdAt, "%d/%m/%Y") AS createdDate'))
+        .leftJoin('users', 'userSearch.userId', '=', 'users.id')
+        .orderBy('userSearch.id', 'desc')
+        .modify(function (queryBuilder) {
+          if (data.queryType === 'LIST') {
+            queryBuilder.offset(pageOffset).limit(data.pageCount)
+          }
+        })
+        .then((result) => {
+          response.error = false
+          response.data = result
+        })
+        .catch((error) => {
+          console.log(error)
+          response.error = true
+        })
+        .finally(() => {
+          resolve(response)
+        })
+    })
+  }
+
   this.getUserFeedbackListDao = (data) => {
     return new Promise(async function (resolve) {
       var response = {}
@@ -327,3 +362,4 @@ module.exports = function () {
   }
 
 }
+

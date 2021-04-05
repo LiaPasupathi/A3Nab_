@@ -5,7 +5,7 @@ module.exports = function () {
     return new Promise(async function (resolve) {
       var response = {}
       db('store')
-        .select('id', 'storeName', 'storeImage', 'storeID', 'storeName as itemName')
+        .select('id', 'storeName', 'storeImage', 'storeID', 'storeName as itemName', 'dueDay')
         .where('isStoreDelete', 0)
         .orderBy('id', 'desc')
         .then((result) => {
@@ -115,7 +115,8 @@ module.exports = function () {
     return new Promise(async function (resolve) {
       var response = {}
       db('billingCyle')
-        .insert(data)
+        .update({ document: data.document, status: 'PAID' })
+        .where('id', data.id)
         .then((result) => {
           response.error = false
           response.data = result
@@ -390,6 +391,65 @@ module.exports = function () {
     })
   }
 
+  this.checkBillingCycleStoreDao = (data) => {
+    return new Promise(async function (resolve) {
+      var response = {}
+      db('billingCyle')
+        .where({ storeId: data.storeId, fromDate: new Date(data.from), toDate: new Date(data.to)})
+        .then((result) => {
+          response.error = false
+          response.data = result
+        })
+        .catch((error) => {
+          console.log(error)
+          response.error = true
+        })
+        .finally(() => {
+          resolve(response)
+        })
+    })
+  }
+
+  this.getStoteBillingCycleDao = (data) => {
+    return new Promise(async function (resolve) {
+      var response = {}
+      db('billingCyle')
+        .select('id', 'storeId', db.raw('DATE_FORMAT(fromDate, "%d/%m/%Y") AS fromDate'), db.raw('DATE_FORMAT(toDate, "%d/%m/%Y") AS toDate'), 'paidAmount', 'document', 'status')
+        .where({ storeId: data.storeId })
+        .then((result) => {
+          response.error = false
+          response.data = result
+        })
+        .catch((error) => {
+          console.log(error)
+          response.error = true
+        })
+        .finally(() => {
+          resolve(response)
+        })
+    })
+  }
+
+  this.saveBillingCycleDao = (data) => {
+    return new Promise(async function (resolve) {
+      var response = {}
+      db('billingCyle')
+        .insert({ storeId: data.storeId, fromDate: new Date(data.from), toDate: new Date(data.to), paidAmount: data.amount, status: 'NOTPAID'})
+        .then((result) => {
+          response.error = false
+          response.data = result
+        })
+        .catch((error) => {
+          console.log(error)
+          response.error = true
+        })
+        .finally(() => {
+          resolve(response)
+        })
+    })
+  }
+
+
 
   this.storeOrdergraphCount = (type, year, storeId) => {
     return new Promise(async function (resolve) {
@@ -592,8 +652,7 @@ module.exports = function () {
         })
     })
   }
-
-
+  
   this.storForProductListDao = (data) => {
     return new Promise(async function (resolve) {
       var response = {}

@@ -11,6 +11,7 @@ const app = express()
 const { check, validationResult } = require('express-validator')
 const http = require('http').Server(app)
 var socketio = require('socket.io')
+const schedule = require('node-schedule')
 // create a write stream (in append mode)
 var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
 // setup the logger
@@ -116,6 +117,7 @@ async function corsOptionsDelegate (req, response, next) {
 app.auth = auth
 app.setting = setting
 app.cors = corsOptionsDelegate
+app.schedule = schedule
 
 const validator = {}
 validator.check = check

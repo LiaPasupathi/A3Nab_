@@ -71,7 +71,6 @@ module.exports = function () {
           }
         })
         .then((result) => {
-          // console.log(result)
           response.error = false
           response.data = result
         })

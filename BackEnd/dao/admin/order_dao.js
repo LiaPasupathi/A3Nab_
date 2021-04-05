@@ -101,7 +101,7 @@ module.exports = function () {
     return new Promise(async function (resolve) {
       var response = {}
       db('orders')
-        .select('orders.id', 'orders.cancelReason', 'orderIDs', 'driver.firstName as driverName', 'drId', 'fromTime', 'toTime', 'driver.profilePic as driverImage', 'orders.userId', 'customerID', 'assignment_ID', 'users.firstName', 'users.lastName', 'users.mobileNumber', 'addressType', 'addressPinDetails', 'landmark', 'instruction', 'users_address.latitude', 'delievryNotes', 'users_address.longitude', 'buildingName', 'addressId', 'timeId', 'timeText', 'paymentType.type as paytype', 'paymentId', 'orderStatus', 'isPlaced', 'ordertax', 'acceptByStore', 'cancelledByUser', 'assignDriver', 'packedByStore', 'packedByDriver', 'onWayToDelivery', 'orderProgress', 'totalAmount', 'discountAmount', 'grandTotal', 'couponDiscount', 'couponDiscountPer', 'totalQuantity', 'fastDelivery', db.raw('DATE_FORMAT(orderOn, "%d/%m/%Y") AS orderOn'), db.raw('DATE_FORMAT(deliveryOn, "%d/%m/%Y") AS deliveryOn'), db.raw('DATE_FORMAT(deliveryDate, "%d/%m/%Y") AS deliveryDate'), db.raw('TIME_FORMAT(orderOn, "%r") AS ordertime'))
+        .select('orders.id', 'orders.cancelReason', 'orderIDs', 'driver.firstName as driverName', 'drId', 'fromTime', 'toTime', 'driver.profilePic as driverImage', 'orders.userId', 'customerID', 'assignment_ID', 'users.firstName', 'users.lastName', 'users.mobileNumber', 'addressType', 'addressPinDetails', 'landmark', 'instruction', 'users_address.latitude', 'delievryNotes', 'users_address.longitude', 'buildingName', 'addressId', 'timeId', 'timeText', 'paymentType.type as paytype', 'paymentId', 'orderStatus', 'isPlaced', 'ordertax', 'acceptByStore', 'cancelledByUser', 'assignDriver', 'packedByStore', 'packedByDriver', 'onWayToDelivery', 'orderProgress', 'totalAmount', 'discountAmount', 'grandTotal', 'couponDiscount', 'fastDelievryCharge', 'couponDiscountPer', 'totalQuantity', 'fastDelivery', db.raw('DATE_FORMAT(orderOn, "%d/%m/%Y") AS orderOn'), db.raw('DATE_FORMAT(deliveryOn, "%d/%m/%Y") AS deliveryOn'), db.raw('DATE_FORMAT(deliveryDate, "%d/%m/%Y") AS deliveryDate'), db.raw('TIME_FORMAT(orderOn, "%r") AS ordertime'))
         .innerJoin('users', 'orders.userId', '=', 'users.id')
         .innerJoin('paymentType', 'orders.paymentId', '=', 'paymentType.id')
         .innerJoin('users_address', 'orders.addressId', '=', 'users_address.id')
@@ -607,7 +607,6 @@ module.exports = function () {
         .leftJoin('store', 'driverrRoute.storeId', '=', 'store.id')
         .where('routeId', data.id)
         .then((result) => {
-          console.log(result)
           response.error = false
           response.data = result
         })
@@ -628,7 +627,25 @@ module.exports = function () {
         .select('offers.id', 'image', 'status', 'trustUser', 'title', 'description', 'couponCode', 'discount', 'minimumValue', 'offCategoryId', 'offProductId', 'count', db.raw('DATE_FORMAT(startDate, "%Y-%m-%d") AS startDate'), db.raw('DATE_FORMAT(endDate, "%Y-%m-%d") AS endDate'))
         .where({'offDelete': 0})
         .orderBy('offers.id', 'desc')
-        .then((result) => { 
+        .then((result) => {
+          response.error = false
+          response.data = result
+        })
+        .catch((error) => {
+          response.error = true
+        })
+        .finally(() => {
+          resolve(response)
+        })
+    })
+  }
+
+  this.saveSendPushdao = (data) => {
+    return new Promise(async function (resolve) {
+      var response = {}
+      db('pushNotification')
+        .insert(data)
+        .then((result) => {
           response.error = false
           response.data = result
         })

@@ -69,7 +69,7 @@ module.exports = function () {
         })
     })
   }
-  this.adminGetMaintenanceDao = (id) => {
+  this.adminGetMaintenanceDao = (data) => {
     return new Promise(async function (resolve) {
       var response = {}
       db('driverMaintenance')
@@ -77,8 +77,15 @@ module.exports = function () {
         .innerJoin('maintenanceList', 'driverMaintenance.maintenanceId', '=', 'maintenanceList.id')
         .innerJoin('driver', 'driverMaintenance.driverId', '=', 'driver.id')
         .innerJoin('cars', 'driverMaintenance.carId', '=', 'cars.id')
-        .where({ 'driverMaintenance.carId': id })
-        
+        .where({ 'driverMaintenance.carId': data.id })
+        .modify(function (queryBuilder) {
+          if (data.fromDate && data.toDate) {
+            queryBuilder.whereRaw('DATE(driverMaintenance.createdAt) BETWEEN ? AND ? ', [data.fromDate, data.toDate])
+          }
+          if (data.fromDate && data.toDate == '') {
+            queryBuilder.whereRaw('DATE(driverMaintenance.createdAt) = ?', [data.fromDate])
+          }
+        })
         .then((result) => {
           response.error = false
           response.data = result
@@ -240,11 +247,7 @@ module.exports = function () {
     return new Promise(async function (resolve) {
       var response = {}
       db('driver')
-        .select('driver.id', 'driver.carId', 
-        'dob', 'isAccepted', 'drId', 'carModel', 
-        'firstName', 'lastName', 'email', 'profilePic', 
-        'countryCode', 'mobileNumber', 'gender', 'IDNumber', 
-        'floatingCash', 'latitude', 'longitude', 'driverActive')
+        .select('driver.id', 'driver.carId', 'dob', 'isAccepted', 'drId', 'carModel', 'firstName', 'lastName', 'email', 'profilePic', 'countryCode', 'mobileNumber', 'gender', 'IDNumber', 'floatingCash', 'latitude', 'longitude', 'driverActive')
         .leftJoin('cars', 'driver.carId', '=', 'cars.id')
         .where('isDeleteDriver', 0)
         .orderBy('driver.id', 'desc')
@@ -271,8 +274,7 @@ module.exports = function () {
         })
     })
   }
-
-
+  
   this.getDriverOrderListDao = (data, id) => {
     return new Promise(async function (resolve) {
       var response = {}
